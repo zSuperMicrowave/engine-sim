@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://c5bixtywib6t1"]
+
+[ext_resource type="Script" path="res://componenti 2d/Grafico2D.gd" id="1_x3gyf"]
+[ext_resource type="Script" path="res://Test motore/BufferFisicaAudio.gd" id="2_1lv16"]
+[ext_resource type="Script" path="res://Test motore/GenitoreFisicaMotore.gd" id="2_fx5w0"]
+[ext_resource type="Script" path="res://Test motore/FisicaMotore.gd" id="3_m6wiw"]
+[ext_resource type="Texture2D" uid="uid://d0wg15sdbqbcc" path="res://icon.svg" id="4_dy4fy"]
+[ext_resource type="Script" path="res://Test motore/FisicaPistone.gd" id="5_8c6lp"]
+[ext_resource type="Script" path="res://Test motore/LettoreAudio.gd" id="6_2r1bn"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0adbo"]
+blend_mode = 3
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_c4edq"]
+
+[node name="Test motore" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Grafico2D" type="Node2D" parent="."]
+position = Vector2(4, 182)
+script = ExtResource("1_x3gyf")
+larghezza = 500
+altezza = 300.0
+velocita = 0.003
+valore_massimo = 300.0
+
+[node name="g2" type="Node2D" parent="."]
+position = Vector2(3, 500)
+script = ExtResource("1_x3gyf")
+larghezza = 500
+altezza = 300.0
+spessore_linea = 2.0
+colore_sfondo = Color(0, 0, 0, 0.219608)
+colore_linea = Color(0.788235, 0.470588, 0, 1)
+velocita = 0.01
+valore_massimo = 0.2
+
+[node name="g1" type="Node2D" parent="."]
+position = Vector2(3, 500)
+script = ExtResource("1_x3gyf")
+larghezza = 500
+altezza = 300.0
+spessore_linea = 2.0
+colore_sfondo = Color(0, 0, 0, 0.219608)
+colore_linea = Color(0.627451, 0.12549, 0.137255, 1)
+velocita = 0.01
+valore_massimo = 9000.0
+
+[node name="BufferFisicaAudio" type="Node" parent="."]
+script = ExtResource("2_1lv16")
+
+[node name="GenitoreFisicaMotore" type="Node" parent="."]
+script = ExtResource("2_fx5w0")
+frequenza_fisica_hz = 480
+
+[node name="Sprite2D" type="Sprite2D" parent="GenitoreFisicaMotore"]
+position = Vector2(800, 300)
+rotation = -3.14159
+scale = Vector2(0.0224805, 3.46822)
+texture = ExtResource("4_dy4fy")
+
+[node name="motore" type="Node" parent="GenitoreFisicaMotore" node_paths=PackedStringArray("pistoni", "grafico")]
+script = ExtResource("3_m6wiw")
+pistoni = [NodePath("../pistone")]
+raggio = 0.5
+massa = 5.0
+coefficiente_attrito = 1.0
+grafico = NodePath("../../Grafico2D")
+
+[node name="pistone" type="Node" parent="GenitoreFisicaMotore" node_paths=PackedStringArray("grafico1", "grafico2", "buffer_audio")]
+script = ExtResource("5_8c6lp")
+area_superficie_pistone = 0.2
+larghezza_albero = 0.1
+lunghezza_biella = 0.25
+temperatura_ambiente = 27.0
+grafico1 = NodePath("../../g1")
+grafico2 = NodePath("../../g2")
+buffer_audio = NodePath("../../BufferFisicaAudio")
+
+[node name="cazzillo" type="Sprite2D" parent="GenitoreFisicaMotore/pistone"]
+material = SubResource("CanvasItemMaterial_0adbo")
+scale = Vector2(0.396996, 0.426927)
+texture = ExtResource("4_dy4fy")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("buffer_audio")]
+stream = SubResource("AudioStreamGenerator_c4edq")
+script = ExtResource("6_2r1bn")
+buffer_audio = NodePath("../BufferFisicaAudio")

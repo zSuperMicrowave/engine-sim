@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3s3jfyy0vj4w"]
+
+[ext_resource type="Script" path="res://0Utilità Globali/Navigatore 3D/Navigatore 3D.gd" id="1_0f2xk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jksif"]
+radius = 0.15
+
+[node name="Navigatore 3D" type="CharacterBody3D"]
+script = ExtResource("1_0f2xk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_jksif")
+
+[node name="telecamera" type="Camera3D" parent="."]

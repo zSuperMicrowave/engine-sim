@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b18mtssn3uclp"
+path="res://.godot/imported/fakeyou_gy14x9v7vrcqy000gkese8nyrn8rpsa8.wav-7473c514a742cd621d0af54139275357.sample"
+
+[deps]
+
+source_file="res://Test simulazione risonanza 5/fakeyou_gy14x9v7vrcqy000gkese8nyrn8rpsa8.wav"
+dest_files=["res://.godot/imported/fakeyou_gy14x9v7vrcqy000gkese8nyrn8rpsa8.wav-7473c514a742cd621d0af54139275357.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

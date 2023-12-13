@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PassaggioTubo" load_steps=2 format=3 uid="uid://bqhhi6lcsnuft"]
+
+[ext_resource type="Script" path="res://Test simulazione tubi/PassaggioTuboPrototipo1.gd" id="1_7aihu"]
+
+[resource]
+script = ExtResource("1_7aihu")
+qnt_riflessione_pressione = 0.05
+lunghezza_tratto = 1.0
+larghezza_passaggio = 0.1
+inerzia_aria = 0.01
+pressione_attuale = 0.0
+pressione_nuova = 0.0
+attenuazione = 0.1

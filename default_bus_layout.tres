@@ -1,0 +1,19 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://c1sfdh8ikn2t8"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0f2cx"]
+resource_name = "Reverb"
+predelay_msec = 40.0
+room_size = 0.4
+damping = 0.64
+spread = 0.51
+hipass = 0.32
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
+resource_name = "Compressor"
+threshold = -2.0
+
+[resource]
+bus/0/effect/0/effect = SubResource("AudioEffectReverb_0f2cx")
+bus/0/effect/0/enabled = false
+bus/0/effect/1/effect = SubResource("AudioEffectCompressor_nji4r")
+bus/0/effect/1/enabled = true

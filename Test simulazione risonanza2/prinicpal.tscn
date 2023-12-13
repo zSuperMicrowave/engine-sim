@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://wcm4y8b8qtcf"]
+
+[ext_resource type="Script" path="res://Test simulazione risonanza2/risonanza2.gd" id="1_u45er"]
+[ext_resource type="AudioStream" uid="uid://cg4f34b3870da" path="res://Test simulazione risonanza2/Untitled.wav" id="2_si0qw"]
+
+[node name="prinicpal" type="Node"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+script = ExtResource("1_u45er")
+audio = ExtResource("2_si0qw")
+mix_rate = 22050
+buffer_length = 1.0
+numero_passaggi = 30
+moltiplicatore_energia_rimbalzo = 1.0
+passaggio_output = 29
+ammortizzazione_suono = 0.0
+attenuazione_suono = 10.0
