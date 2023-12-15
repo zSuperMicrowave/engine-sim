@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=26 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
 [ext_resource type="PackedScene" uid="uid://b3s3jfyy0vj4w" path="res://0Utilità Globali/Navigatore 3D/Navigatore 3D.tscn" id="1_iwx1u"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_kmdvj"]
 [ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
 [ext_resource type="Script" path="res://Test motore/ComponenteEcu.gd" id="6_s5kjc"]
-[ext_resource type="Script" path="res://Test motore 2/ComponenteMotoreTubo.gd" id="10_4qgip"]
 [ext_resource type="Script" path="res://Test motore/RisonanzaBufferizzataAudioPlayer.gd" id="13_jai1f"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_vfmxo"]
@@ -39,7 +38,7 @@ adjustment_saturation = 1.09
 
 [sub_resource type="Resource" id="Resource_phdcm"]
 script = ExtResource("3_4yohq")
-riduzione = 15.0
+riduzione = 90.0
 max_velocita_rpm = 1800.0
 coppia_nm = 726.0
 
@@ -50,6 +49,8 @@ larghezza_albero_cm = 5.0
 lunghezza_biella_cm = 10.0
 volume_extra_cm = 0.5
 alesaggio_cm = 5.0
+portata_entrata_aria = 1.0
+portata_uscita_aria = 1.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
@@ -58,8 +59,8 @@ motorino_avviamento = SubResource("Resource_phdcm")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.3
-massa = 3.0
+raggio = 10.0
+massa = 4.0
 
 [sub_resource type="Gradient" id="Gradient_1gb0r"]
 colors = PackedColorArray(0.214844, 0.214844, 0.214844, 1, 1, 1, 1, 1)
@@ -126,9 +127,6 @@ velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
 pistoni_debug = [NodePath("../Pistone2")]
 audio = NodePath("../RisonanzaBufferizzataAudioPlayerVecchio")
-
-[node name="Node" type="Node" parent="."]
-script = ExtResource("10_4qgip")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)

@@ -2,6 +2,9 @@
 extends Node
 class_name ComponenteMotore
 
+@export_category("Variabili_ambientali")
+@export var temperatura_esterna := 300.15
+@export var pressione_atmosferica := 101325
 
 @export_category("Stato apparecchi")
 @export var batteria_connessa := true
@@ -46,11 +49,12 @@ func _debug_lento():
 		griglia_parametri.scrivi_parametro("RPM", albero_motore.velocita_angolare / Unita.rpm)
 		griglia_parametri.scrivi_parametro("RPM motorino avviatore"
 			, albero_motore.motorino_avviamento.velocita_attuale / Unita.rpm)
-		griglia_parametri.scrivi_parametro("Moli aria",albero_motore.pistoni[0].numero_moli_aria_attuale*1000)
-		griglia_parametri.scrivi_parametro("Moli scarico",albero_motore.pistoni[0].numero_moli_scarico_attuale*1000)
-		griglia_parametri.scrivi_parametro("Moli carburante",albero_motore.pistoni[0].numero_moli_carburante_attuale*1000)
-		griglia_parametri.scrivi_parametro("Pressione",albero_motore.pistoni[0].pressione_cilindro)
-		griglia_parametri.scrivi_parametro("Volume attuale",albero_motore.pistoni[0].volume_attuale * 1000)
+		griglia_parametri.scrivi_parametro("Moli aria",albero_motore.pistoni[0].aria_cilindro.moli_ossigeno*1000)
+		griglia_parametri.scrivi_parametro("Moli scarico",albero_motore.pistoni[0].aria_cilindro.moli_gas_scarico*1000)
+		griglia_parametri.scrivi_parametro("Moli carburante",albero_motore.pistoni[0].aria_cilindro.moli_benzina*1000)
+		var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica) * 0.00001
+		griglia_parametri.scrivi_parametro("Pressione",pressione)
+		griglia_parametri.scrivi_parametro("Volume attuale",albero_motore.pistoni[0].aria_cilindro.volume * 1000)
 	for i in range(pistoni_debug.size()):
 		if albero_motore.pistoni.size() > i:
 			pistoni_debug[i].aggiorna(albero_motore.pistoni[i].distanza_pistone_tdc,albero_motore.pistoni[i].fase_attuale)

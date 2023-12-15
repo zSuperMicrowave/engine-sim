@@ -22,7 +22,7 @@ func _ottieni_forze(motore : ComponenteMotore):
 	var coppia_attrito = -motore.coefficiente_attrito_meccanico_totale * velocita_angolare
 	var coppia_pistoni = 0.0
 	for pistone in pistoni:
-		coppia_pistoni += pistone.ottieni_coppia()
+		coppia_pistoni += pistone.ottieni_coppia(motore)
 
 	coppia_totale = coppia_avviamento + coppia_attrito + coppia_pistoni
 	coppia_totale /= motore.volano.inerzia

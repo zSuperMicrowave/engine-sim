@@ -12,6 +12,7 @@ var contatore_resto := 0.0
 
 var ultimo_campione_fisico := 0.0
 
+@export var non_bestemmiare := false
 
 @export_range(2,4000) var numero_passaggi_desiderato := 5:
 	set(valore):
@@ -78,7 +79,8 @@ func _process(delta):
 #		buffer.resize((stream.mix_rate * lunghezza_buffer_sec) as int)
 	if !playing:
 		play()
-		print("porcodio")
+		if !non_bestemmiare :
+			print("porcodio")
 
 #func _physics_process(delta):
 #	var frame_rimanenti := playback.get_frames_available()
