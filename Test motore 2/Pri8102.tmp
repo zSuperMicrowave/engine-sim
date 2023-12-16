@@ -49,8 +49,8 @@ larghezza_albero_cm = 5.0
 lunghezza_biella_cm = 10.0
 volume_extra_cm = 3.0
 alesaggio_cm = 5.0
-portata_entrata_aria = 1.0
-portata_uscita_aria = 1.0
+portata_entrata_aria = 3.0
+portata_uscita_aria = 3.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
@@ -59,10 +59,11 @@ motorino_avviamento = SubResource("Resource_phdcm")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.3
-massa = 15.0
+raggio = 0.5
+massa = 10.0
 
 [sub_resource type="Gradient" id="Gradient_1gb0r"]
+colors = PackedColorArray(0.214844, 0.214844, 0.214844, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_6b44j"]
 gradient = SubResource("Gradient_1gb0r")
@@ -72,7 +73,6 @@ fill_from = Vector2(0, 1)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="Gradient" id="Gradient_clljs"]
-offsets = PackedFloat32Array(0.27027, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qjp4d"]
@@ -80,14 +80,14 @@ gradient = SubResource("Gradient_clljs")
 width = 24
 height = 24
 fill = 1
-fill_from = Vector2(1, 0.666667)
+fill_from = Vector2(1, 1)
 fill_to = Vector2(0, 1)
 
 [sub_resource type="Resource" id="Resource_joh3x"]
 script = ExtResource("6_s5kjc")
-velocita_aggiornamento_ecu_hz = 30
+velocita_aggiornamento_ecu_hz = 10
 rpm_massimi = 12000.0
-miscela_piu_povera = 30.0
+miscela_piu_povera = 65.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_qjp4d")
 apertura_minima = 0.05
@@ -114,6 +114,7 @@ light_energy = 2.38
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
+rallentamento_slow_motion = 0.05
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio")]
 script = ExtResource("2_3x6jl")

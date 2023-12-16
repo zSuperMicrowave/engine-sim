@@ -99,7 +99,7 @@ func _calcola_audio(delta : float):
 		buffer_risonanza_vecchio.aggiungi_campione_fisico(
 			(pressione_totale * 0.0000001)\
 			+ pistoni[0].volume_cilindro * 100,delta)
-		buffer_risonanza_vecchio.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro * 1
+		buffer_risonanza_vecchio.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro * (1.0 + pressione_totale * 0.000001)
 
 
 func _physics_process(delta):

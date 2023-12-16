@@ -21,6 +21,8 @@ enum {
 @export var portata_entrata_aria := 1.0
 @export var portata_uscita_aria := 1.0
 
+var flusso_aspirazione := 0.0
+
 var inizializzazione = true
 
 var rotazione := 0.0
@@ -61,21 +63,25 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 	# entrare e deve uscire dal motore.
 	# Il quantitativo di aria è sinonimo di nummero di moli di aria
 	
+	
 	# TODO : CALCOLARE IL FLUSSO IN MANIERA PIU REALISTICA
-	var flusso_aspirazione = (motore.pressione_atmosferica - aria_cilindro.pressione)\
-			* delta * 0.0001 / PESO_SPECIFICO_SU_MASSA_MOLARE_ARIA
+	flusso_aspirazione = (motore.pressione_atmosferica - aria_cilindro.pressione)\
+			* delta * 0.01 / PESO_SPECIFICO_SU_MASSA_MOLARE_ARIA
 	
 	if fase_attuale == ASPIRAZIONE:
 		
-		aria_cilindro.moli_ossigeno += flusso_aspirazione * portata_entrata_aria\
-			* (1.0 - 1.0 / motore.ecu.miscela_attuale)
-		aria_cilindro.moli_benzina += flusso_aspirazione * portata_entrata_aria\
-			* (1.0 / motore.ecu.miscela_attuale)
-	
+		if flusso_aspirazione > 0.0 and\
+			aria_cilindro.pressione < motore.pressione_atmosferica:
+			
+			aria_cilindro.moli_ossigeno += flusso_aspirazione * portata_entrata_aria\
+				* (1.0 - 1.0 / motore.ecu.miscela_attuale) * motore.ecu.apertura_attuale
+			aria_cilindro.moli_benzina += flusso_aspirazione * portata_entrata_aria\
+				* (1.0 / motore.ecu.miscela_attuale) * motore.ecu.apertura_attuale
 	
 	if fase_attuale == ESPULSIONE:
 		
 		if flusso_aspirazione < 0.0 :
+			
 			aria_cilindro.aumenta_moli_totali(flusso_aspirazione * portata_uscita_aria)
 	
 	aria_cilindro.ricalcola_somma_moli()
@@ -84,65 +90,12 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 
 func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 	if fase_attuale == COMBUSTIONE:
-		aria_cilindro.esegui_combustione(delta * 4000)
+		# questa funzione sotto è rotta (probabilmente)
+		aria_cilindro.esegui_combustione(delta * 60)
 	else:
 		aria_cilindro.temperatura -= (aria_cilindro.temperatura - motore.temperatura_esterna) * delta
 	
 	aria_cilindro.ricalcola_pressione()
-#		# TODO: simulazione della propagazione della combustione
-#		var delta_combustione := (delta / Unita.msec)
-#		# Incrementa la temperatura e diminuisci il carburante disponibile
-#		var carburante_da_bruciare := numero_moli_carburante_attuale * delta_combustione
-#
-#		if numero_moli_carburante_attuale < carburante_da_bruciare:
-##			print("Non abbastanza carburante")
-#			# Se non c'è abbastanza carburante da bruciare,
-#			# ridimensiona le quantità di carburante bruciato
-#			carburante_da_bruciare = numero_moli_carburante_attuale
-#
-##		print("carburante da bruciare: ", carburante_da_bruciare)
-#
-#		if numero_moli_aria_attuale < QNT_ARIA_REAZIONE_CARBURANTE * carburante_da_bruciare:
-##			print("Non abbastanza aria")
-#			# Se non c'è abbastanza carburante per bruciare l'aria,
-#			# ridimensiona le quantita di carburante bruciato 
-#			carburante_da_bruciare = numero_moli_aria_attuale / QNT_ARIA_REAZIONE_CARBURANTE
-#
-#
-#		# Aumenta la temperatura a seconda di quanto carburante è bruciato
-#		temperatura_attuale += carburante_da_bruciare * GRADI_PER_MOLE_REAZIONE
-#		numero_moli_carburante_attuale -= carburante_da_bruciare
-#
-#		# Diminuisci l'aria disponibile, il carburante l'ha bruciata
-#		numero_moli_aria_attuale -= QNT_ARIA_REAZIONE_CARBURANTE * carburante_da_bruciare
-#
-#		# Aumenta i gas di scarico a seconda di quanta aria e quanto carburante sono bruciati
-#		numero_moli_scarico_attuale += QNT_ARIA_REAZIONE_CARBURANTE * carburante_da_bruciare\
-#			+ carburante_da_bruciare
-#
-#		# Nella fase di combustione deve esser bruciato tutto, altrimenti
-#		# c'è del carburante residuo, conservato in questo valore:
-#		numero_moli_carbuante_residuo = numero_moli_carburante_attuale
-#		if numero_moli_aria_attuale > 0.0 :
-#			inquinamento_aria_post_combustione = numero_moli_scarico_attuale/numero_moli_aria_attuale
-#		else:
-#			inquinamento_aria_post_combustione = 0.0
-#		qnt_aria_su_volume_post_combustione = (numero_moli_aria_attuale+numero_moli_scarico_attuale) / (volume_attuale * PESO_SPECIFICO_SU_MASSA_MOLARE_ARIA)
-#
-#	else:
-#		#TODO : simulare il raffreddamento del motore
-#		temperatura_attuale = 1.0
-
-
-#func _aggiorna_pressione():
-#	var moli_totali = numero_moli_aria_attuale\
-#		+ numero_moli_carburante_attuale + numero_moli_scarico_attuale
-#	#print(temperatura_attuale)
-#	if fase_attuale == COMBUSTIONE || fase_attuale == COMPRESSIONE :
-#		pressione_cilindro = moli_totali * COSTANTE_GAS_IDEALE\
-#			* temperatura_attuale / volume_attuale
-#	else :
-#		pressione_cilindro = 0.0
 
 
 func ottieni_coppia(motore : ComponenteMotore):

@@ -5,7 +5,7 @@ const COSTANTE_GAS_IDEALE := 8.314
 
 const QNT_OSSIGENO_PER_BENZINA := 12.5
 const TEMP_COMBUSTIONE_SPONTANEA_BENZINA := 523.15
-const TEMP_ENTALPIA_BENZINA := 40000.0 # per ora è un valore arbitrario
+const TEMP_ENTALPIA_BENZINA := 4000.0 # per ora è un valore arbitrario
 #const QNT_OSSIGENO_PER_DIESEL := 12.5
 #const TEMP_COMBUSTIONE_SPONTANEA_DIESEL := 493.15
 #const TEMP_ENTALPIA_DIESEL := 4000.0
@@ -84,10 +84,16 @@ func imposta_moli_totali(valore : float):
 func aumenta_moli_totali(valore:float):
 	imposta_moli_totali(_moli_totali + valore)
 
+func aumenta_moli_totali_rapido(valore:float):
+	moli_ossigeno += valore/3
+	moli_benzina += valore/3
+	moli_gas_scarico += valore/3
+
 func moli_totali():
 	return _moli_totali
 
 func esegui_combustione(velocita : float):
+	# QUESTO CODICE È ROTTO
 	# Modifica solo la temperatura, chiamare ricalcola_pressione() dopo questo
 	velocita = clamp(velocita,0.0,1.0)
 	
@@ -99,21 +105,22 @@ func esegui_combustione(velocita : float):
 	
 	var moli_bruciate := 0.0
 
+	var ossigeno_sovrabbondante := false
 
 	if risultato_combustione < 0 :
 		# C'è dell'ossigeno residuo
+		ossigeno_sovrabbondante = true
 		
 		# Scarico = benzina + ossiegno vecchio - ossigeno restante
 		moli_bruciate = moli_benzina + moli_ossigeno\
 			+ (risultato_combustione * QNT_OSSIGENO_PER_BENZINA)
-		moli_bruciate *= -1
 		moli_benzina = 0.0
 		moli_ossigeno = -risultato_combustione * QNT_OSSIGENO_PER_BENZINA
 	else:
 		# C'è del carburante residuo
-		moli_bruciate = moli_ossigeno + moli_benzina + risultato_combustione
+		moli_bruciate = moli_ossigeno + moli_benzina - risultato_combustione
 		moli_ossigeno = 0.0
-		moli_benzina = -risultato_combustione
+		moli_benzina = risultato_combustione
 
 
 	moli_benzina = vecchio_moli_benzina * (1.0 - velocita)\
@@ -125,6 +132,15 @@ func esegui_combustione(velocita : float):
 	moli_gas_scarico += moli_bruciate
 	
 	temperatura += TEMP_ENTALPIA_BENZINA * moli_bruciate
+	
+	if moli_bruciate < -0.00000001 :
+		printerr("MOLI BRUCIATE MINORE DI ZERO, l'eccesso è di ossigeno?: ", ossigeno_sovrabbondante)
+		printerr("ossigeno: ", vecchio_moli_ossigeno, " benzina: ", vecchio_moli_benzina, " risultato combustione: ",risultato_combustione)
+		printerr("moli bruciate: ", moli_bruciate)
+	
+	if temperatura < 0.0 :
+		printerr("il codice è rotto")
+		temperatura = 300
 
 #func puo_comburere_spontaneamente(
 #	pressione : float, volume : float) -> bool:

@@ -82,11 +82,13 @@ func _process(delta):
 		if !non_bestemmiare :
 			print("porcodio")
 
-#func _physics_process(delta):
-#	var frame_rimanenti := playback.get_frames_available()
-#	while frame_rimanenti > 0:
-#		playback.push_frame(Vector2.ONE * buffer.leggi())
-#		frame_rimanenti -= 1
+func _physics_process(delta):
+	var frame_rimanenti := playback.get_frames_available()
+	if frame_rimanenti < stream.buffer_length * stream.mix_rate * 0.5 :
+		return
+	while frame_rimanenti > 0:
+		playback.push_frame(Vector2.ONE * ultimo_campione_fisico)
+		frame_rimanenti -= 1
 
 
 func aggiungi_campione_fisico(nuovo_campione : float, delta : float):

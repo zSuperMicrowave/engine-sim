@@ -28,21 +28,18 @@ var elab_ecu := 0.0
 
 func _elabora_fisica_motore(delta: float) -> void :
 	albero_motore.elabora(self, delta)
+	
+	ecu.elabora(self,delta)
+	
+	calcola_audio(delta)
 
 	contatore += 1
-
-	elab_ecu += delta
-	if elab_ecu >= 1.0 / ecu.velocita_aggiornamento_ecu_hz:
-		ecu.elabora(self)
-		elab_ecu = 0.0
 
 	if dbg_len >=  1.0 / velocita_debug_lento_hz:
 		call_deferred("_debug_lento")
 		dbg_len = 0.0
 	dbg_len += delta
 	call_deferred("_debug",delta)
-	audio.aggiungi_campione_fisico(0.0001 * albero_motore.pistoni[0].pressione_cilindro, delta)
-	audio.numero_passaggi_desiderato = 86800 * albero_motore.pistoni[0].volume_attuale * 1
 
 func _debug_lento():
 	if griglia_parametri :
@@ -55,6 +52,8 @@ func _debug_lento():
 		var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica) * 0.00001
 		griglia_parametri.scrivi_parametro("Pressione",pressione)
 		griglia_parametri.scrivi_parametro("Volume attuale",albero_motore.pistoni[0].aria_cilindro.volume * 1000)
+		griglia_parametri.scrivi_parametro("Flusso",albero_motore.pistoni[0].flusso_aspirazione * 1000)
+		griglia_parametri.scrivi_parametro("Temperatura",albero_motore.pistoni[0].aria_cilindro.temperatura)
 	for i in range(pistoni_debug.size()):
 		if albero_motore.pistoni.size() > i:
 			pistoni_debug[i].aggiorna(albero_motore.pistoni[i].distanza_pistone_tdc,albero_motore.pistoni[i].fase_attuale)
@@ -72,3 +71,12 @@ func _process(delta):
 		print("AAAAAAAAAAAAAA: ",contatore)
 		contatore = 0
 		test = 0.0
+
+func calcola_audio(delta : float):
+	var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica)
+	pressione = pressione * 0.00001
+
+	var volume = 86800 * albero_motore.pistoni[0].aria_cilindro.volume# * (albero_motore.pistoni[0].aria_cilindro.pressione * 0.00001)
+
+	audio.aggiungi_campione_fisico(pressione, delta)
+	audio.numero_passaggi_desiderato = volume
