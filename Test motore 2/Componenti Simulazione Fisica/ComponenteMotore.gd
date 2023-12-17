@@ -20,7 +20,8 @@ class_name ComponenteMotore
 @export var velocita_debug_lento_hz := 5
 @export var griglia_parametri : GrigliaDebugParametri
 @export var pistoni_debug : Array[DebugPistone]
-@export var audio : RisonanzaBufferizzataAudioPlayerVecchio
+@export var audio : RisonanzaBufferizzataVecchio3D
+@export var speedometer : Speedometer
 
 
 var dbg_len := 0.0
@@ -42,6 +43,8 @@ func _elabora_fisica_motore(delta: float) -> void :
 	call_deferred("_debug",delta)
 
 func _debug_lento():
+	if speedometer :
+		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
 	if griglia_parametri :
 		griglia_parametri.scrivi_parametro("RPM", albero_motore.velocita_angolare / Unita.rpm)
 		griglia_parametri.scrivi_parametro("RPM motorino avviatore"
@@ -72,11 +75,16 @@ func _process(delta):
 		contatore = 0
 		test = 0.0
 
+var pressione_precedente = 0.0
+
 func calcola_audio(delta : float):
 	var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica)
 	pressione = pressione * 0.00001
+	var segnale_audio = pressione - pressione_precedente\
+		+ albero_motore.pistoni[0].aria_cilindro.volume * 20.0
+	pressione_precedente = pressione
 
-	var volume = 86800 * albero_motore.pistoni[0].aria_cilindro.volume# * (albero_motore.pistoni[0].aria_cilindro.pressione * 0.00001)
+	var volume = 86000 * albero_motore.pistoni[0].aria_cilindro.volume * (1.0 + albero_motore.pistoni[0].aria_cilindro.pressione * 0.00001)
 
-	audio.aggiungi_campione_fisico(pressione, delta)
+	audio.aggiungi_campione_fisico(segnale_audio, delta)
 	audio.numero_passaggi_desiderato = volume

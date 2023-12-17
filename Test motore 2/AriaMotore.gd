@@ -13,17 +13,17 @@ const TEMP_ENTALPIA_BENZINA := 4000.0 # per ora è un valore arbitrario
 var moli_ossigeno := 0.001 :
 	set(valore):
 		moli_ossigeno = valore
-		if moli_ossigeno < 0.0 : moli_ossigeno = 0.0
+		if moli_ossigeno < 0.001 : moli_ossigeno = 0.001
 
 var moli_gas_scarico := 0.001 :
 	set(valore):
 		moli_gas_scarico = valore
-		if moli_gas_scarico < 0.0 : moli_gas_scarico = 0.0
+		if moli_gas_scarico < 0.001 : moli_gas_scarico = 0.001
 
 var moli_benzina := 0.001 :
 	set(valore):
 		moli_benzina = valore
-		if moli_benzina < 0.0 : moli_benzina = 0.0
+		if moli_benzina < 0.001 : moli_benzina = 0.001
 
 var temperatura := 300.15
 var pressione := 101325.0
@@ -60,6 +60,10 @@ func ricalcola_temperatura():
 	if is_nan(temperatura) or is_inf(temperatura) :
 		printerr("temperatura infinita")
 		temperatura = 0.0
+
+func ricalcola_moli():
+	var moli = (pressione * volume) / (COSTANTE_GAS_IDEALE * temperatura)
+	imposta_moli_totali(moli)
 
 
 func imposta_moli_totali(valore : float):
@@ -139,7 +143,7 @@ func esegui_combustione(velocita : float):
 		printerr("moli bruciate: ", moli_bruciate)
 	
 	if temperatura < 0.0 :
-		printerr("il codice è rotto")
+		printerr("il codice è rotto, temperatura minore di zero")
 		temperatura = 300
 
 #func puo_comburere_spontaneamente(
