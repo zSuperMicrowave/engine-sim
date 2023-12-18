@@ -22,6 +22,7 @@ class_name ComponenteMotore
 @export var pistoni_debug : Array[DebugPistone]
 @export var audio : RisonanzaBufferizzataVecchio3D
 @export var speedometer : Speedometer
+@export var grafici : Node2D
 
 
 var dbg_len := 0.0
@@ -43,6 +44,13 @@ func _elabora_fisica_motore(delta: float) -> void :
 	call_deferred("_debug",delta)
 
 func _debug_lento():
+	if grafici :
+		grafici.find_child("moli_carburante").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_benzina)
+		grafici.find_child("moli_ossigeno").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_ossigeno)
+		grafici.find_child("moli_scarico").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_gas_scarico)
+		grafici.find_child("pressione").invia_dato(albero_motore.pistoni[0].aria_cilindro.pressione)
+		grafici.find_child("rpm").invia_dato(albero_motore.velocita_angolare / Unita.rpm)
+		grafici.find_child("temperatura").invia_dato(albero_motore.pistoni[0].aria_cilindro.temperatura)
 	if speedometer :
 		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
 	if griglia_parametri :
