@@ -43,6 +43,7 @@ func _elabora_fisica_motore(delta: float) -> void :
 	dbg_len += delta
 	call_deferred("_debug",delta)
 
+var ultimo_errore_validazione_formula := 0.0
 func _debug_lento():
 	if grafici :
 		grafici.find_child("moli_carburante").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_benzina)
@@ -54,9 +55,12 @@ func _debug_lento():
 	if speedometer :
 		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
 	if griglia_parametri :
+		var validita_formula = 1000 * albero_motore.pistoni[0].aria_cilindro.ottieni_validita_formula()
+		if not is_equal_approx(validita_formula, 1000.0):
+			ultimo_errore_validazione_formula = validita_formula
 		griglia_parametri.scrivi_parametro("RPM", albero_motore.velocita_angolare / Unita.rpm)
-		griglia_parametri.scrivi_parametro("RPM motorino avviatore"
-			, albero_motore.motorino_avviamento.velocita_attuale / Unita.rpm)
+#		griglia_parametri.scrivi_parametro("RPM motorino avviatore"
+#			, albero_motore.motorino_avviamento.velocita_attuale / Unita.rpm)
 		griglia_parametri.scrivi_parametro("Moli aria",albero_motore.pistoni[0].aria_cilindro.moli_ossigeno*1000)
 		griglia_parametri.scrivi_parametro("Moli scarico",albero_motore.pistoni[0].aria_cilindro.moli_gas_scarico*1000)
 		griglia_parametri.scrivi_parametro("Moli carburante",albero_motore.pistoni[0].aria_cilindro.moli_benzina*1000)
@@ -65,6 +69,8 @@ func _debug_lento():
 		griglia_parametri.scrivi_parametro("Volume attuale",albero_motore.pistoni[0].aria_cilindro.volume * 1000)
 		griglia_parametri.scrivi_parametro("Flusso",albero_motore.pistoni[0].flusso_aspirazione * 1000)
 		griglia_parametri.scrivi_parametro("Temperatura",albero_motore.pistoni[0].aria_cilindro.temperatura)
+		griglia_parametri.scrivi_parametro("Validita formula",validita_formula)
+		griglia_parametri.scrivi_parametro("Ultimo errore validita",ultimo_errore_validazione_formula)
 	for i in range(pistoni_debug.size()):
 		if albero_motore.pistoni.size() > i:
 			pistoni_debug[i].aggiorna(albero_motore.pistoni[i].distanza_pistone_tdc,albero_motore.pistoni[i].fase_attuale)

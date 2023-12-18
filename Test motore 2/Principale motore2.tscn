@@ -64,11 +64,11 @@ motorino_avviamento = SubResource("Resource_phdcm")
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
 raggio = 0.3
-massa = 15.0
+massa = 5.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.169725, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0.169725, 0.906883)
+colors = PackedColorArray(1, 1, 1, 1, 0.0703125, 0.0703125, 0.0703125, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
@@ -120,7 +120,7 @@ rallentamento_slow_motion = 0.1
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
 script = ExtResource("2_3x6jl")
-coefficiente_attrito_meccanico_totale = 0.99
+coefficiente_attrito_meccanico_totale = 0.1
 albero_motore = SubResource("Resource_dymms")
 volano = SubResource("Resource_44qqs")
 ecu = SubResource("Resource_8fclr")
@@ -144,7 +144,7 @@ script = ExtResource("12_m87hc")
 numero_passaggi_desiderato = 160
 passaggi_raggio_tubo = 160.0
 quantita_riverbero = 5
-raggio_riverbero = 0.08
+raggio_riverbero = 0.104
 moltiplicatore_energia_rimbalzo = 0.94
 ovattamento_suono = 0.0
 attenuazione_suono = 15.0

@@ -53,7 +53,7 @@ func ricalcola_pressione():
 	pressione = (_moli_totali * COSTANTE_GAS_IDEALE * temperatura) / volume
 	if is_nan(pressione) or is_inf(pressione) :
 		printerr("pressione infinita")
-		pressione = 0.0
+		pressione = 10.0
 
 func ricalcola_temperatura():
 	temperatura = (pressione * volume) / (_moli_totali * COSTANTE_GAS_IDEALE)
@@ -95,6 +95,11 @@ func aumenta_moli_totali_rapido(valore:float):
 
 func moli_totali():
 	return _moli_totali
+
+func ottieni_validita_formula():
+	var valida = (pressione*volume)\
+		/ (_moli_totali * COSTANTE_GAS_IDEALE * temperatura)
+	return valida
 
 func esegui_combustione(velocita : float):
 	# QUESTO CODICE È ROTTO
