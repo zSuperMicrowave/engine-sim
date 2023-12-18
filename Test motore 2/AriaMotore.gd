@@ -51,6 +51,11 @@ func ricalcola_somma_moli():
 
 func ricalcola_pressione():
 	pressione = (_moli_totali * COSTANTE_GAS_IDEALE * temperatura) / volume
+	if pressione > 8000000.0 :
+		printerr("Pressione elevata.")
+		printerr("Moli: ",_moli_totali," b: ",moli_benzina," o: ", moli_ossigeno," s: ", moli_gas_scarico)
+#	elif randf() > 0.999:
+#		print("Moli: ",_moli_totali," b: ",moli_benzina," o: ", moli_ossigeno," s: ", moli_gas_scarico)
 	if is_nan(pressione) or is_inf(pressione) :
 		printerr("pressione infinita")
 		pressione = 10.0
@@ -80,9 +85,11 @@ func imposta_moli_totali(valore : float):
 		moli_benzina = valore * perc_benzina
 		moli_gas_scarico = valore * perc_scarico
 	else:
-		moli_ossigeno = valore / 3
-		moli_benzina = valore / 3
-		moli_gas_scarico = valore / 3
+		moli_ossigeno = valore / 3.0
+		moli_benzina = valore / 3.0
+		moli_gas_scarico = valore / 3.0
+	
+	_moli_totali = valore
 
 
 func aumenta_moli_totali(valore:float):

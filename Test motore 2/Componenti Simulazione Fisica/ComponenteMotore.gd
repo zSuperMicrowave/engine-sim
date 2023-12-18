@@ -40,10 +40,15 @@ func _elabora_fisica_motore(delta: float) -> void :
 	if dbg_len >=  1.0 / velocita_debug_lento_hz:
 		call_deferred("_debug_lento")
 		dbg_len = 0.0
+		max_deltatime = 0.0
 	dbg_len += delta
+	if delta > max_deltatime :
+		max_deltatime = delta
 	call_deferred("_debug",delta)
 
 var ultimo_errore_validazione_formula := 0.0
+var max_deltatime := 0.0
+
 func _debug_lento():
 	if grafici :
 		grafici.find_child("moli_carburante").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_benzina)
@@ -52,6 +57,7 @@ func _debug_lento():
 		grafici.find_child("pressione").invia_dato(albero_motore.pistoni[0].aria_cilindro.pressione)
 		grafici.find_child("rpm").invia_dato(albero_motore.velocita_angolare / Unita.rpm)
 		grafici.find_child("temperatura").invia_dato(albero_motore.pistoni[0].aria_cilindro.temperatura)
+		grafici.find_child("deltatime").invia_dato(max_deltatime*10-0.005)
 	if speedometer :
 		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
 	if griglia_parametri :
@@ -73,7 +79,10 @@ func _debug_lento():
 		griglia_parametri.scrivi_parametro("Ultimo errore validita",ultimo_errore_validazione_formula)
 	for i in range(pistoni_debug.size()):
 		if albero_motore.pistoni.size() > i:
-			pistoni_debug[i].aggiorna(albero_motore.pistoni[i].distanza_pistone_tdc,albero_motore.pistoni[i].fase_attuale)
+			pistoni_debug[i].aggiorna(
+				albero_motore.pistoni[i].distanza_pistone_tdc,
+				albero_motore.pistoni[i].fase_attuale,
+				albero_motore.pistoni[i].rotazione)
 
 func _debug(delta : float):
 	pass

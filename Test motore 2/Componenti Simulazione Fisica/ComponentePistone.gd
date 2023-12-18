@@ -47,7 +47,7 @@ func elabora(motore : ComponenteMotore, delta : float):
 	
 	_aggiorna_volume()
 	_aggiorna_valore_moli(motore, delta)
-	#_aggiorna_temperatura(motore, delta)
+	_aggiorna_temperatura(motore, delta)
 
 
 
@@ -71,18 +71,20 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 	
 	if fase_attuale == ASPIRAZIONE:
 		
+#		aria_cilindro.pressione = motore.pressione_atmosferica
+#		aria_cilindro.ricalcola_moli()
 		if flusso_aspirazione > 0.0 and\
 			aria_cilindro.pressione < motore.pressione_atmosferica:
-			
+
 			aria_cilindro.moli_ossigeno += flusso_aspirazione * portata_entrata_aria\
 				* (1.0 - 1.0 / motore.ecu.miscela_attuale) * motore.ecu.apertura_attuale
 			aria_cilindro.moli_benzina += flusso_aspirazione * portata_entrata_aria\
 				* (1.0 / motore.ecu.miscela_attuale) * motore.ecu.apertura_attuale
-			
+
 			# APPLICA
 			aria_cilindro.ricalcola_somma_moli()
 			aria_cilindro.ricalcola_pressione()
-			
+
 			# Controllo di sicurezza
 			if aria_cilindro.pressione > motore.pressione_atmosferica:
 				aria_cilindro.pressione = motore.pressione_atmosferica
@@ -92,15 +94,17 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 	
 	if fase_attuale == ESPULSIONE:
 		
+#		aria_cilindro.pressione = motore.pressione_atmosferica
+#		aria_cilindro.ricalcola_moli()
 		if flusso_aspirazione < 0.0 and\
 			aria_cilindro.pressione > motore.pressione_atmosferica:
-			
+
 			aria_cilindro.aumenta_moli_totali(flusso_aspirazione * portata_uscita_aria)
-			
+
 			# APPLICA
 			aria_cilindro.ricalcola_somma_moli()
 			aria_cilindro.ricalcola_pressione()
-			
+
 			# Controllo di sicurezza
 			if aria_cilindro.pressione < motore.pressione_atmosferica:
 				aria_cilindro.pressione = motore.pressione_atmosferica
@@ -114,17 +118,17 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 		if motore.batteria_connessa and\
 		rotazione + offset_rotazione >= 0.0:
 			# questa funzione sotto è rotta (probabilmente)
-			aria_cilindro.esegui_combustione(delta * 250/alesaggio_cm)
+			aria_cilindro.esegui_combustione(delta * 45 / (alesaggio_cm * Unita.cm))
 		
 	elif fase_attuale == ASPIRAZIONE:
-		aria_cilindro.temperatura = motore.temperatura_esterna
-#		aria_cilindro.temperatura -= delta * 200\
-#			* (aria_cilindro.temperatura - motore.temperatura_esterna)
-#		if aria_cilindro.temperatura < motore.temperatura_esterna :
-#			aria_cilindro.temperatura = motore.temperatura_esterna
+#		aria_cilindro.temperatura = motore.temperatura_esterna
+		aria_cilindro.temperatura -= delta * 200\
+			* (aria_cilindro.temperatura - motore.temperatura_esterna)
+		if aria_cilindro.temperatura < motore.temperatura_esterna :
+			aria_cilindro.temperatura = motore.temperatura_esterna
 		
 	else:
-		aria_cilindro.temperatura -= delta * 1\
+		aria_cilindro.temperatura -= delta * 0.01\
 			* (aria_cilindro.temperatura - motore.temperatura_esterna)
 		if aria_cilindro.temperatura < motore.temperatura_esterna :
 			aria_cilindro.temperatura = motore.temperatura_esterna
@@ -133,9 +137,10 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 
 
 func ottieni_coppia(motore : ComponenteMotore):
-	if fase_attuale == ASPIRAZIONE : return 0.0 # temporaneo
-	if fase_attuale == ESPULSIONE : return 0.0 # temporaneo
+#	if fase_attuale == ASPIRAZIONE : return 0.0 # temporaneo
+#	if fase_attuale == ESPULSIONE : return 0.0 # temporaneo
 #	if fase_attuale == COMPRESSIONE : return 0.0 # DEBUG
+#	if fase_attuale != COMBUSTIONE : return 0.0
 	
 	var area_pistone = pow(alesaggio_cm * Unita.cm * 0.5, 2.0) * PI
 	var area_pareti_camera = alesaggio_cm * Unita.cm * PI * distanza_pistone_tdc\

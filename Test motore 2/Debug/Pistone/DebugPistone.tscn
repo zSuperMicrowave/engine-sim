@@ -43,3 +43,9 @@ materiale_espulsione = SubResource("StandardMaterial3D_p1e7c")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10423, 0)
 height = 0.190601
 material = SubResource("StandardMaterial3D_m51ci")
+
+[node name="albero" type="Marker3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="albero"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.081455, 0, 0.0444267)
+size = Vector3(0.0269891, 0.0164861, 0.123994)

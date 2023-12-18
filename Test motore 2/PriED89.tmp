@@ -53,8 +53,8 @@ larghezza_albero_cm = 4.2
 lunghezza_biella_cm = 5.5
 volume_extra_cm = 0.5
 alesaggio_cm = 4.5
-portata_entrata_aria = 1.0
-portata_uscita_aria = 1.0
+portata_entrata_aria = 0.2
+portata_uscita_aria = 0.3
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")

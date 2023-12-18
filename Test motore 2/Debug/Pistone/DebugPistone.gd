@@ -53,12 +53,13 @@ func imposta(altezza_tdc : float, alesaggio : float) :
 	$cilindro.radius = alesaggio/2.0
 
 
-func aggiorna(distanza_tdc : float, fase_combustione : int) :
+func aggiorna(distanza_tdc : float, fase_combustione : int, rotazione:float) :
 	# Aggiorna la visualizzazione grafica del volume rimanente
 	# nel cilindro.
 	
 	$cilindro.height = distanza_tdc
 	$cilindro.position = Vector3.DOWN * distanza_tdc * 0.5 
+	$albero.rotation.x = rotazione
 
 	match fase_combustione:
 		FASE_ASPIRAZIONE:
