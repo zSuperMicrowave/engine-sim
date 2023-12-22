@@ -1,36 +1,33 @@
-extends RefCounted
-class_name AriaMotore
+extends Node
 
 const COSTANTE_GAS_IDEALE := 8.314
 
 const QNT_OSSIGENO_PER_BENZINA := 12.5
 const TEMP_COMBUSTIONE_SPONTANEA_BENZINA := 523.15
-const TEMP_ENTALPIA_BENZINA := 40000.0 # per ora è un valore arbitrario
+const TEMP_ENTALPIA_BENZINA := 4000.0 # per ora è un valore arbitrario
 #const QNT_OSSIGENO_PER_DIESEL := 12.5
 #const TEMP_COMBUSTIONE_SPONTANEA_DIESEL := 493.15
 #const TEMP_ENTALPIA_DIESEL := 4000.0
-
-var ignora_avvisi=true
 
 var moli_ossigeno := 0.001 :
 	set(valore):
 		moli_ossigeno = valore
 		if moli_ossigeno < -0.0000000001 :
-			if !ignora_avvisi: printerr("moli_ossigeno minore di 0")
+			printerr("moli_ossigeno minore di 0")
 			moli_ossigeno = 0.0
 
 var moli_gas_scarico := 0.001 :
 	set(valore):
 		moli_gas_scarico = valore
 		if moli_gas_scarico < -0.0000000001 : 
-			if !ignora_avvisi: printerr("moli_gas_scarico minore di 0")
+			printerr("moli_gas_scarico minore di 0")
 			moli_gas_scarico = 0.0
 
 var moli_benzina := 0.001 :
 	set(valore):
 		moli_benzina = valore
 		if moli_benzina < -0.0000000001 : 
-			if !ignora_avvisi: printerr("moli_benzina minore di 0")
+			printerr("moli_benzina minore di 0")
 			moli_benzina = 0.0
 
 var temperatura := 300.15
@@ -38,6 +35,13 @@ var pressione := 101325.0
 var _moli_totali := 0.003
 var volume := 0.00007
 
+
+func _ready():
+	inizializza(0.05,0.05,0.03)
+	printerr("Moli: ",_moli_totali," b: ",moli_benzina," o: ", moli_ossigeno," s: ", moli_gas_scarico)
+	print("MO BRUCIO EH")
+	esegui_combustione(0.0)
+	printerr("Moli: ",_moli_totali," b: ",moli_benzina," o: ", moli_ossigeno," s: ", moli_gas_scarico)
 
 
 func inizializza(distanza_pistone_tdc, alesaggio_cm, volume_extra_cm):
@@ -47,9 +51,9 @@ func inizializza(distanza_pistone_tdc, alesaggio_cm, volume_extra_cm):
 	var nuovo_moli_totali = pressione * volume\
 		/ (COSTANTE_GAS_IDEALE * temperatura)
 	
-	moli_ossigeno = nuovo_moli_totali / 3
-	moli_benzina = nuovo_moli_totali / 3
-	moli_gas_scarico = nuovo_moli_totali / 3
+	moli_ossigeno = nuovo_moli_totali/2
+	moli_benzina = 0
+	moli_gas_scarico = nuovo_moli_totali /2
 	
 	_moli_totali = nuovo_moli_totali
 
@@ -77,10 +81,6 @@ func ricalcola_temperatura():
 func ricalcola_moli():
 	var moli = (pressione * volume) / (COSTANTE_GAS_IDEALE * temperatura)
 	imposta_moli_totali(moli)
-
-func ottieni_moli_necessarie(pressione_desiderata : float):
-	var moli = (pressione_desiderata * volume) / (COSTANTE_GAS_IDEALE * temperatura)
-	return moli - _moli_totali
 
 
 func imposta_moli_totali(valore : float):

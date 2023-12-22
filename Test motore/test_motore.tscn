@@ -62,15 +62,17 @@ rotation = -3.14159
 scale = Vector2(0.0224805, 3.46822)
 texture = ExtResource("4_dy4fy")
 
-[node name="motore" type="Node" parent="GenitoreFisicaMotore" node_paths=PackedStringArray("pistoni", "grafico", "grafico_pressione", "buffer_risonanza_vecchio")]
+[node name="motore" type="Node" parent="GenitoreFisicaMotore"]
 script = ExtResource("3_m6wiw")
-pistoni = [NodePath("../pistone")]
 raggio = 0.5
 massa = 10.0
 coefficiente_attrito = 0.2
-grafico = NodePath("../../Grafico2D")
-grafico_pressione = NodePath("../../g3")
-buffer_risonanza_vecchio = NodePath("../../RisonanzaBufferizzataAudioPlayerVecchio")
+grafico = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(4, 182),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("1_x3gyf"),"larghezza":500,"altezza":300.0,"spessore_linea":1.0,"colore_sfondo":Color(0, 0, 0, 1),"colore_linea":Color(0.372549, 0.619608, 0.627451, 1),"velocita":0.003,"valore_massimo":20000.0)
+
+grafico_pressione = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(653, 546),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("1_x3gyf"),"larghezza":500,"altezza":300.0,"spessore_linea":2.0,"colore_sfondo":Color(0, 0, 0, 1),"colore_linea":Color(1, 0.894118, 0, 1),"velocita":0.01,"valore_massimo":1.0)
+
+buffer_risonanza_vecchio = Object(AudioStreamPlayer,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","stream":null,"volume_db":0.0,"pitch_scale":1.0,"autoplay":false,"stream_paused":false,"mix_target":0,"max_polyphony":1,"bus":&"Master","script":ExtResource("6_r0ifa"),"frequenza_campionamento":44100,"ancora_un_altro_grafico":null,"non_bestemmiare":false,"numero_passaggi_desiderato":50,"passaggi_raggio_tubo":80.0,"quantita_riverbero":5,"raggio_riverbero":0.151,"tubo_chiuso":false,"moltiplicatore_energia_rimbalzo":1.0,"ovattamento_suono":0.0,"attenuazione_suono":15.0,"campioni_ovattamento_massimi":30,"moltiplicatore_input_output":0.763)
+
 
 [node name="pistone" type="Node" parent="GenitoreFisicaMotore"]
 script = ExtResource("5_8c6lp")

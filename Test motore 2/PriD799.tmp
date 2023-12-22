@@ -63,17 +63,17 @@ motorino_avviamento = SubResource("Resource_phdcm")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.2
+raggio = 0.3
 massa = 4.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.471471, 0.891892)
+offsets = PackedFloat32Array(0.169725, 0.894081)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
-fill = 1
-fill_from = Vector2(0, 0.337607)
-fill_to = Vector2(1, 1)
+fill_from = Vector2(1, 1)
+fill_to = Vector2(0.123932, 0.653846)
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0, 0.987854)
@@ -89,10 +89,10 @@ fill_to = Vector2(0, 0.230769)
 script = ExtResource("7_6gx75")
 velocita_aggiornamento_ecu_hz = 30
 rpm_massimi = 20000.0
-miscela_piu_povera = 16.0
+miscela_piu_povera = 30.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
-apertura_minima = 0.005
+apertura_minima = 0.5
 apertura_massima = 1.0
 mappa_apertura = SubResource("GradientTexture2D_cdv7x")
 

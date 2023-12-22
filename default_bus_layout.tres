@@ -16,4 +16,4 @@ threshold = -2.0
 bus/0/effect/0/effect = SubResource("AudioEffectReverb_0f2cx")
 bus/0/effect/0/enabled = false
 bus/0/effect/1/effect = SubResource("AudioEffectCompressor_nji4r")
-bus/0/effect/1/enabled = true
+bus/0/effect/1/enabled = false

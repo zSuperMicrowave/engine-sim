@@ -19,8 +19,6 @@ enum {
 @export var portata_entrata_aria := 1.0
 @export var portata_uscita_aria := 1.0
 
-var flusso_aspirazione := 0.0
-
 var inizializzazione = true
 
 var rotazione := 0.0
@@ -64,53 +62,32 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 	# entrare e deve uscire dal motore.
 	# Il quantitativo di aria è sinonimo di nummero di moli di aria
 	
-	
-	# TODO : CALCOLARE IL FLUSSO IN MANIERA PIU REALISTICA
-	flusso_aspirazione = (motore.pressione_atmosferica - aria_cilindro.pressione)\
-			* delta / PESO_SPECIFICO_SU_MASSA_MOLARE_ARIA
+	var flusso_in = clamp(delta * 10000 * motore.ecu.apertura_attuale\
+		* portata_entrata_aria, 0.0, 1.0)
+	var flusso_out = clamp(delta * 10000 * motore.ecu.apertura_attuale\
+		* portata_uscita_aria, 0.0, 1.0)
 	
 	if fase_attuale == ASPIRAZIONE:
+		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_in)\
+			+ motore.pressione_atmosferica * flusso_in
 		
-#		aria_cilindro.pressione = motore.pressione_atmosferica
-#		aria_cilindro.ricalcola_moli()
-		if flusso_aspirazione > 0.0 and\
-			aria_cilindro.pressione < motore.pressione_atmosferica:
+		aria_cilindro.pressione = pressione_obiettivo
+		var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(motore.pressione_atmosferica)
+		
+		aria_cilindro.moli_ossigeno +=\
+			moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
+		aria_cilindro.moli_benzina +=\
+			 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
+		
+		aria_cilindro.ricalcola_somma_moli()
 
-			aria_cilindro.moli_ossigeno += flusso_aspirazione * portata_entrata_aria\
-				* (1.0 - 1.0 / motore.ecu.miscela_attuale) * motore.ecu.apertura_attuale
-			aria_cilindro.moli_benzina += flusso_aspirazione * portata_entrata_aria\
-				* (1.0 / motore.ecu.miscela_attuale) * motore.ecu.apertura_attuale
 
-			# APPLICA
-			aria_cilindro.ricalcola_somma_moli()
-			aria_cilindro.ricalcola_pressione()
-
-			# Controllo di sicurezza
-			if aria_cilindro.pressione > motore.pressione_atmosferica:
-				aria_cilindro.pressione = motore.pressione_atmosferica
-				# APPLICA
-				aria_cilindro.ricalcola_moli()
-				aria_cilindro.ricalcola_pressione()
-	
 	if fase_attuale == ESPULSIONE:
+		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_out)\
+			+ motore.pressione_atmosferica * flusso_out
 		
-#		aria_cilindro.pressione = motore.pressione_atmosferica
-#		aria_cilindro.ricalcola_moli()
-		if flusso_aspirazione < 0.0 and\
-			aria_cilindro.pressione > motore.pressione_atmosferica:
-
-			aria_cilindro.aumenta_moli_totali(flusso_aspirazione * portata_uscita_aria)
-
-			# APPLICA
-			aria_cilindro.ricalcola_somma_moli()
-			aria_cilindro.ricalcola_pressione()
-
-			# Controllo di sicurezza
-			if aria_cilindro.pressione < motore.pressione_atmosferica:
-				aria_cilindro.pressione = motore.pressione_atmosferica
-				# APPLICA
-				aria_cilindro.ricalcola_moli()
-				aria_cilindro.ricalcola_pressione()
+		aria_cilindro.pressione = pressione_obiettivo
+		aria_cilindro.ricalcola_moli()
 
 
 func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
@@ -118,7 +95,8 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 		if motore.batteria_connessa and\
 		rotazione + offset_rotazione >= 0.0:
 			# questa funzione sotto è rotta (probabilmente)
-			aria_cilindro.esegui_combustione(delta * 45 / (alesaggio_cm * Unita.cm))
+			aria_cilindro.esegui_combustione(delta * 2.5 \
+				/ ( alesaggio_cm * larghezza_albero_cm * Unita.cm2) )
 		
 	elif fase_attuale == ASPIRAZIONE:
 #		aria_cilindro.temperatura = motore.temperatura_esterna

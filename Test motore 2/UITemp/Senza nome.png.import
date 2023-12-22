@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dj4hqjushhfn"
-path="res://.godot/imported/Senza nome.png-fc936593431e2440eadc00cb4eff21b5.ctex"
+path="res://.godot/imported/Senza nome.png-660ef95e24e16a99e1338f7088b34a40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Test motore 2/Senza nome.png"
-dest_files=["res://.godot/imported/Senza nome.png-fc936593431e2440eadc00cb4eff21b5.ctex"]
+source_file="res://Test motore 2/UITemp/Senza nome.png"
+dest_files=["res://.godot/imported/Senza nome.png-660ef95e24e16a99e1338f7088b34a40.ctex"]
 
 [params]
 

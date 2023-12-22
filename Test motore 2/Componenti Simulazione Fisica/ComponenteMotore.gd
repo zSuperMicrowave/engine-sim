@@ -73,7 +73,6 @@ func _debug_lento():
 		var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica) * 0.00001
 		griglia_parametri.scrivi_parametro("Pressione",pressione)
 		griglia_parametri.scrivi_parametro("Volume attuale",albero_motore.pistoni[0].aria_cilindro.volume * 1000)
-		griglia_parametri.scrivi_parametro("Flusso",albero_motore.pistoni[0].flusso_aspirazione * 1000)
 		griglia_parametri.scrivi_parametro("Temperatura",albero_motore.pistoni[0].aria_cilindro.temperatura)
 		griglia_parametri.scrivi_parametro("Validita formula",validita_formula)
 		griglia_parametri.scrivi_parametro("Ultimo errore validita",ultimo_errore_validazione_formula)
