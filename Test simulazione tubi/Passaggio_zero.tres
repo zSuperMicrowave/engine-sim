@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="PassaggioTubo" load_steps=2 format=3 uid="uid://cyfwj7nd4b562"]
-
-[ext_resource type="Script" path="res://Test simulazione tubi/PassaggioTuboPrototipo1.gd" id="1_baboh"]
-
-[resource]
-script = ExtResource("1_baboh")
-qnt_riflessione_pressione = null
-lunghezza_tratto = 0.1
-larghezza_passaggio = 0.0

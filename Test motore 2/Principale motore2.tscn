@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_kmdvj"]
 [ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
 [ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteEcu.gd" id="7_6gx75"]
-[ext_resource type="Script" path="res://Test motore/RisonanzaBufferizzataVecchio3D.gd" id="12_m87hc"]
+[ext_resource type="Script" path="res://Test motore 2/RisonanzaBufferizzataVecchio3D.gd" id="10_5yp7l"]
 [ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Test motore 2/UITemp/Senza nome.png" id="12_vx4hn"]
 [ext_resource type="Script" path="res://Test motore 2/UITemp/Speedometer.gd" id="13_akf42"]
 [ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Test motore 2/UITemp/lancec.png" id="14_8ryrf"]
@@ -140,7 +140,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.335006, 0, -0.738507)
 
 [node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone2"]
-script = ExtResource("12_m87hc")
+script = ExtResource("10_5yp7l")
 numero_passaggi_desiderato = 160
 passaggi_raggio_tubo = 160.0
 quantita_riverbero = 5
