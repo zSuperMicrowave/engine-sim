@@ -1,0 +1,64 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1703418478
+default_bus_layout.tres::AudioBusLayout::6635219462913053403::1703418478::0::1::::<><>::
+icon.svg::CompressedTexture2D::8959811788862810426::1695748733::1695748742::1::::<><>::
+::res://0Utilità Globali/::1698784105
+::res://0Utilità Globali/Navigatore 3D/::1699554419
+Navigatore 3D.gd::GDScript::-1::1699554419::0::1::::<>CharacterBody3D<>::
+Navigatore 3D.tscn::PackedScene::4390583553890440908::1698788997::0::1::::<><>::res://0Utilità Globali/Navigatore 3D/Navigatore 3D.gd
+::res://componenti 2d/::1697738621
+Grafico2D.gd::GDScript::-1::1697738621::0::1::::Grafico2D<>Node2D<>::
+::res://Test motore/::1703418462
+Albero motore.gd::GDScript::-1::1703418407::0::1::::<>NodoFisicaAudio<>::
+BufferCircolareNodo.gd::GDScript::-1::1703418407::0::1::::BufferCircolareNodo<>Node<>::
+BufferFisicaAudio.gd::GDScript::-1::1703418407::0::1::::BufferFisicaAudio<>AudioStreamPlayer<>::
+ComponenteEcu.gd::GDScript::-1::1703418407::0::1::::ComponenteEcu<>Resource<>::
+FiglioFisicaAudio.gd::GDScript::-1::1703418407::0::1::::NodoFisicaAudio<>Node<>::
+FisicaMotore.gd::GDScript::-1::1703418407::0::1::::FisicaMotore<>NodoFisicaAudio<>::
+FisicaPistone.gd::GDScript::-1::1703418407::0::1::::FisicaPistone<>NodoFisicaAudio<>::
+FunzioniMotore.gd::GDScript::-1::1703418407::0::1::::<>Node<>::
+GenitoreFisicaMotore.gd::GDScript::-1::1703418407::0::1::::SincronizzatoreFisicaAudio<>Node<>::
+LettoreAudio.gd::GDScript::-1::1703418407::0::1::::<>AudioStreamPlayer<>::
+RisonanzaBufferizzataAudioPlayer2.gd::GDScript::-1::1703418407::0::1::::RisonanzaBufferizzataAudioPlayer<>AudioStreamPlayer<>::
+RisonanzaBufferizzataAudioPlayer.gd::GDScript::-1::1703418407::0::1::::RisonanzaBufferizzataAudioPlayerVecchio<>AudioStreamPlayer<>::
+test_motore.tscn::PackedScene::6881098899512482276::1703418462::0::1::::<><>::res://componenti 2d/Grafico2D.gd<>res://Test motore/GenitoreFisicaMotore.gd<>res://Test motore/FisicaMotore.gd<>uid://d0wg15sdbqbcc::::res://icon.svg<>res://Test motore/FisicaPistone.gd<>res://Test motore/RisonanzaBufferizzataAudioPlayer.gd
+::res://Test motore 2/::1703418530
+BufferCircolare.gd::GDScript::-1::1703418462::0::1::::BufferCircolare<>Object<>::
+::res://Test motore 2/Debug/::1703418462
+::res://Test motore 2/Debug/Parametri/::1703418462
+DebugParametri.gd::GDScript::-1::1703418462::0::1::::GrigliaDebugParametri<>GridContainer<>::
+::res://Test motore 2/Debug/Pistone/::1703418462
+DebugPistone.gd::GDScript::-1::1703418462::0::1::::DebugPistone<>Marker3D<>::
+DebugPistone.tscn::PackedScene::2497137795626031844::1703418462::0::1::::<><>::res://Test motore 2/Debug/Pistone/DebugPistone.gd
+::res://Test motore 2/Debug/Vettore (WIP)/::1703418462
+DebugVettore.gd::GDScript::-1::1703418462::0::1::::<>Node3D<>::
+vettore.tscn::PackedScene::504691541633417790::1703418462::0::1::::<><>::res://Test motore 2/Debug/Vettore (WIP)/DebugVettore.gd
+::res://Test simulazione risonanza2/::1699886907
+prinicpal.tscn::PackedScene::1549065019110406149::1699886907::0::1::::<><>::res://Test simulazione risonanza2/risonanza2.gd<>uid://cg4f34b3870da
+risonanza2.gd::GDScript::-1::1699869916::0::1::::<>AudioStreamPlayer<>::
+risonanza.gd::GDScript::-1::1699017727::0::1::::<>AudioStreamPlayer<>::
+Untitled.wav::AudioStreamWAV::5254196497314835610::1699038779::1699038780::1::::<><>::
+wehteh.wav::AudioStreamWAV::2781655706334080612::1699035509::1699035509::1::::<><>::
+::res://Test simulazione risonanza 3/::1699916542
+prinicpal3.tscn::PackedScene::4048454234669537766::1699916542::0::1::::<><>::res://Test simulazione risonanza 3/risonanza3.gd<>uid://cg4f34b3870da
+risonanza3.gd::GDScript::-1::1699870045::0::1::::<>AudioStreamPlayer<>::
+::res://Test simulazione risonanza 4/::1699886981
+prinicpal4.tscn::PackedScene::8428993814237004517::1699886981::0::1::::<><>::res://Test simulazione risonanza 4/risonanza4.gd<>uid://bfvpp0k3iuwdg
+risonanza4.gd::GDScript::-1::1699874940::0::1::::<>AudioStreamPlayer<>::
+::res://Test simulazione risonanza 5/::1700005757
+fakeyou_gy14x9v7vrcqy000gkese8nyrn8rpsa8.wav::AudioStreamWAV::4280218592018955021::1699887019::1699887020::1::::<><>::
+prinicpal5.tscn::PackedScene::7309882597123276913::1700005757::0::1::::<><>::res://Test simulazione risonanza 5/risonanza5.gd<>uid://cg4f34b3870da
+risonanza5.gd::GDScript::-1::1700003859::0::1::::<>AudioStreamPlayer<>::
+::res://Test simulazione risonanza 6/::1702771768
+fakeyou_gy14x9v7vrcqy000gkese8nyrn8rpsa8.wav::AudioStreamWAV::1456086292300419386::1699956715::1699956716::1::::<><>::
+prinicpal6.tscn::PackedScene::5166381553493066823::1702771768::0::1::::<><>::res://Test simulazione risonanza 6/risonanza6.gd<>uid://cg4f34b3870da
+risonanza6.gd::GDScript::-1::1700159970::0::1::::<>AudioStreamPlayer<>::
+::res://Test simulazione tubi/::1701999809
+PassaggioTuboPrototipo1.gd::GDScript::-1::1699013680::0::1::::PassaggioTubo<>Resource<>::
+Passaggio_base.tres::Resource/Resource::3524333776812804245::1699013568::0::1::::<><>::res://Test simulazione tubi/PassaggioTuboPrototipo1.gd
+Passaggio_largo.tres::Resource/Resource::8172497980587260305::1699010567::0::1::::<><>::res://Test simulazione tubi/PassaggioTuboPrototipo1.gd
+Passaggio_zero.tres::Resource/Resource::6469049050460081577::1698858647::0::1::::<><>::res://Test simulazione tubi/PassaggioTuboPrototipo1.gd
+test risonanza tubo.tscn::PackedScene::1552062414618678348::1699956732::0::1::::<><>::res://Test simulazione tubi/TestRisonanzaTubo.gd<>res://Test motore/GenitoreFisicaMotore.gd<>uid://bqhhi6lcsnuft
+TestRisonanzaTubo.gd::GDScript::-1::1701999809::0::1::::<>NodoFisicaAudio<>::
+VisualizzatoreValore2D.gd::GDScript::-1::1698859752::0::1::::<>Sprite2D<>::
+vst fattincasa.wav::AudioStreamWAV::7508455593872595268::1699009478::1699009478::1::::<><>::
