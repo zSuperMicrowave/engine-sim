@@ -62,29 +62,35 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 	# entrare e deve uscire dal motore.
 	# Il quantitativo di aria è sinonimo di nummero di moli di aria
 	
-	var flusso_in = clamp(delta * 10000 * motore.ecu.apertura_attuale\
+	
+	var flusso_in = clamp(delta * 1000 * motore.ecu.apertura_attuale\
 		* portata_entrata_aria, 0.0, 1.0)
-	var flusso_out = clamp(delta * 10000 * motore.ecu.apertura_attuale\
+	var flusso_out = clamp(delta * 1000\
 		* portata_uscita_aria, 0.0, 1.0)
 	
 	if fase_attuale == ASPIRAZIONE:
 		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_in)\
 			+ motore.pressione_atmosferica * flusso_in
 		
-		aria_cilindro.pressione = pressione_obiettivo
-		var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(motore.pressione_atmosferica)
+		#print("diff IN: ",pressione_obiettivo - aria_cilindro.pressione)
+		
+		aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
+		
+		var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(pressione_obiettivo)
 		
 		aria_cilindro.moli_ossigeno +=\
 			moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
 		aria_cilindro.moli_benzina +=\
 			 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
 		
-		aria_cilindro.ricalcola_somma_moli()
+		aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
 
 
 	if fase_attuale == ESPULSIONE:
 		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_out)\
 			+ motore.pressione_atmosferica * flusso_out
+		
+		#print("diff OUT: ",pressione_obiettivo - aria_cilindro.pressione)
 		
 		aria_cilindro.pressione = pressione_obiettivo
 		aria_cilindro.ricalcola_moli()
