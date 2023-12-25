@@ -67,12 +67,10 @@ raggio = 0.2
 massa = 4.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.440559, 1)
+offsets = PackedFloat32Array(0.377622, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
-fill = 1
-fill_from = Vector2(0, 0.291262)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]

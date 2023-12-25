@@ -157,7 +157,5 @@ func imposta_parametri(rotazione : float):
 	posizione_albero = Vector2(cos(self.rotazione),sin(self.rotazione))\
 		* larghezza_albero_cm * Unita.cm
 
-#	# La riga qui sotto è commentata perché non ho idea di cosa faccia, ma c'era già.
-# 	# Spero di non aver rotto nulla.
-#	var h_pistone_attuale_relativa = ((larghezza_albero_cm * Unita.cm + lunghezza_biella_cm * Unita.cm) - (h_biella_attuale + posizione_albero.y))
-#	distanza_pistone_tdc = (larghezza_albero_cm * Unita.cm * 2.0 - h_pistone_attuale_relativa)
+	var h_pistone_attuale_relativa = ((larghezza_albero_cm * Unita.cm + lunghezza_biella_cm * Unita.cm) - (h_biella_attuale + posizione_albero.y))
+	distanza_pistone_tdc = (larghezza_albero_cm * Unita.cm * 2.0 - h_pistone_attuale_relativa)
