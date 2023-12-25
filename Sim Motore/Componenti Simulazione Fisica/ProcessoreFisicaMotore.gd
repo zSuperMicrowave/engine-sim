@@ -1,4 +1,4 @@
-@icon("res://Test motore 2/Componenti Simulazione Fisica/icona-aggiornamento-motore.png")
+@icon("res://Sim Motore/Componenti Simulazione Fisica/icona-aggiornamento-motore.png")
 extends Node
 class_name ProcessoreFisicaMotore
 
