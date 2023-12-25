@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="audio procedurale"
-run/main_scene="res://Test motore 2/Principale motore2.tscn"
+run/main_scene="res://Sim Motore/Principale Test.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-FunzioniMotore="*res://Test motore 2/FunzioniMotore.gd"
+FunzioniMotore="*res://Sim Motore/FunzioniMotore.gd"
 
 [display]
 

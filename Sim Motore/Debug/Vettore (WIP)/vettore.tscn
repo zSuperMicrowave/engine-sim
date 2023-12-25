@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hgqgwr131a6q"]
 
-[ext_resource type="Script" path="res://Test motore 2/Debug/Vettore (WIP)/DebugVettore.gd" id="1_fcpt6"]
+[ext_resource type="Script" path="res://Sim Motore/Debug/Vettore (WIP)/DebugVettore.gd" id="1_fcpt6"]
 
 [node name="Vettore" type="Node3D"]
 script = ExtResource("1_fcpt6")

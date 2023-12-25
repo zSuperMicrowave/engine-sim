@@ -67,12 +67,12 @@ raggio = 0.2
 massa = 4.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.471471, 0.891892)
+offsets = PackedFloat32Array(0.471471, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
 fill = 1
-fill_from = Vector2(0, 0.337607)
+fill_from = Vector2(0, 0.723301)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
@@ -92,7 +92,7 @@ rpm_massimi = 20000.0
 miscela_piu_povera = 16.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
-apertura_minima = 0.005
+apertura_minima = 0.0
 apertura_massima = 1.0
 mappa_apertura = SubResource("GradientTexture2D_cdv7x")
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boqgcotrd4vfl"
-path="res://.godot/imported/icona-aggiornamento-motore.png-e10b6737981c77ef2d2088bec8416d36.ctex"
+uid="uid://dv2gyp07mfo3x"
+path="res://.godot/imported/icona-motore.png-0cded8a3fc4908a175a3e750acf36442.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Test motore 2/Componenti Simulazione Fisica/icona-aggiornamento-motore.png"
-dest_files=["res://.godot/imported/icona-aggiornamento-motore.png-e10b6737981c77ef2d2088bec8416d36.ctex"]
+source_file="res://Sim Motore/Componenti Simulazione Fisica/icona-motore.png"
+dest_files=["res://.godot/imported/icona-motore.png-0cded8a3fc4908a175a3e750acf36442.ctex"]
 
 [params]
 

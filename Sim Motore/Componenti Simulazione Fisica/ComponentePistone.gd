@@ -27,11 +27,9 @@ var fase_attuale := ASPIRAZIONE
 
 var posizione_albero := Vector2.ONE * larghezza_albero_cm * Unita.cm
 var h_biella_attuale := 0.0
-#var h_pistone_attuale_relativa := 0.0
 var distanza_pistone_tdc := 0.0 # Distanza del pistone dal TDC e altzza del volume
 
 var aria_cilindro := AriaMotore.new()
-
 
 
 func inizializza():
@@ -44,38 +42,31 @@ func elabora(motore : ComponenteMotore, delta : float):
 		inizializzazione = false
 	
 	_aggiorna_volume()
-	_aggiorna_valore_moli(motore, delta)
+	_aggiorna_moli(motore, delta)
 	_aggiorna_temperatura(motore, delta)
-
 
 
 func _aggiorna_volume():
 	aria_cilindro.volume = distanza_pistone_tdc *\
 		pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI\
 		+ volume_extra_cm * Unita.cm * alesaggio_cm * Unita.cm
-	
+
 	aria_cilindro.ricalcola_pressione()
 
 
-func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
-	# Qui dentro andrebbero eseguiti i calcoli vari per definire quanta aria deve
-	# entrare e deve uscire dal motore.
-	# Il quantitativo di aria è sinonimo di nummero di moli di aria
-	
-	
+func _aggiorna_moli(motore : ComponenteMotore, delta : float):
+	# Qui dentro vengono eseguiti calcoli vari per definire quanti e che tipi
+	# di gas entrano ed escono dal cilindro.
+
 	var flusso_in = clamp(delta * 1000 * motore.ecu.apertura_attuale\
 		* portata_entrata_aria, 0.0, 1.0)
 	var flusso_out = clamp(delta * 1000\
 		* portata_uscita_aria, 0.0, 1.0)
-	
+
 	if fase_attuale == ASPIRAZIONE:
 		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_in)\
 			+ motore.pressione_atmosferica * flusso_in
-		
-		#print("diff IN: ",pressione_obiettivo - aria_cilindro.pressione)
-		
-		aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
-		
+
 		var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(pressione_obiettivo)
 		
 		aria_cilindro.moli_ossigeno +=\
@@ -83,15 +74,14 @@ func _aggiorna_valore_moli(motore : ComponenteMotore, delta : float):
 		aria_cilindro.moli_benzina +=\
 			 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
 		
+		aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
 		aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
 
 
 	if fase_attuale == ESPULSIONE:
 		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_out)\
 			+ motore.pressione_atmosferica * flusso_out
-		
-		#print("diff OUT: ",pressione_obiettivo - aria_cilindro.pressione)
-		
+
 		aria_cilindro.pressione = pressione_obiettivo
 		aria_cilindro.ricalcola_moli()
 
@@ -121,26 +111,25 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 
 
 func ottieni_coppia(motore : ComponenteMotore):
-#	if fase_attuale == ASPIRAZIONE : return 0.0 # temporaneo
-#	if fase_attuale == ESPULSIONE : return 0.0 # temporaneo
+#	if fase_attuale == ASPIRAZIONE : return 0.0 # DEBUG
+#	if fase_attuale == ESPULSIONE : return 0.0 # DEBUG
 #	if fase_attuale == COMPRESSIONE : return 0.0 # DEBUG
-#	if fase_attuale != COMBUSTIONE : return 0.0
-	
-	var area_pistone = pow(alesaggio_cm * Unita.cm * 0.5, 2.0) * PI
-	var area_pareti_camera = alesaggio_cm * Unita.cm * PI * distanza_pistone_tdc\
-		+ area_pistone * 2.0
+#	if fase_attuale != COMBUSTIONE : return 0.0 # DEBUG
 	
 	# La forza è data dalla pressione per la superficie, ma in questo
 	# caso molta forza è sprecata sulle pareti della camera che non toccano
 	# il pistone
+	var area_pistone = pow(alesaggio_cm * Unita.cm * 0.5, 2.0) * PI
+	var area_pareti_camera = alesaggio_cm * Unita.cm * PI * distanza_pistone_tdc\
+		+ area_pistone * 2.0
 	var diff_pressione = aria_cilindro.pressione - motore.pressione_atmosferica
-	#print("aa ",diff_pressione)
-	var forza : float = diff_pressione * area_pistone / area_pareti_camera
 	
+	var forza : float = diff_pressione * area_pistone / area_pareti_camera
+
 	var forza_biella = forza * h_biella_attuale / (lunghezza_biella_cm * Unita.cm)
 	var vettore_forza_biella = forza_biella *\
 		Vector2(posizione_albero.x, -h_biella_attuale).normalized()
-	
+
 	return posizione_albero.normalized().orthogonal().dot(vettore_forza_biella)\
 		* larghezza_albero_cm * Unita.cm
 
@@ -152,7 +141,6 @@ func imposta_parametri(rotazione : float):
 		self.rotazione_fase = TAU*2 - fmod(-(rotazione + offset_rotazione), TAU*2)
 	else :
 		self.rotazione_fase = fmod(rotazione + offset_rotazione, TAU*2)
-	
 
 	if rotazione_fase < PI :
 		self.fase_attuale = ASPIRAZIONE
@@ -168,6 +156,8 @@ func imposta_parametri(rotazione : float):
 	
 	posizione_albero = Vector2(cos(self.rotazione),sin(self.rotazione))\
 		* larghezza_albero_cm * Unita.cm
-	
-	var h_pistone_attuale_relativa = ((larghezza_albero_cm * Unita.cm + lunghezza_biella_cm * Unita.cm) - (h_biella_attuale + posizione_albero.y))
-	distanza_pistone_tdc = (larghezza_albero_cm * Unita.cm * 2.0 - h_pistone_attuale_relativa)
+
+#	# La riga qui sotto è commentata perché non ho idea di cosa faccia, ma c'era già.
+# 	# Spero di non aver rotto nulla.
+#	var h_pistone_attuale_relativa = ((larghezza_albero_cm * Unita.cm + lunghezza_biella_cm * Unita.cm) - (h_biella_attuale + posizione_albero.y))
+#	distanza_pistone_tdc = (larghezza_albero_cm * Unita.cm * 2.0 - h_pistone_attuale_relativa)

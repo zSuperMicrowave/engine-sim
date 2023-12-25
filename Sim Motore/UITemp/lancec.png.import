@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dj4hqjushhfn"
-path="res://.godot/imported/Senza nome.png-660ef95e24e16a99e1338f7088b34a40.ctex"
+uid="uid://568x0t34bumb"
+path="res://.godot/imported/lancec.png-ce044a5cf398f4907b5f492b17b0e5bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Test motore 2/UITemp/Senza nome.png"
-dest_files=["res://.godot/imported/Senza nome.png-660ef95e24e16a99e1338f7088b34a40.ctex"]
+source_file="res://Sim Motore/UITemp/lancec.png"
+dest_files=["res://.godot/imported/lancec.png-ce044a5cf398f4907b5f492b17b0e5bd.ctex"]
 
 [params]
 

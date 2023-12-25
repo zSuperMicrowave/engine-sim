@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bbtvq23aydshw"]
 
-[ext_resource type="Script" path="res://Test motore 2/Debug/Pistone/DebugPistone.gd" id="1_mkrd0"]
+[ext_resource type="Script" path="res://Sim Motore/Debug/Pistone/DebugPistone.gd" id="1_mkrd0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i0yv1"]
 transparency = 1
