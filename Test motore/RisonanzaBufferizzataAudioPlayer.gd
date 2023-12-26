@@ -23,8 +23,8 @@ var ultimo_campione_fisico := 0.0
 
 @onready var numero_passaggi := numero_passaggi_desiderato
 @export var passaggi_raggio_tubo := 3.0
-@export var quantita_riverbero := 1
-@export_range(0.01,0.75) var raggio_riverbero := 0.0
+#@export var quantita_riverbero := 1
+#@export_range(0.01,0.75) var raggio_riverbero := 0.0
 
 var richiesta_cambio_dimensioni_array := false
 
@@ -101,26 +101,7 @@ func _ricalcola_dimensioni_array() :
 
 var tempi_elaborazione := []
 
-
-func _test():
-	print("AVVIO TEST...")
-	var d = randf() * 30 + 5
-	var d2 = randf() * 30 + 5
-	var arr = []
-	for i in range(d) :
-		arr.push_back(randi_range(0,10))
-	
-	print("Array di partenza:")
-	print(arr)
-	
-	_scala_array(arr, d2)
-	
-	print("Array risultato:")
-	print(arr)
-
-
 func _ready():
-	_test()
 	stream = AudioStreamGenerator.new()
 	stream.mix_rate = frequenza_campionamento
 	stream.buffer_length = 0.1
@@ -226,30 +207,30 @@ func ottieni_campione(input : float):
 		 temp_neg * moltiplicatore_energia_rimbalzo
 
 
-	# RIVERBERO SECONDARIO
-	for riverbero in range(quantita_riverbero):
-		var i_riverbero : int = i_buffer_positivo - passaggi_raggio_tubo + passaggi_raggio_tubo * (1.0 / tan(riverbero*raggio_riverbero/quantita_riverbero+1))
-		var buffer_positivo := true
-#			print("sono fuori")
-		while i_riverbero < 0 || i_riverbero >= numero_passaggi:
-			if i_riverbero < 0 :
-				buffer_positivo = true
-#				print("sono bloccato ", i_riverbero)
-			if buffer_positivo:
-				buffer_positivo = false
-				i_riverbero = -i_riverbero
-			else:
-				buffer_positivo = true
-				i_riverbero = numero_passaggi - i_riverbero
-		
-		direzione_positiva_passaggi[i_buffer_positivo] *= 1.0 - attenuazione / (quantita_riverbero * 2)
-		
-		if buffer_positivo :
-			direzione_positiva_passaggi[i_buffer_positivo] +=\
-			direzione_positiva_passaggi[i_riverbero] * attenuazione / (quantita_riverbero * 2)
-		else :
-			direzione_positiva_passaggi[i_buffer_positivo] +=\
-			direzione_negativa_passaggi[i_riverbero] * attenuazione / (quantita_riverbero * 2)
+#	# RIVERBERO SECONDARIO
+#	for riverbero in range(quantita_riverbero):
+#		var i_riverbero : int = i_buffer_positivo - passaggi_raggio_tubo + passaggi_raggio_tubo * (1.0 / tan(riverbero*raggio_riverbero/quantita_riverbero+1))
+#		var buffer_positivo := true
+##			print("sono fuori")
+#		while i_riverbero < 0 || i_riverbero >= numero_passaggi:
+#			if i_riverbero < 0 :
+#				buffer_positivo = true
+##				print("sono bloccato ", i_riverbero)
+#			if buffer_positivo:
+#				buffer_positivo = false
+#				i_riverbero = -i_riverbero
+#			else:
+#				buffer_positivo = true
+#				i_riverbero = numero_passaggi - i_riverbero
+#
+#		direzione_positiva_passaggi[i_buffer_positivo] *= 1.0 - attenuazione / (quantita_riverbero * 2)
+#
+#		if buffer_positivo :
+#			direzione_positiva_passaggi[i_buffer_positivo] +=\
+#			direzione_positiva_passaggi[i_riverbero] * attenuazione / (quantita_riverbero * 2)
+#		else :
+#			direzione_positiva_passaggi[i_buffer_positivo] +=\
+#			direzione_negativa_passaggi[i_riverbero] * attenuazione / (quantita_riverbero * 2)
 
 
 	# INPUT
