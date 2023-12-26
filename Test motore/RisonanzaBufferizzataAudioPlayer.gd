@@ -3,45 +3,42 @@ class_name RisonanzaBufferizzataAudioPlayerVecchio
 
 
 @export var frequenza_campionamento := 44100
-
-@export var ancora_un_altro_grafico : Grafico2D
-
 var playback : AudioStreamGeneratorPlayback
 
 var contatore_resto := 0.0
-
 var ultimo_campione_fisico := 0.0
-
-
-@export_range(2,4000) var numero_passaggi_desiderato := 5:
-	set(valore):
-		richiesta_cambio_dimensioni_array = true
-		numero_passaggi_desiderato = valore
-
-@export_enum("METODO A","METODO B") var metodo_ridimensionamento_buffer : int
-@export_enum("METODO A","METODO B") var metodo_riposizionamento_buffer : int
-
-@onready var numero_passaggi := numero_passaggi_desiderato
-@export var passaggi_raggio_tubo := 3.0
-#@export var quantita_riverbero := 1
-#@export_range(0.01,0.75) var raggio_riverbero := 0.0
-
-var richiesta_cambio_dimensioni_array := false
 
 var direzione_positiva_passaggi : Array[float]
 var direzione_negativa_passaggi : Array[float]
-
 var i_buffer_positivo := 0
 var i_buffer_negativo := 0
 
-@export var tubo_chiuso := true
-@export var moltiplicatore_energia_rimbalzo := 0.8
-@export_range(0.0,1.0) var ovattamento_suono := 0.1
-@export var attenuazione_suono := 1.0
-@export var campioni_ovattamento_massimi := 30
+@export_group("Impostazioni Tubo")
 @export_range(0.01,2.0) var moltiplicatore_input_output := 1.0
 
-var t = 0.0
+@export_subgroup("Riverbero primario")
+@export_range(2,4000) var numero_passaggi_desiderato := 5:
+	set(valore):
+		richiesta_cambio_dimensioni_buffer = true
+		numero_passaggi_desiderato = valore
+var richiesta_cambio_dimensioni_buffer := false
+@onready var numero_passaggi := numero_passaggi_desiderato
+@export var tubo_chiuso := true
+
+@export_subgroup("Ovattamento")
+@export_range(0.0,1.0) var ovattamento_suono := 0.1
+@export var campioni_ovattamento_massimi := 30
+
+@export_subgroup("Attenuazione")
+@export var moltiplicatore_energia_rimbalzo := 0.8
+@export var attenuazione_suono := 1.0
+
+@export_group("Debug e Test")
+@export_enum("METODO A","METODO B") var metodo_ridimensionamento_buffer := 0
+@export_enum("METODO A","METODO B") var metodo_riposizionamento_buffer := 0
+@export var grafico : Grafico2D = null
+@export var monitora_prestazioni := false
+var tempi_elaborazione := []
 
 
 #func _estendi_array(array:Array, nuova_dimensione:int) -> void :
@@ -50,8 +47,6 @@ var t = 0.0
 #
 #	var contatore_
 #	while 
-
-
 
 
 func _scala_array(array:Array, nuova_dimensione:int) -> void:
@@ -74,6 +69,7 @@ func _scala_array(array:Array, nuova_dimensione:int) -> void:
 			contatore -= 1.0
 			j += 1
 
+
 func _ricalcola_dimensioni_array() :
 	var rapporto = numero_passaggi_desiderato / numero_passaggi
 	numero_passaggi = numero_passaggi_desiderato
@@ -94,12 +90,8 @@ func _ricalcola_dimensioni_array() :
 			i_buffer_negativo *= rapporto
 			i_buffer_positivo *= rapporto
 
-	richiesta_cambio_dimensioni_array = false
-#	for i in range(numero_passaggi):
-#		direzione_positiva_passaggi[i] = 0.0
-#		direzione_negativa_passaggi[i] = 0.0
+	richiesta_cambio_dimensioni_buffer = false
 
-var tempi_elaborazione := []
 
 func _ready():
 	stream = AudioStreamGenerator.new()
@@ -116,18 +108,22 @@ func _ready():
 	_ricalcola_dimensioni_array()
 
 
-func _process(delta):
-#	if buffer.size() != (stream.mix_rate * lunghezza_buffer_sec) as int :
-#		buffer.resize((stream.mix_rate * lunghezza_buffer_sec) as int)
+func _physics_process(delta):
 	if !playing:
 		play()
-		print("porcodio")
-
-#func _physics_process(delta):
-#	var frame_rimanenti := playback.get_frames_available()
-#	while frame_rimanenti > 0:
-#		playback.push_frame(Vector2.ONE * buffer.leggi())
-#		frame_rimanenti -= 1
+		print("/!\\AUDIO BLOCCATO/!\\")
+	
+	if monitora_prestazioni:
+		var media = 0.0
+		for t in tempi_elaborazione :
+			media += t
+		media /= tempi_elaborazione.size()
+		tempi_elaborazione = []
+		print("[]MONITOR TEMPI ELABORAZIONE ON: ")
+		print("  |Per campione: ",
+			media," usec")
+		print("  |Per ",frequenza_campionamento," campioni: ",
+			media * frequenza_campionamento * 0.00_000_1," sec")
 
 
 func aggiungi_campione_fisico(nuovo_campione : float, delta : float):
@@ -157,14 +153,16 @@ func aggiungi_campione_fisico(nuovo_campione : float, delta : float):
 			playback.push_frame(Vector2.ONE * ottieni_campione(n))
 			
 			
-			if ancora_un_altro_grafico :
-				ancora_un_altro_grafico.invia_dato(n)
+			if grafico :
+				grafico.invia_dato(n)
 	
 	
 	ultimo_campione_fisico = nuovo_campione
 
 
 func ottieni_campione(input : float):
+	var tick_inizio = Time.get_ticks_usec()
+	
 	var delta = 1.0 / stream.mix_rate
 	
 	var attenuazione = 1.0/(1.0+attenuazione_suono*numero_passaggi*0.0001)
@@ -173,10 +171,9 @@ func ottieni_campione(input : float):
 		clamp(numero_passaggi,0,campioni_ovattamento_massimi-1) + 1
 
 
-	if richiesta_cambio_dimensioni_array:
+	if richiesta_cambio_dimensioni_buffer:
 		_ricalcola_dimensioni_array()
 	
-	var tick_inizio = Time.get_ticks_usec()
 	
 	input *= moltiplicatore_input_output
 
@@ -207,32 +204,6 @@ func ottieni_campione(input : float):
 		 temp_neg * moltiplicatore_energia_rimbalzo
 
 
-#	# RIVERBERO SECONDARIO
-#	for riverbero in range(quantita_riverbero):
-#		var i_riverbero : int = i_buffer_positivo - passaggi_raggio_tubo + passaggi_raggio_tubo * (1.0 / tan(riverbero*raggio_riverbero/quantita_riverbero+1))
-#		var buffer_positivo := true
-##			print("sono fuori")
-#		while i_riverbero < 0 || i_riverbero >= numero_passaggi:
-#			if i_riverbero < 0 :
-#				buffer_positivo = true
-##				print("sono bloccato ", i_riverbero)
-#			if buffer_positivo:
-#				buffer_positivo = false
-#				i_riverbero = -i_riverbero
-#			else:
-#				buffer_positivo = true
-#				i_riverbero = numero_passaggi - i_riverbero
-#
-#		direzione_positiva_passaggi[i_buffer_positivo] *= 1.0 - attenuazione / (quantita_riverbero * 2)
-#
-#		if buffer_positivo :
-#			direzione_positiva_passaggi[i_buffer_positivo] +=\
-#			direzione_positiva_passaggi[i_riverbero] * attenuazione / (quantita_riverbero * 2)
-#		else :
-#			direzione_positiva_passaggi[i_buffer_positivo] +=\
-#			direzione_negativa_passaggi[i_riverbero] * attenuazione / (quantita_riverbero * 2)
-
-
 	# INPUT
 	direzione_positiva_passaggi[i_buffer_positivo] += input
 
@@ -246,7 +217,7 @@ func ottieni_campione(input : float):
 	risultato *= moltiplicatore_input_output
 
 	
-	#print(risultato)
-	tempi_elaborazione.push_back(Time.get_ticks_usec()-tick_inizio)
+	if monitora_prestazioni :
+		tempi_elaborazione.push_back(Time.get_ticks_usec()-tick_inizio)
 	
 	return risultato
