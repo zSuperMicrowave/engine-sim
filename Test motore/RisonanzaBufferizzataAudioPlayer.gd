@@ -18,6 +18,9 @@ var ultimo_campione_fisico := 0.0
 		richiesta_cambio_dimensioni_array = true
 		numero_passaggi_desiderato = valore
 
+@export_enum("METODO A","METODO B") var metodo_ridimensionamento_buffer : int
+@export_enum("METODO A","METODO B") var metodo_riposizionamento_buffer : int
+
 @onready var numero_passaggi := numero_passaggi_desiderato
 @export var passaggi_raggio_tubo := 3.0
 @export var quantita_riverbero := 1
@@ -41,14 +44,56 @@ var i_buffer_negativo := 0
 var t = 0.0
 
 
+#func _estendi_array(array:Array, nuova_dimensione:int) -> void :
+#	if array.size() == nuova_dimensione :
+#		return array
+#
+#	var contatore_
+#	while 
+
+
+
+
+func _scala_array(array:Array, nuova_dimensione:int) -> void:
+	if array.size() == nuova_dimensione :
+		return
+
+	var vecchio_array = array.duplicate()
+	array.resize(nuova_dimensione)
+	
+	var rapporto :=\
+		vecchio_array.size() as float / nuova_dimensione as float
+		
+	var j := 0
+	var contatore := 0.0
+	for i in range(array.size()):
+		array[i] = vecchio_array[j]
+		
+		contatore += rapporto
+		while contatore >= 1.0 :
+			contatore -= 1.0
+			j += 1
+
 func _ricalcola_dimensioni_array() :
+	var rapporto = numero_passaggi_desiderato / numero_passaggi
 	numero_passaggi = numero_passaggi_desiderato
-	direzione_positiva_passaggi.resize(numero_passaggi)
-	direzione_negativa_passaggi.resize(numero_passaggi)
-	i_buffer_negativo = i_buffer_negativo % numero_passaggi
-	i_buffer_positivo = i_buffer_positivo % numero_passaggi
-	
-	
+
+	match metodo_ridimensionamento_buffer :
+		0:
+			direzione_positiva_passaggi.resize(numero_passaggi)
+			direzione_negativa_passaggi.resize(numero_passaggi)
+		1:
+			_scala_array(direzione_positiva_passaggi, numero_passaggi)
+			_scala_array(direzione_negativa_passaggi, numero_passaggi)
+
+	match metodo_riposizionamento_buffer :
+		0:
+			i_buffer_negativo %= numero_passaggi
+			i_buffer_positivo %= numero_passaggi
+		1:
+			i_buffer_negativo *= rapporto
+			i_buffer_positivo *= rapporto
+
 	richiesta_cambio_dimensioni_array = false
 #	for i in range(numero_passaggi):
 #		direzione_positiva_passaggi[i] = 0.0
@@ -57,8 +102,25 @@ func _ricalcola_dimensioni_array() :
 var tempi_elaborazione := []
 
 
+func _test():
+	print("AVVIO TEST...")
+	var d = randf() * 30 + 5
+	var d2 = randf() * 30 + 5
+	var arr = []
+	for i in range(d) :
+		arr.push_back(randi_range(0,10))
+	
+	print("Array di partenza:")
+	print(arr)
+	
+	_scala_array(arr, d2)
+	
+	print("Array risultato:")
+	print(arr)
+
 
 func _ready():
+	_test()
 	stream = AudioStreamGenerator.new()
 	stream.mix_rate = frequenza_campionamento
 	stream.buffer_length = 0.1
