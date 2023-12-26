@@ -11,7 +11,7 @@ class_name ProcessoreFisicaMotore
 		@warning_ignore("integer_division")
 		durata_frame_fisico_usec = 1_000_000/frequenza_aggiornamento_hz 
 var durata_frame_fisico_usec : int = 1_000_000/frequenza_aggiornamento_hz
-@export_range(0.001,0.1) var rallentamento_slow_motion := 0.01
+@export_range(0.001,0.5) var rallentamento_slow_motion := 0.01
 
 
 func _ready():

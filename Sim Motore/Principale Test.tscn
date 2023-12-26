@@ -50,11 +50,11 @@ coppia_nm = 72600.0
 script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
 larghezza_albero_cm = 4.2
-lunghezza_biella_cm = 5.5
+lunghezza_biella_cm = 50.5
 volume_extra_cm = 0.5
 alesaggio_cm = 4.5
 portata_entrata_aria = 1.0
-portata_uscita_aria = 1.0
+portata_uscita_aria = 2.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
@@ -64,18 +64,19 @@ motorino_avviamento = SubResource("Resource_phdcm")
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
 raggio = 0.2
-massa = 4.0
+massa = 3.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.377622, 1)
+offsets = PackedFloat32Array(0.699301)
+colors = PackedColorArray(0.726563, 0.726563, 0.726563, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
 fill_to = Vector2(1, 1)
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
-offsets = PackedFloat32Array(0, 0.987854)
-colors = PackedColorArray(0.985486, 0.985486, 0.985486, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0.482517)
+colors = PackedColorArray(0.886719, 0.886719, 0.886719, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_pgf74"]
 gradient = SubResource("Gradient_af1oy")
@@ -114,7 +115,7 @@ light_energy = 2.38
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
-rallentamento_slow_motion = 0.034
+rallentamento_slow_motion = 0.5
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
 script = ExtResource("2_3x6jl")

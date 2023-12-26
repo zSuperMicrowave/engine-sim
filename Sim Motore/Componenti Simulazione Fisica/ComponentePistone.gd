@@ -69,13 +69,16 @@ func _aggiorna_moli(motore : ComponenteMotore, delta : float):
 
 		var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(pressione_obiettivo)
 		
-		aria_cilindro.moli_ossigeno +=\
-			moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
-		aria_cilindro.moli_benzina +=\
-			 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
-		
-		aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
-		aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
+		if moli_aggiuntive > 0.0 :
+			# Il valore di moli deve essere maggiore di 0
+			
+			aria_cilindro.moli_ossigeno +=\
+				moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
+			aria_cilindro.moli_benzina +=\
+				 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
+			
+			aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
+			aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
 
 
 	if fase_attuale == ESPULSIONE:
@@ -83,6 +86,7 @@ func _aggiorna_moli(motore : ComponenteMotore, delta : float):
 			+ motore.pressione_atmosferica * flusso_out
 
 		aria_cilindro.pressione = pressione_obiettivo
+		
 		aria_cilindro.ricalcola_moli()
 
 
@@ -91,7 +95,7 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 		if motore.batteria_connessa and\
 		rotazione + offset_rotazione >= 0.0:
 			# questa funzione sotto è rotta (probabilmente)
-			aria_cilindro.esegui_combustione(delta * 2.5 \
+			aria_cilindro.esegui_combustione(delta * 0.25 \
 				/ ( alesaggio_cm * larghezza_albero_cm * Unita.cm2) )
 		
 	elif fase_attuale == ASPIRAZIONE:
