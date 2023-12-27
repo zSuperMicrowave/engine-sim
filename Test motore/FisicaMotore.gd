@@ -80,8 +80,10 @@ func _calcola_coppia_motore() :
 	
 	return coppia_totale
 
+var ssss = 0.0
 
 func _calcola_audio(delta : float):
+	ssss += delta
 	var pressione_totale := 0.0
 	for pistone in pistoni:
 		pressione_totale += pistone.pressione_cilindro
@@ -99,6 +101,7 @@ func _calcola_audio(delta : float):
 		buffer_risonanza_vecchio.aggiungi_campione_fisico(
 			pressione_totale * 0.0000001,delta)
 		buffer_risonanza_vecchio.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro * 1
+		#buffer_risonanza_vecchio.numero_passaggi_desiderato = 88 + 80 * sin(ssss)
 
 func _physics_process(delta):
 	t+= delta

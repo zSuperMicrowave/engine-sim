@@ -91,8 +91,10 @@ scale = Vector2(0.396996, 0.426927)
 texture = ExtResource("4_dy4fy")
 
 [node name="RisonanzaBufferizzataAudioPlayerVecchio" type="AudioStreamPlayer" parent="."]
+volume_db = 24.0
 script = ExtResource("6_r0ifa")
 numero_passaggi_desiderato = 50
+tubo_chiuso = false
 moltiplicatore_energia_rimbalzo = 1.0
 attenuazione_suono = 15.0
 ovattamento_suono = 0.0

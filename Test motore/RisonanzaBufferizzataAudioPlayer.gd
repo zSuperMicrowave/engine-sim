@@ -35,9 +35,12 @@ var richiesta_cambio_dimensioni_buffer := false
 @export var campioni_ovattamento_massimi := 30
 
 @export_group("Debug e Test")
-@export_enum("TRONCA","SCALA","ESTENDI") var metodo_restringimento_buffer := 0
-@export_enum("TRONCA","SCALA","ESTENDI") var metodo_allargamento_buffer := 0
-@export_enum("CICLA","SCALA") var metodo_riposizionamento_buffer := 0
+@export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI")\
+	var metodo_restringimento_buffer := 1
+@export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI","SCALA PROPORZIONALMENTE")\
+	var metodo_allargamento_buffer := 1
+@export_enum("CICLA","SCALA")\
+	var metodo_riposizionamento_buffer := 0
 @export var grafico : Grafico2D = null
 @export var monitora_prestazioni := false
 var tempi_elaborazione := []
@@ -75,6 +78,34 @@ func _estendi_buffer(nuova_dimensione:int) -> void :
 			direzione_negativa_passaggi[i - delta] = val
 
 
+func _scala_proporzionalmente_array(array:Array, nuova_dimensione:int) -> void:
+	if array.size() == nuova_dimensione :
+		return
+	if array.size() > nuova_dimensione :
+		printerr("Non si può scalare proporzionalmente a diminuire")
+		_scala_array(array,nuova_dimensione)
+		return
+
+	var vecchio_array = array.duplicate()
+	array.resize(nuova_dimensione)
+	
+	var rapporto :=\
+		vecchio_array.size() as float / nuova_dimensione as float
+		
+	var j := 0
+	var contatore := 0.0
+	for i in range(array.size()):
+		if j < vecchio_array.size()-1 :
+			array[i] = vecchio_array[j] * (1.0 - contatore)\
+				+ vecchio_array[j+1] * contatore
+		else :
+			array[i] = vecchio_array[j]
+		
+		contatore += rapporto
+		while contatore >= 1.0 :
+			contatore -= 1.0
+			j += 1
+
 func _scala_array(array:Array, nuova_dimensione:int) -> void:
 	if array.size() == nuova_dimensione :
 		return
@@ -102,42 +133,65 @@ func _ricalcola_dimensioni_array() :
 		return
 
 	var rapporto = numero_passaggi_desiderato / numero_passaggi
-	numero_passaggi = numero_passaggi_desiderato
 
 	if rapporto > 1.0 :
 		match metodo_allargamento_buffer :
-			0:
-				direzione_positiva_passaggi.resize(numero_passaggi)
-				direzione_negativa_passaggi.resize(numero_passaggi)
 			1:
-				_scala_array(direzione_positiva_passaggi, numero_passaggi)
-				_scala_array(direzione_negativa_passaggi, numero_passaggi)
+				direzione_positiva_passaggi.resize(numero_passaggi_desiderato)
+				direzione_negativa_passaggi.resize(numero_passaggi_desiderato)
 			2:
-				_estendi_buffer(numero_passaggi)
+				_scala_array(direzione_positiva_passaggi, numero_passaggi_desiderato)
+				_scala_array(direzione_negativa_passaggi, numero_passaggi_desiderato)
+			3:
+				_estendi_buffer(numero_passaggi_desiderato)
+			4:
+				_scala_proporzionalmente_array(
+					direzione_positiva_passaggi, numero_passaggi_desiderato)
+				_scala_proporzionalmente_array(
+					direzione_negativa_passaggi, numero_passaggi_desiderato)
 	else :
 		match metodo_restringimento_buffer :
-			0:
-				direzione_positiva_passaggi.resize(numero_passaggi)
-				direzione_negativa_passaggi.resize(numero_passaggi)
 			1:
-				_scala_array(direzione_positiva_passaggi, numero_passaggi)
-				_scala_array(direzione_negativa_passaggi, numero_passaggi)
+				direzione_positiva_passaggi.resize(numero_passaggi_desiderato)
+				direzione_negativa_passaggi.resize(numero_passaggi_desiderato)
 			2:
-				_estendi_buffer(numero_passaggi)
+				_scala_array(direzione_positiva_passaggi, numero_passaggi_desiderato)
+				_scala_array(direzione_negativa_passaggi, numero_passaggi_desiderato)
+			3:
+				_estendi_buffer(numero_passaggi_desiderato)
 
 
 	match metodo_riposizionamento_buffer :
-		0:
-			i_buffer_negativo %= numero_passaggi
-			i_buffer_positivo %= numero_passaggi
 		1:
+			i_buffer_negativo %= numero_passaggi_desiderato
+			i_buffer_positivo %= numero_passaggi_desiderato
+		2:
 			i_buffer_negativo *= rapporto
 			i_buffer_positivo *= rapporto
 
+	numero_passaggi = numero_passaggi_desiderato
 	richiesta_cambio_dimensioni_buffer = false
 
 
+func _test():
+	print("AVVIO TEST...")
+	var d = 10
+	var d2 = d *2
+	var arr = []
+	for i in range(d) :
+		arr.push_back(randi_range(0,10))
+
+	print("Array di partenza:")
+	print(arr)
+
+	_scala_proporzionalmente_array(arr, d2)
+
+	print("Array risultato:")
+	print(arr)
+
+
 func _ready():
+	_test()
 	stream = AudioStreamGenerator.new()
 	stream.mix_rate = frequenza_campionamento
 	stream.buffer_length = 0.1
