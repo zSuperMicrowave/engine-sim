@@ -92,8 +92,7 @@ texture = ExtResource("4_dy4fy")
 
 [node name="RisonanzaBufferizzataAudioPlayerVecchio" type="AudioStreamPlayer" parent="."]
 script = ExtResource("6_r0ifa")
-moltiplicatore_input_output = 0.763
 numero_passaggi_desiderato = 50
-ovattamento_suono = 0.0
 moltiplicatore_energia_rimbalzo = 1.0
 attenuazione_suono = 15.0
+ovattamento_suono = 0.0

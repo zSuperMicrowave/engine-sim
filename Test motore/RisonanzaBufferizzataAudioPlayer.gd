@@ -13,8 +13,9 @@ var direzione_negativa_passaggi : Array[float]
 var i_buffer_positivo := 0
 var i_buffer_negativo := 0
 
-@export_group("Impostazioni Tubo")
 @export_range(0.01,2.0) var moltiplicatore_input_output := 1.0
+
+@export_group("Impostazioni Tubo")
 
 @export_subgroup("Riverbero primario")
 @export_range(2,4000) var numero_passaggi_desiderato := 5:
@@ -25,28 +26,53 @@ var richiesta_cambio_dimensioni_buffer := false
 @onready var numero_passaggi := numero_passaggi_desiderato
 @export var tubo_chiuso := true
 
-@export_subgroup("Ovattamento")
-@export_range(0.0,1.0) var ovattamento_suono := 0.1
-@export var campioni_ovattamento_massimi := 30
-
 @export_subgroup("Attenuazione")
 @export var moltiplicatore_energia_rimbalzo := 0.8
 @export var attenuazione_suono := 1.0
 
+@export_subgroup("Ovattamento")
+@export_range(0.0,1.0) var ovattamento_suono := 0.1
+@export var campioni_ovattamento_massimi := 30
+
 @export_group("Debug e Test")
-@export_enum("METODO A","METODO B") var metodo_ridimensionamento_buffer := 0
-@export_enum("METODO A","METODO B") var metodo_riposizionamento_buffer := 0
+@export_enum("TRONCA","SCALA","ESTENDI") var metodo_restringimento_buffer := 0
+@export_enum("TRONCA","SCALA","ESTENDI") var metodo_allargamento_buffer := 0
+@export_enum("CICLA","SCALA") var metodo_riposizionamento_buffer := 0
 @export var grafico : Grafico2D = null
 @export var monitora_prestazioni := false
 var tempi_elaborazione := []
 
 
-#func _estendi_array(array:Array, nuova_dimensione:int) -> void :
-#	if array.size() == nuova_dimensione :
-#		return array
-#
-#	var contatore_
-#	while 
+func _estendi_buffer(nuova_dimensione:int) -> void :
+	var vecchio_buffer_positivo = direzione_positiva_passaggi.duplicate()
+	var vecchio_buffer_negativo = direzione_negativa_passaggi.duplicate()
+	direzione_positiva_passaggi.resize(nuova_dimensione)
+	direzione_negativa_passaggi.resize(nuova_dimensione)
+
+	var delta := 0
+	var direzione_positiva_output = true
+	var j := 0
+	var direzione_positiva_input = true
+	for i in range(nuova_dimensione*2) :
+		j = i
+		if i >= nuova_dimensione :
+			direzione_positiva_output = !direzione_positiva_output
+			delta += nuova_dimensione
+		if j >= vecchio_buffer_positivo.size() :
+			direzione_positiva_input = !direzione_positiva_input
+			j = 0.0
+		
+		var val = 0.0
+		
+		if direzione_positiva_input :
+			val = vecchio_buffer_positivo[j]
+		else :
+			val = vecchio_buffer_negativo[j]
+		
+		if direzione_positiva_output :
+			direzione_positiva_passaggi[i - delta] = val
+		else :
+			direzione_negativa_passaggi[i - delta] = val
 
 
 func _scala_array(array:Array, nuova_dimensione:int) -> void:
@@ -71,16 +97,34 @@ func _scala_array(array:Array, nuova_dimensione:int) -> void:
 
 
 func _ricalcola_dimensioni_array() :
+	if numero_passaggi == numero_passaggi_desiderato:
+		richiesta_cambio_dimensioni_buffer = false
+		return
+
 	var rapporto = numero_passaggi_desiderato / numero_passaggi
 	numero_passaggi = numero_passaggi_desiderato
 
-	match metodo_ridimensionamento_buffer :
-		0:
-			direzione_positiva_passaggi.resize(numero_passaggi)
-			direzione_negativa_passaggi.resize(numero_passaggi)
-		1:
-			_scala_array(direzione_positiva_passaggi, numero_passaggi)
-			_scala_array(direzione_negativa_passaggi, numero_passaggi)
+	if rapporto > 1.0 :
+		match metodo_allargamento_buffer :
+			0:
+				direzione_positiva_passaggi.resize(numero_passaggi)
+				direzione_negativa_passaggi.resize(numero_passaggi)
+			1:
+				_scala_array(direzione_positiva_passaggi, numero_passaggi)
+				_scala_array(direzione_negativa_passaggi, numero_passaggi)
+			2:
+				_estendi_buffer(numero_passaggi)
+	else :
+		match metodo_restringimento_buffer :
+			0:
+				direzione_positiva_passaggi.resize(numero_passaggi)
+				direzione_negativa_passaggi.resize(numero_passaggi)
+			1:
+				_scala_array(direzione_positiva_passaggi, numero_passaggi)
+				_scala_array(direzione_negativa_passaggi, numero_passaggi)
+			2:
+				_estendi_buffer(numero_passaggi)
+
 
 	match metodo_riposizionamento_buffer :
 		0:

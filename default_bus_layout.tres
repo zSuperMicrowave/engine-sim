@@ -11,6 +11,7 @@ hipass = 0.32
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
 threshold = -2.0
+ratio = 33.3
 
 [resource]
 bus/0/effect/0/effect = SubResource("AudioEffectReverb_0f2cx")
