@@ -162,10 +162,10 @@ func _ricalcola_dimensioni_array() :
 
 
 	match metodo_riposizionamento_buffer :
-		1:
+		0:
 			i_buffer_negativo %= numero_passaggi_desiderato
 			i_buffer_positivo %= numero_passaggi_desiderato
-		2:
+		1:
 			i_buffer_negativo *= rapporto
 			i_buffer_positivo *= rapporto
 
