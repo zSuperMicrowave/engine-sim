@@ -35,6 +35,7 @@ var rotazione := 0.0 # radianti
 @export var buffer_audio : BufferFisicaAudio
 @export var buffer_risonanza : RisonanzaBufferizzataAudioPlayer
 @export var buffer_risonanza_vecchio : RisonanzaBufferizzataAudioPlayerVecchio
+@export var campionatore_pistone : CampionatorePistone
 
 
 var t = 0.0
@@ -81,8 +82,10 @@ func _calcola_coppia_motore() :
 	return coppia_totale
 
 var ssss = 0.0
+var ultimo_delta := 1.0
 
 func _calcola_audio(delta : float):
+	ultimo_delta = delta
 	ssss += delta
 	var pressione_totale := 0.0
 	for pistone in pistoni:
@@ -99,9 +102,12 @@ func _calcola_audio(delta : float):
 		buffer_risonanza.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro
 	if buffer_risonanza_vecchio :
 		buffer_risonanza_vecchio.aggiungi_campione_fisico(
-			pow(pressione_totale * 0.0000002,2) + pistoni[0].temperatura_cilindro * 0.0000005 * randf(),delta)
+			pow(pressione_totale * 0.0000002,2),delta)
 		buffer_risonanza_vecchio.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro / (1.0 + pressione_totale * 0.000001)
 		#buffer_risonanza_vecchio.numero_passaggi_desiderato = 88 + 80 * sin(ssss)
+	if campionatore_pistone :
+		campionatore_pistone.invia_campione(pistoni[0].pressione_cilindro, pistoni[0].temperatura_cilindro, delta)
+		campionatore_pistone.imposta_riverbero_retrocompatibile(pistoni[0].volume_cilindro, pistoni[0].pressione_cilindro)
 
 func _physics_process(delta):
 	t+= delta

@@ -9,7 +9,9 @@ var i_scrittura := 0
 var i_lettura := 0
 
 func _init(lunghezza : int):
+	if lunghezza < 0 : lunghezza = 1
 	self.lunghezza = lunghezza
+	
 	buffer.resize(lunghezza)
 
 

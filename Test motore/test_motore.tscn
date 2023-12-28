@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5bixtywib6t1"]
+[gd_scene load_steps=9 format=3 uid="uid://c5bixtywib6t1"]
 
 [ext_resource type="Script" path="res://componenti 2d/Grafico2D.gd" id="1_x3gyf"]
 [ext_resource type="Script" path="res://Test motore/GenitoreFisicaMotore.gd" id="2_fx5w0"]
 [ext_resource type="Script" path="res://Test motore/FisicaMotore.gd" id="3_m6wiw"]
 [ext_resource type="Texture2D" uid="uid://d0wg15sdbqbcc" path="res://icon.svg" id="4_dy4fy"]
 [ext_resource type="Script" path="res://Test motore/FisicaPistone.gd" id="5_8c6lp"]
-[ext_resource type="Script" path="res://Test motore/RisonanzaBufferizzataAudioPlayer.gd" id="6_r0ifa"]
+[ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="7_eo2yw"]
+[ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio.gd" id="8_3qg30"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0adbo"]
 blend_mode = 3
@@ -62,15 +63,15 @@ rotation = -3.14159
 scale = Vector2(0.0224805, 3.46822)
 texture = ExtResource("4_dy4fy")
 
-[node name="motore" type="Node" parent="GenitoreFisicaMotore" node_paths=PackedStringArray("pistoni", "grafico", "grafico_pressione", "buffer_risonanza_vecchio")]
+[node name="motore" type="Node" parent="GenitoreFisicaMotore" node_paths=PackedStringArray("pistoni", "grafico", "grafico_pressione", "campionatore_pistone")]
 script = ExtResource("3_m6wiw")
 pistoni = [NodePath("../pistone")]
 raggio = 0.5
 massa = 15.0
-coefficiente_attrito = 0.1
+coefficiente_attrito = 0.2
 grafico = NodePath("../../Grafico2D")
 grafico_pressione = NodePath("../../g3")
-buffer_risonanza_vecchio = NodePath("../../RisonanzaBufferizzataAudioPlayerVecchio")
+campionatore_pistone = NodePath("../CampionatorePistone")
 
 [node name="pistone" type="Node" parent="GenitoreFisicaMotore"]
 script = ExtResource("5_8c6lp")
@@ -90,11 +91,11 @@ material = SubResource("CanvasItemMaterial_0adbo")
 scale = Vector2(0.396996, 0.426927)
 texture = ExtResource("4_dy4fy")
 
-[node name="RisonanzaBufferizzataAudioPlayerVecchio" type="AudioStreamPlayer" parent="."]
-script = ExtResource("6_r0ifa")
-numero_passaggi_desiderato = 50
-moltiplicatore_energia_rimbalzo = 1.0
-attenuazione_suono = 15.0
-ovattamento_suono = 0.0
-metodo_allargamento_buffer = 4
-riposiziona_allargamento_buffer = 1
+[node name="CampionatorePistone" type="Node" parent="GenitoreFisicaMotore"]
+script = ExtResource("7_eo2yw")
+moltiplicatore_pressione = 1.0
+ritardo_sec = 0.054
+
+[node name="RiproduttoreAudio" type="AudioStreamPlayer" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("componente_audio_precedente")]
+script = ExtResource("8_3qg30")
+componente_audio_precedente = NodePath("..")
