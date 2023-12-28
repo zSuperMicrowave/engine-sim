@@ -61,6 +61,8 @@ func _debug_lento():
 		grafici.find_child("rpm").invia_dato(albero_motore.velocita_angolare / Unita.rpm)
 		grafici.find_child("temperatura").invia_dato(albero_motore.pistoni[0].aria_cilindro.temperatura)
 		grafici.find_child("deltatime").invia_dato(max_deltatime*10-0.05)
+		if max_deltatime > 0.001 :
+			print("IL DELTA IL DELTA ANANGG: ", albero_motore.pistoni[0].fase_attuale)
 	if speedometer :
 		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
 	if griglia_parametri :

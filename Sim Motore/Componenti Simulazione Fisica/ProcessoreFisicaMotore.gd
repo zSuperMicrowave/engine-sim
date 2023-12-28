@@ -2,7 +2,7 @@
 extends Node
 class_name ProcessoreFisicaMotore
 
-const COMPENSAZIONE_USEC_CICLO_WHILE = 5
+const COMPENSAZIONE_USEC_CICLO_WHILE = 7
 
 @export var motori : Array[ComponenteMotore]
 
@@ -23,25 +23,24 @@ func _ready():
 
 
 func _elabora():
-	var tick_inizio_chiamata := 0
-	var tick_delta_inizio_chiamata := 0
+	var tempo_inizio_delta = Time.get_ticks_usec()
 	var delta := 0.0
 	while(true) :
+		var tempo_inizio = Time.get_ticks_usec()
 
-		# Se non è passato abbastanza tempo continua a non fare niente
-		while durata_frame_fisico_usec > Time.get_ticks_usec() - tick_inizio_chiamata + COMPENSAZIONE_USEC_CICLO_WHILE:
-			continue
-
-		tick_inizio_chiamata = Time.get_ticks_usec()
-
+		# ELABORA
 		for motore in motori:
 			motore._elabora_fisica_motore(delta)
 
+		# CALCOLA DELTA
 		if delta_fisso :
 			delta = durata_frame_fisico_usec as float / 1_000_000.0
 		else :
-			delta = (Time.get_ticks_usec() - tick_delta_inizio_chiamata) as float / 1_000_000.0
+			delta = (Time.get_ticks_usec() - tempo_inizio_delta) as float / 1_000_000.0
 		if Input.is_action_pressed("rallenta_fisica") :
 			delta *= rallentamento_slow_motion
 
-		tick_delta_inizio_chiamata = Time.get_ticks_usec()
+		tempo_inizio_delta = Time.get_ticks_usec()
+
+		while durata_frame_fisico_usec > Time.get_ticks_usec() - tempo_inizio + COMPENSAZIONE_USEC_CICLO_WHILE:
+			continue
