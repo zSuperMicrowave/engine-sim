@@ -39,6 +39,9 @@ var i_buffer_negativo := 0
 @export var campioni_ovattamento_massimi := 30
 @export_range(0.01,2.0) var moltiplicatore_input_output := 1.0
 
+@export_group("Compensazione frame")
+@export_range(0.0,1.0) var inizio_compensazione_frame := 0.974
+
 var t = 0.0
 
 
@@ -83,8 +86,9 @@ func _process(delta):
 			print("porcodio")
 
 func _physics_process(delta):
+	# Compensa per la perdita di frame
 	var frame_rimanenti := playback.get_frames_available()
-	if frame_rimanenti < stream.buffer_length * stream.mix_rate * 0.5 :
+	if frame_rimanenti < stream.buffer_length * stream.mix_rate * inizio_compensazione_frame :
 		return
 	while frame_rimanenti > 0:
 		playback.push_frame(Vector2.ONE * ultimo_campione_fisico)
@@ -110,16 +114,18 @@ func aggiungi_campione_fisico(nuovo_campione : float, delta : float):
 		numero_iterazioni += 1
 		contatore_resto -= 1.0
 	
-	if playback.can_push_buffer(numero_iterazioni):
-		for i in range(numero_iterazioni):
-			var n = lerp(ultimo_campione_fisico, nuovo_campione, i as float / numero_iterazioni as float)
-			
-			#buffer.scrivi(n)
-			playback.push_frame(Vector2.ONE * ottieni_campione(n))
-			
-			
-			if ancora_un_altro_grafico :
-				ancora_un_altro_grafico.invia_dato(n)
+	for i in range(numero_iterazioni):
+		if playback.get_frames_available() < 1 :
+			break
+		
+		var n = lerp(ultimo_campione_fisico, nuovo_campione, i as float / numero_iterazioni as float)
+		
+		#buffer.scrivi(n)
+		playback.push_frame(Vector2.ONE * ottieni_campione(n))
+		
+		
+		if ancora_un_altro_grafico :
+			ancora_un_altro_grafico.invia_dato(n)
 	
 	
 	ultimo_campione_fisico = nuovo_campione

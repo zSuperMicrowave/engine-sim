@@ -24,6 +24,9 @@ class_name ComponenteMotore
 @export var speedometer : Speedometer
 @export var grafici : Node2D
 
+@export_category("Audio")
+@export_range(0.8,3.0) var compensazione_lentezza_simulazione := 1.5
+
 
 var dbg_len := 0.0
 var elab_ecu := 0.0
@@ -57,7 +60,7 @@ func _debug_lento():
 		grafici.find_child("pressione").invia_dato(albero_motore.pistoni[0].aria_cilindro.pressione)
 		grafici.find_child("rpm").invia_dato(albero_motore.velocita_angolare / Unita.rpm)
 		grafici.find_child("temperatura").invia_dato(albero_motore.pistoni[0].aria_cilindro.temperatura)
-		grafici.find_child("deltatime").invia_dato(max_deltatime*10-0.005)
+		grafici.find_child("deltatime").invia_dato(max_deltatime*10-0.05)
 	if speedometer :
 		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
 	if griglia_parametri :
@@ -108,5 +111,5 @@ func calcola_audio(delta : float):
 
 	var volume = 86000 * albero_motore.pistoni[0].aria_cilindro.volume * (1.0 + albero_motore.pistoni[0].aria_cilindro.pressione * 0.00001)
 
-	audio.aggiungi_campione_fisico(segnale_audio, delta)
+	audio.aggiungi_campione_fisico(segnale_audio, delta * compensazione_lentezza_simulazione)
 	audio.numero_passaggi_desiderato = volume

@@ -50,11 +50,11 @@ coppia_nm = 72600.0
 script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
 larghezza_albero_cm = 4.2
-lunghezza_biella_cm = 50.5
+lunghezza_biella_cm = 5.5
 volume_extra_cm = 0.5
 alesaggio_cm = 4.5
-portata_entrata_aria = 1.0
-portata_uscita_aria = 2.0
+portata_entrata_aria = 2.0
+portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
@@ -67,12 +67,10 @@ raggio = 0.2
 massa = 3.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.699301)
-colors = PackedColorArray(0.726563, 0.726563, 0.726563, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
-fill_to = Vector2(1, 1)
+fill_to = Vector2(1, 0.123932)
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0.482517)
@@ -115,7 +113,9 @@ light_energy = 2.38
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
+frequenza_aggiornamento_hz = 5000
 rallentamento_slow_motion = 0.5
+delta_fisso = true
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
 script = ExtResource("2_3x6jl")
@@ -123,12 +123,13 @@ coefficiente_attrito_meccanico_totale = 0.1
 albero_motore = SubResource("Resource_dymms")
 volano = SubResource("Resource_44qqs")
 ecu = SubResource("Resource_8fclr")
-velocita_debug_lento_hz = 1200
+velocita_debug_lento_hz = 50
 griglia_parametri = NodePath("../UI/Debug parametri")
 pistoni_debug = [NodePath("../Pistone2")]
 audio = NodePath("../Pistone2/RisonanzaBufferizzataVecchio3D")
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
+compensazione_lentezza_simulazione = 1.1
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
@@ -142,9 +143,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.335006, 0, -0.738507)
 script = ExtResource("10_5yp7l")
 numero_passaggi_desiderato = 160
 passaggi_raggio_tubo = 160.0
-quantita_riverbero = 5
+quantita_riverbero = 0
 raggio_riverbero = 0.251
-moltiplicatore_energia_rimbalzo = 0.94
+moltiplicatore_energia_rimbalzo = 1.0
 ovattamento_suono = 0.0
 attenuazione_suono = 15.0
 moltiplicatore_input_output = 0.73
@@ -268,4 +269,4 @@ altezza = 60.0
 colore_sfondo = Color(0, 0, 0, 0.443137)
 colore_linea = Color(1, 0.172549, 0.972549, 1)
 velocita = 0.005
-valore_massimo = 0.005
+valore_massimo = 0.1

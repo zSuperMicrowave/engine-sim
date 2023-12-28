@@ -95,7 +95,7 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 		if motore.batteria_connessa and\
 		rotazione + offset_rotazione >= 0.0:
 			# questa funzione sotto è rotta (probabilmente)
-			aria_cilindro.esegui_combustione(delta * 0.25 \
+			aria_cilindro.esegui_combustione(delta * 2.5 \
 				/ ( alesaggio_cm * larghezza_albero_cm * Unita.cm2) )
 		
 	elif fase_attuale == ASPIRAZIONE:
