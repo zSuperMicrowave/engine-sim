@@ -37,10 +37,12 @@ var richiesta_cambio_dimensioni_buffer := false
 @export_group("Debug e Test")
 @export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI")\
 	var metodo_restringimento_buffer := 1
-@export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI","SCALA PROPORZIONALMENTE")\
+@export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI","SCALA PROPORZIONALMENTE","BLOCCA")\
 	var metodo_allargamento_buffer := 1
 @export_enum("CICLA","SCALA")\
-	var metodo_riposizionamento_buffer := 0
+	var riposiziona_restringimento_buffer := 0
+@export_enum("CICLA","SCALA")\
+	var riposiziona_allargamento_buffer := 0
 @export var grafico : Grafico2D = null
 @export var monitora_prestazioni := false
 var tempi_elaborazione := []
@@ -132,7 +134,7 @@ func _ricalcola_dimensioni_array() :
 		richiesta_cambio_dimensioni_buffer = false
 		return
 
-	var rapporto = numero_passaggi_desiderato / numero_passaggi
+	var rapporto = numero_passaggi_desiderato as float / numero_passaggi as float
 
 	if rapporto > 1.0 :
 		match metodo_allargamento_buffer :
@@ -149,6 +151,24 @@ func _ricalcola_dimensioni_array() :
 					direzione_positiva_passaggi, numero_passaggi_desiderato)
 				_scala_proporzionalmente_array(
 					direzione_negativa_passaggi, numero_passaggi_desiderato)
+			5:
+				direzione_positiva_passaggi.resize(numero_passaggi_desiderato)
+				direzione_negativa_passaggi.resize(numero_passaggi_desiderato)
+				var i = numero_passaggi
+				var val_p = direzione_positiva_passaggi[numero_passaggi-1]
+				var val_n = direzione_negativa_passaggi[numero_passaggi-1]
+				while i < numero_passaggi_desiderato:
+					direzione_positiva_passaggi[i] = val_p
+					direzione_negativa_passaggi[i] = val_n
+					i+=1
+		
+		match riposiziona_allargamento_buffer :
+			0:
+				i_buffer_negativo %= numero_passaggi_desiderato
+				i_buffer_positivo %= numero_passaggi_desiderato
+			1:
+				i_buffer_negativo *= rapporto
+				i_buffer_positivo *= rapporto
 	else :
 		match metodo_restringimento_buffer :
 			1:
@@ -159,15 +179,14 @@ func _ricalcola_dimensioni_array() :
 				_scala_array(direzione_negativa_passaggi, numero_passaggi_desiderato)
 			3:
 				_estendi_buffer(numero_passaggi_desiderato)
-
-
-	match metodo_riposizionamento_buffer :
-		0:
-			i_buffer_negativo %= numero_passaggi_desiderato
-			i_buffer_positivo %= numero_passaggi_desiderato
-		1:
-			i_buffer_negativo *= rapporto
-			i_buffer_positivo *= rapporto
+		
+		match riposiziona_restringimento_buffer :
+			0:
+				i_buffer_negativo %= numero_passaggi_desiderato
+				i_buffer_positivo %= numero_passaggi_desiderato
+			1:
+				i_buffer_negativo *= rapporto
+				i_buffer_positivo *= rapporto
 
 	numero_passaggi = numero_passaggi_desiderato
 	richiesta_cambio_dimensioni_buffer = false

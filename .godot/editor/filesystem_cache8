@@ -1,6 +1,6 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1703619970
-default_bus_layout.tres::AudioBusLayout::6635219462913053403::1703619952::0::1::::<><>::
+::res://::1703720080
+default_bus_layout.tres::AudioBusLayout::6635219462913053403::1703710916::0::1::::<><>::
 icon.svg::CompressedTexture2D::8959811788862810426::1703528917::1703528943::1::::<><>::
 ::res://0Utilità Globali/::1703528917
 ::res://0Utilità Globali/Navigatore 3D/::1703528917
@@ -8,18 +8,18 @@ Navigatore 3D.gd::GDScript::-1::1703528917::0::1::::<>CharacterBody3D<>::
 Navigatore 3D.tscn::PackedScene::4390583553890440908::1703528917::0::1::::<><>::res://0Utilità Globali/Navigatore 3D/Navigatore 3D.gd
 ::res://componenti 2d/::1703619952
 Grafico2D.gd::GDScript::-1::1703619952::0::1::::Grafico2D<>Node2D<>::
-::res://Test motore/::1703619952
+::res://Test motore/::1703707254
 Albero motore.gd::GDScript::-1::1703619952::0::1::::<>NodoFisicaAudio<>::
 BufferCircolare.gd::GDScript::-1::1703619952::0::1::::BufferCircolare<>Object<>::
 BufferCircolareNodo.gd::GDScript::-1::1703619952::0::1::::BufferCircolareNodo<>Node<>::
 BufferFisicaAudio.gd::GDScript::-1::1703619952::0::1::::BufferFisicaAudio<>AudioStreamPlayer<>::
 ComponenteEcu.gd::GDScript::-1::1703619952::0::1::::ComponenteEcu<>Resource<>::
 FiglioFisicaAudio.gd::GDScript::-1::1703619952::0::1::::NodoFisicaAudio<>Node<>::
-FisicaMotore.gd::GDScript::-1::1703619952::0::1::::FisicaMotore<>NodoFisicaAudio<>::
+FisicaMotore.gd::GDScript::-1::1703705177::0::1::::FisicaMotore<>NodoFisicaAudio<>::
 FisicaPistone.gd::GDScript::-1::1703619952::0::1::::FisicaPistone<>NodoFisicaAudio<>::
 FunzioniMotore.gd::GDScript::-1::1703619952::0::1::::<>Node<>::
 GenitoreFisicaMotore.gd::GDScript::-1::1703619952::0::1::::SincronizzatoreFisicaAudio<>Node<>::
 LettoreAudio.gd::GDScript::-1::1703619952::0::1::::<>AudioStreamPlayer<>::
 RisonanzaBufferizzataAudioPlayer2.gd::GDScript::-1::1703619952::0::1::::RisonanzaBufferizzataAudioPlayer<>AudioStreamPlayer<>::
-RisonanzaBufferizzataAudioPlayer.gd::GDScript::-1::1703619952::0::1::::RisonanzaBufferizzataAudioPlayerVecchio<>AudioStreamPlayer<>::
-test_motore.tscn::PackedScene::6881098899512482276::1703619952::0::1::::<><>::res://componenti 2d/Grafico2D.gd<>res://Test motore/GenitoreFisicaMotore.gd<>res://Test motore/FisicaMotore.gd<>uid://d0wg15sdbqbcc::::res://icon.svg<>res://Test motore/FisicaPistone.gd<>res://Test motore/RisonanzaBufferizzataAudioPlayer.gd
+RisonanzaBufferizzataAudioPlayer.gd::GDScript::-1::1703705508::0::1::::RisonanzaBufferizzataAudioPlayerVecchio<>AudioStreamPlayer<>::
+test_motore.tscn::PackedScene::6881098899512482276::1703707254::0::1::::<><>::res://componenti 2d/Grafico2D.gd<>res://Test motore/GenitoreFisicaMotore.gd<>res://Test motore/FisicaMotore.gd<>uid://d0wg15sdbqbcc
