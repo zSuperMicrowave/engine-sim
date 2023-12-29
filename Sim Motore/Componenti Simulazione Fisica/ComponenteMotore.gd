@@ -44,22 +44,40 @@ func _elabora_fisica_motore(delta: float) -> void :
 		call_deferred("_debug_lento")
 		dbg_len = 0.0
 		max_deltatime = 0.0
+		max_carb = 0.0
+		max_oss = 0.0
+		max_scar = 0.0
+		max_press = 0.0
+		max_rpm = 0.0
+		max_temp = 0.0
 	dbg_len += delta
-	if delta > max_deltatime :
-		max_deltatime = delta
+	
+	max_deltatime = max(delta,max_deltatime)
+	max_carb = max(albero_motore.pistoni[0].aria_cilindro.moli_benzina,max_carb)
+	max_oss = max(albero_motore.pistoni[0].aria_cilindro.moli_ossigeno,max_oss)
+	max_scar = max(albero_motore.pistoni[0].aria_cilindro.moli_gas_scarico,max_scar)
+	max_press = max(albero_motore.pistoni[0].aria_cilindro.pressione,max_press)
+	max_rpm = max(albero_motore.velocita_angolare / Unita.rpm, max_rpm)
+	max_temp = max(albero_motore.pistoni[0].aria_cilindro.temperatura,max_temp)
 	call_deferred("_debug",delta)
 
 var ultimo_errore_validazione_formula := 0.0
 var max_deltatime := 0.0
+var max_carb := 0.0
+var max_oss := 0.0
+var max_scar := 0.0
+var max_press := 0.0
+var max_rpm := 0.0
+var max_temp := 0.0
 
 func _debug_lento():
 	if grafici :
-		grafici.find_child("moli_carburante").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_benzina)
-		grafici.find_child("moli_ossigeno").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_ossigeno)
-		grafici.find_child("moli_scarico").invia_dato(albero_motore.pistoni[0].aria_cilindro.moli_gas_scarico)
-		grafici.find_child("pressione").invia_dato(albero_motore.pistoni[0].aria_cilindro.pressione)
-		grafici.find_child("rpm").invia_dato(albero_motore.velocita_angolare / Unita.rpm)
-		grafici.find_child("temperatura").invia_dato(albero_motore.pistoni[0].aria_cilindro.temperatura)
+		grafici.find_child("moli_carburante").invia_dato(max_carb)
+		grafici.find_child("moli_ossigeno").invia_dato(max_oss)
+		grafici.find_child("moli_scarico").invia_dato(max_scar)
+		grafici.find_child("pressione").invia_dato(max_press)
+		grafici.find_child("rpm").invia_dato(max_rpm)
+		grafici.find_child("temperatura").invia_dato(max_temp)
 		grafici.find_child("deltatime").invia_dato(max_deltatime*10-0.05)
 		if max_deltatime > 0.001 :
 			print("IL DELTA IL DELTA ANANGG: ", albero_motore.pistoni[0].fase_attuale)
@@ -105,6 +123,7 @@ func _process(delta):
 var pressione_precedente = 0.0
 
 func calcola_audio(delta : float):
+	if audio == null : return
 	var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica)
 	pressione = pressione * 0.00001
 	var segnale_audio = pressione - pressione_precedente\
