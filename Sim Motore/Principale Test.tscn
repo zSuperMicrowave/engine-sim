@@ -115,7 +115,6 @@ script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
 frequenza_aggiornamento_hz = 6000
 rallentamento_slow_motion = 0.5
-delta_fisso = true
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
 script = ExtResource("2_3x6jl")

@@ -30,7 +30,7 @@ func _elabora():
 
 		# ELABORA
 		for motore in motori:
-			motore._elabora_fisica_motore(delta)
+			motore._elabora_rapido(delta)
 
 		# CALCOLA DELTA
 		if delta_fisso :
@@ -44,3 +44,14 @@ func _elabora():
 
 		while durata_frame_fisico_usec > Time.get_ticks_usec() - tempo_inizio + COMPENSAZIONE_USEC_CICLO_WHILE:
 			continue
+
+
+func _elabora_lento(delta : float):
+	if Input.is_action_pressed("rallenta_fisica") :
+			delta *= rallentamento_slow_motion
+	
+	for motore in motori:
+		motore._elabora_lento(delta)
+
+func _physics_process(delta):
+	_elabora_lento(delta)

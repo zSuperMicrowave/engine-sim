@@ -31,15 +31,33 @@ class_name ComponenteMotore
 var dbg_len := 0.0
 var elab_ecu := 0.0
 
-func _elabora_fisica_motore(delta: float) -> void :
+func _elabora_rapido(delta: float) -> void :
 	albero_motore.elabora(self, delta)
-	
-	ecu.elabora(self,delta)
 	
 	calcola_audio(delta)
 
 	contatore += 1
 
+	call_deferred("_debug",delta)
+	
+
+
+func _elabora_lento(delta : float) :
+	ecu.elabora(self,delta)
+	
+
+
+var ultimo_errore_validazione_formula := 0.0
+var max_deltatime := 0.0
+var max_carb := 0.0
+var max_oss := 0.0
+var max_scar := 0.0
+var max_press := 0.0
+var max_rpm := 0.0
+var max_temp := 0.0
+
+
+func _debug(delta : float):
 	if dbg_len >=  1.0 / velocita_debug_lento_hz:
 		call_deferred("_debug_lento")
 		dbg_len = 0.0
@@ -59,16 +77,7 @@ func _elabora_fisica_motore(delta: float) -> void :
 	max_press = max(albero_motore.pistoni[0].aria_cilindro.pressione,max_press)
 	max_rpm = max(albero_motore.velocita_angolare / Unita.rpm, max_rpm)
 	max_temp = max(albero_motore.pistoni[0].aria_cilindro.temperatura,max_temp)
-	call_deferred("_debug",delta)
 
-var ultimo_errore_validazione_formula := 0.0
-var max_deltatime := 0.0
-var max_carb := 0.0
-var max_oss := 0.0
-var max_scar := 0.0
-var max_press := 0.0
-var max_rpm := 0.0
-var max_temp := 0.0
 
 func _debug_lento():
 	if grafici :
@@ -106,8 +115,6 @@ func _debug_lento():
 				albero_motore.pistoni[i].fase_attuale,
 				albero_motore.pistoni[i].rotazione)
 
-func _debug(delta : float):
-	pass
 
 var test := 0.0
 var contatore := 0
