@@ -67,9 +67,12 @@ raggio = 0.2
 massa = 3.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
+offsets = PackedFloat32Array(0, 0.0359477, 0.686275, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.0546063, 0.0546063, 0.0546063, 1, 0.395425, 0.395425, 0.395425, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
+fill_from = Vector2(0.111111, 0)
 fill_to = Vector2(1, 0.123932)
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
@@ -140,14 +143,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.335006, 0, -0.738507)
 
 [node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone2"]
 script = ExtResource("10_5yp7l")
-numero_passaggi_desiderato = 160
-passaggi_raggio_tubo = 160.0
-quantita_riverbero = 0
-raggio_riverbero = 0.251
-moltiplicatore_energia_rimbalzo = 1.0
-ovattamento_suono = 0.0
-attenuazione_suono = 15.0
 moltiplicatore_input_output = 0.73
+numero_passaggi_desiderato = 160
+moltiplicatore_energia_rimbalzo = 1.0
+attenuazione_suono = 15.0
+ovattamento_suono = 0.0
+metodo_allargamento_buffer = 4
+riposiziona_allargamento_buffer = 1
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
