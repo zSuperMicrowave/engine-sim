@@ -1,5 +1,8 @@
 res://default_bus_layout.tres
 res://Test motore/test_motore.tscn
-res://Sistema audio/RiproduttoreAudio.gd
+res://0Utilità Globali/BufferCircolare.gd
+res://0Utilità Globali/BufferCircolareIntInfinito.gd
 res://Sistema audio/CampionatorePistone.gd
+res://Sistema audio/BufferLetturaAudio.gd
+res://Sistema audio/RiproduttoreAudio.gd
 res://Sistema audio/ComponenteAudio.gd

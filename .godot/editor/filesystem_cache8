@@ -1,30 +1,30 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1703783121
-default_bus_layout.tres::AudioBusLayout::6635219462913053403::1703783120::0::1::::<><>::
-icon.svg::CompressedTexture2D::8959811788862810426::1703528917::1703528943::1::::<><>::
-::res://0Utilità Globali/::1703777411
-BufferCircolare.gd::GDScript::-1::1703777411::0::1::::BufferCircolare<>Object<>::
+::res://::1704037039
+default_bus_layout.tres::AudioBusLayout::6635219462913053403::1704037039::0::1::::<><>::
+icon.svg::CompressedTexture2D::8959811788862810426::1703528917::1703891947::1::::<><>::
+::res://0Utilità Globali/::1704038059
+BufferCircolare.gd::GDScript::-1::1704038059::0::1::::BufferCircolare<>Object<>::
 ::res://0Utilità Globali/Navigatore 3D/::1703528917
 Navigatore 3D.gd::GDScript::-1::1703528917::0::1::::<>CharacterBody3D<>::
 Navigatore 3D.tscn::PackedScene::4390583553890440908::1703528917::0::1::::<><>::res://0Utilità Globali/Navigatore 3D/Navigatore 3D.gd
-::res://componenti 2d/::1703619952
-Grafico2D.gd::GDScript::-1::1703619952::0::1::::Grafico2D<>Node2D<>::
-::res://Sistema audio/::1703783328
-CampionatorePistone.gd::GDScript::-1::1703783074::0::1::::CampionatorePistone<>ComponenteAudio<>res://Sistema audio/CampionatorePistone.gd.png::
-CampionatorePistone.gd.png::CompressedTexture2D::4323181854884573051::1703783327::1703783329::1::::<><>::
-ComponenteAudio.gd::GDScript::-1::1703781636::0::1::::ComponenteAudio<>Node<>::
-::res://Sistema audio/AutoLoad/::1703775254
-InfoAudio.gd::GDScript::-1::1703775254::0::1::::<>Node<>::
-::res://Test motore/::1703783123
-Albero motore.gd::GDScript::-1::1703619952::0::1::::<>NodoFisicaAudio<>::
-BufferCircolareNodo.gd::GDScript::-1::1703619952::0::1::::BufferCircolareNodo<>Node<>::
-BufferFisicaAudio.gd::GDScript::-1::1703619952::0::1::::BufferFisicaAudio<>AudioStreamPlayer<>::
-FiglioFisicaAudio.gd::GDScript::-1::1703619952::0::1::::NodoFisicaAudio<>Node<>::
-FisicaMotore.gd::GDScript::-1::1703783063::0::1::::FisicaMotore<>NodoFisicaAudio<>::
-FisicaPistone.gd::GDScript::-1::1703619952::0::1::::FisicaPistone<>NodoFisicaAudio<>::
-FunzioniMotore.gd::GDScript::-1::1703619952::0::1::::<>Node<>::
-GenitoreFisicaMotore.gd::GDScript::-1::1703619952::0::1::::SincronizzatoreFisicaAudio<>Node<>::
-LettoreAudio.gd::GDScript::-1::1703619952::0::1::::<>AudioStreamPlayer<>::
-RisonanzaBufferizzataAudioPlayer2.gd::GDScript::-1::1703619952::0::1::::RisonanzaBufferizzataAudioPlayer<>AudioStreamPlayer<>::
-RisonanzaBufferizzataAudioPlayer.gd::GDScript::-1::1703728188::0::1::::RisonanzaBufferizzataAudioPlayerVecchio<>AudioStreamPlayer<>::
-test_motore.tscn::PackedScene::6881098899512482276::1703783123::0::1::::<><>::res://componenti 2d/Grafico2D.gd<>res://Test motore/GenitoreFisicaMotore.gd<>res://Test motore/FisicaMotore.gd<>uid://d0wg15sdbqbcc::::res://icon.svg<>res://Test motore/FisicaPistone.gd<>res://Test motore/RisonanzaBufferizzataAudioPlayer.gd
+::res://componenti 2d/::1703954467
+Grafico2D.gd::GDScript::-1::1703954467::0::1::::Grafico2D<>Node2D<>::
+::res://Sistema audio/::1704033392
+CampionatorePistone.gd::GDScript::-1::1704033392::0::1::::CampionatorePistone<>ComponenteAudio<>res://Sistema audio/CampionatorePistone.gd.png::
+CampionatorePistone.gd.png::CompressedTexture2D::4323181854884573051::1703954467::1703954467::1::::<><>::
+RiproduttoreAudio.gd::GDScript::-1::1703954467::0::1::::RiproduttoreAudio<>AudioStreamPlayer<>::
+::res://Sistema audio/AutoLoad/::1703954467
+InfoAudio.gd::GDScript::-1::1703954467::0::1::::<>Node<>::
+::res://Test motore/::1704039381
+Albero motore.gd::GDScript::-1::1703954467::0::1::::<>NodoFisicaAudio<>::
+BufferCircolareNodo.gd::GDScript::-1::1703954467::0::1::::BufferCircolareNodo<>Node<>::
+BufferFisicaAudio.gd::GDScript::-1::1703954467::0::1::::BufferFisicaAudio<>AudioStreamPlayer<>::
+FiglioFisicaAudio.gd::GDScript::-1::1703954467::0::1::::NodoFisicaAudio<>Node<>::
+FisicaMotore.gd::GDScript::-1::1703954467::0::1::::FisicaMotore<>NodoFisicaAudio<>::
+FisicaPistone.gd::GDScript::-1::1703954467::0::1::::FisicaPistone<>NodoFisicaAudio<>::
+FunzioniMotore.gd::GDScript::-1::1703954467::0::1::::<>Node<>::
+GenitoreFisicaMotore.gd::GDScript::-1::1703954467::0::1::::SincronizzatoreFisicaAudio<>Node<>::
+LettoreAudio.gd::GDScript::-1::1703954467::0::1::::<>AudioStreamPlayer<>::
+RisonanzaBufferizzataAudioPlayer2.gd::GDScript::-1::1703954467::0::1::::RisonanzaBufferizzataAudioPlayer<>AudioStreamPlayer<>::
+RisonanzaBufferizzataAudioPlayer.gd::GDScript::-1::1703954467::0::1::::RisonanzaBufferizzataAudioPlayerVecchio<>AudioStreamPlayer<>::
+test_motore.tscn::PackedScene::6881098899512482276::1704039381::0::1::::<><>::res://componenti 2d/Grafico2D.gd<>res://Test motore/GenitoreFisicaMotore.gd<>res://Test motore/FisicaMotore.gd<>uid://d0wg15sdbqbcc::::res://icon.svg<>res://Test motore/FisicaPistone.gd<>res://Sistema audio/CampionatorePistone.gd<>res://Sistema audio/RiproduttoreAudio.gd

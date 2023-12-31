@@ -8,25 +8,35 @@ class_name CampionatorePistone
 
 @export_group("Dettagli campionamento")
 @export_subgroup("Pressione")
-@export_range(0.001,1.0) var moltiplicatore_pressione : float
-@export_range(1.0,3.0) var esponenzialita_pressione : float
-@export_range(0.0,1.0) var rumorosita_pressione : float
+@export_range(0.001,1.0) var moltiplicatore_pressione : float = 1.0
+@export_range(1.0,3.0) var esponenzialita_pressione : float = 1.0
+@export_range(0.0,1.0) var rumorosita_pressione : float = 0.0
 @export_subgroup("Temperatura")
-@export_range(0.0,1.0) var moltiplicatore_temperatura : float
-@export_range(1.0,3.0) var esponenzialita_temperatura : float
-@export_range(0.0,1.0) var rumorosita_temperatura : float
+@export_range(0.0,1.0) var moltiplicatore_temperatura : float = 0.0
+@export_range(1.0,3.0) var esponenzialita_temperatura : float = 1.0
+@export_range(0.0,1.0) var rumorosita_temperatura : float = 0.0
+
 @export_group("Dettagli riverbero")
 @export_range(0.0,1.0) var contributo_riverbero_pressione : float
-
 var lunghezza_riverbero_attuale : float = 0.0
+
+@export_group("Buffer")
+@export var lunghezza_buffer : int = 11025
+# Quanto il puntatore scrittura del buffer partirà in avanti relativamnete alla
+# lunghezza totale del buffer. Serve per evitare aggiornamenti di valori del
+# buffer che stanno per esser letti.
+@export_range(0.0, 1.0) var avanzamento_puntatore_scrittura : float = 0.1
+
+var buffer : BufferLetturaAudio = null
 
 
 func _enter_tree():
-	crea_buffer_interno()
+	buffer = BufferLetturaAudio.new(lunghezza_buffer,avanzamento_puntatore_scrittura)
 
 
-func ottieni_campione(_id : float = 0.0) -> float:
-	return leggi_buffer_interno(0)
+func ottieni_campione() -> float:
+	return buffer.leggi()
+
 
 func ottieni_riverbero() -> float:
 	return lunghezza_riverbero_attuale
@@ -37,7 +47,7 @@ func invia_campione(val_p: float, val_t : float, delta : float):
 	val_p = pow(val_p,esponenzialita_pressione)
 	val_p = lerp(val_p, val_p * (randf()*2-1), rumorosita_pressione)
 	
-	val_t *= moltiplicatore_temperatura * 0.1
+	val_t *= moltiplicatore_temperatura * 0.01
 	val_t = pow(val_t,esponenzialita_temperatura)
 	val_t = lerp(val_t, val_t * (randf()*2-1), rumorosita_temperatura)
 	
@@ -88,6 +98,6 @@ func _popola_buffer(val : float, delta : float):
 	for i in range(numero_iterazioni):
 		var n = lerp(ultimo_valore_buffer, val, i as float / numero_iterazioni)
 		
-		scrivi_buffer_interno(0, n)
+		buffer.scrivi(n)
 	
 	ultimo_valore_buffer = val

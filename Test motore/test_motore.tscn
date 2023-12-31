@@ -93,8 +93,14 @@ texture = ExtResource("4_dy4fy")
 
 [node name="CampionatorePistone" type="Node" parent="GenitoreFisicaMotore"]
 script = ExtResource("7_eo2yw")
-moltiplicatore_pressione = 1.0
-ritardo_sec = 0.054
+moltiplicatore_pressione = 0.653
+esponenzialita_pressione = 1.497
+rumorosita_pressione = 0.145
+moltiplicatore_temperatura = 0.01
+esponenzialita_temperatura = 1.839
+rumorosita_temperatura = 1.0
+lunghezza_buffer = 3000
+avanzamento_puntatore_scrittura = 0.5
 
 [node name="RiproduttoreAudio" type="AudioStreamPlayer" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("componente_audio_precedente")]
 script = ExtResource("8_3qg30")
