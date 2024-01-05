@@ -1,3 +1,4 @@
+Node
 RiproduttoreAudio
 CampionatorePistone
 Marker3D
@@ -6,7 +7,6 @@ Node2D
 TextureRect
 RisonanzaBufferizzataVecchio3D
 RisonanzaBufferizzataAudioPlayer
-Node
 GraphNode
 CSGCylinder3D
 Label3D

@@ -58,8 +58,8 @@ func imposta_riverbero(volume : float, pressione : float):
 	volume = volume * 86800
 	pressione = pressione * 0.000001 * contributo_riverbero_pressione
 	
-	if volume < 1.0 : volume = 1.0
-	if pressione < 1.0 : pressione = 1.0
+	volume = max(1.0, volume)
+	pressione = max(1.0, pressione)
 	
 	lunghezza_riverbero_attuale = volume/pressione
 
