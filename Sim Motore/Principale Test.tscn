@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=32 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -51,22 +51,43 @@ script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
 larghezza_albero_cm = 4.2
 lunghezza_biella_cm = 5.5
-volume_extra_cm = 0.5
+volume_extra_cm = 0.2
+alesaggio_cm = 4.5
+portata_entrata_aria = 2.0
+portata_uscita_aria = 4.0
+
+[sub_resource type="Resource" id="Resource_b5ad3"]
+script = ExtResource("4_kmdvj")
+offset_rotazione = 4.18
+larghezza_albero_cm = 4.2
+lunghezza_biella_cm = 5.5
+volume_extra_cm = 0.2
+alesaggio_cm = 4.5
+portata_entrata_aria = 2.0
+portata_uscita_aria = 4.0
+
+[sub_resource type="Resource" id="Resource_506ty"]
+script = ExtResource("4_kmdvj")
+offset_rotazione = 8.36
+larghezza_albero_cm = 4.2
+lunghezza_biella_cm = 5.5
+volume_extra_cm = 0.2
 alesaggio_cm = 4.5
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
-pistoni = Array[ExtResource("4_kmdvj")]([SubResource("Resource_rl3lg")])
+pistoni = Array[ExtResource("4_kmdvj")]([SubResource("Resource_rl3lg"), SubResource("Resource_b5ad3"), SubResource("Resource_506ty")])
 motorino_avviamento = SubResource("Resource_phdcm")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.2
-massa = 3.0
+raggio = 0.3
+massa = 4.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
+offsets = PackedFloat32Array(0.0663812, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
@@ -114,7 +135,7 @@ light_energy = 2.38
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
 frequenza_aggiornamento_hz = 6000
-rallentamento_slow_motion = 0.5
+rallentamento_slow_motion = 0.1
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
 script = ExtResource("2_3x6jl")
@@ -122,10 +143,10 @@ coefficiente_attrito_meccanico_totale = 0.1
 albero_motore = SubResource("Resource_dymms")
 volano = SubResource("Resource_44qqs")
 ecu = SubResource("Resource_8fclr")
-velocita_debug_lento_hz = 50
+velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
-pistoni_debug = [NodePath("../Pistone2")]
-audio = NodePath("../Pistone2/RisonanzaBufferizzataVecchio3D")
+pistoni_debug = [NodePath("../Pistone2"), NodePath("../Pistone3"), NodePath("../Pistone4")]
+audio = [NodePath("../Pistone2/RisonanzaBufferizzataVecchio3D"), NodePath("../Pistone3/RisonanzaBufferizzataVecchio3D"), NodePath("../Pistone4/RisonanzaBufferizzataVecchio3D")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
 compensazione_lentezza_simulazione = 1.1
@@ -135,8 +156,36 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
 
 [node name="Navigatore 3D" parent="." instance=ExtResource("1_iwx1u")]
 
+[node name="Pistone4" parent="." instance=ExtResource("2_0andf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.515625, 0, -1.47701)
+
+[node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone4"]
+script = ExtResource("10_5yp7l")
+numero_passaggi_desiderato = 160
+passaggi_raggio_tubo = 160.0
+quantita_riverbero = 0
+raggio_riverbero = 0.251
+moltiplicatore_energia_rimbalzo = 1.0
+ovattamento_suono = 0.0
+attenuazione_suono = 70.0
+moltiplicatore_input_output = 0.73
+
+[node name="Pistone3" parent="." instance=ExtResource("2_0andf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.670012, 0, -1.47701)
+
+[node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone3"]
+script = ExtResource("10_5yp7l")
+numero_passaggi_desiderato = 160
+passaggi_raggio_tubo = 160.0
+quantita_riverbero = 0
+raggio_riverbero = 0.251
+moltiplicatore_energia_rimbalzo = 1.0
+ovattamento_suono = 0.0
+attenuazione_suono = 70.0
+moltiplicatore_input_output = 0.73
+
 [node name="Pistone2" parent="." instance=ExtResource("2_0andf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.335006, 0, -0.738507)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.789139, 0, -1.50657)
 
 [node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone2"]
 script = ExtResource("10_5yp7l")
@@ -146,7 +195,7 @@ quantita_riverbero = 0
 raggio_riverbero = 0.251
 moltiplicatore_energia_rimbalzo = 1.0
 ovattamento_suono = 0.0
-attenuazione_suono = 15.0
+attenuazione_suono = 70.0
 moltiplicatore_input_output = 0.73
 
 [node name="UI" type="Control" parent="."]

@@ -20,7 +20,7 @@ class_name ComponenteMotore
 @export var velocita_debug_lento_hz := 5
 @export var griglia_parametri : GrigliaDebugParametri
 @export var pistoni_debug : Array[DebugPistone]
-@export var audio : RisonanzaBufferizzataVecchio3D
+@export var audio : Array[Node3D]
 @export var speedometer : Speedometer
 @export var grafici : Node2D
 
@@ -131,13 +131,15 @@ var pressione_precedente = 0.0
 
 func calcola_audio(delta : float):
 	if audio == null : return
-	var pressione = (albero_motore.pistoni[0].aria_cilindro.pressione - pressione_atmosferica)
-	pressione = pressione * 0.00001
-	var segnale_audio = pressione - pressione_precedente\
-		+ albero_motore.pistoni[0].aria_cilindro.volume * 20.0
-	pressione_precedente = pressione
+	
+	for i in range(albero_motore.pistoni.size()) :
+		var pressione = (albero_motore.pistoni[i].aria_cilindro.pressione - pressione_atmosferica)
+		pressione = pressione * 0.00001
+		var segnale_audio = pressione - pressione_precedente\
+			+ albero_motore.pistoni[i].aria_cilindro.volume * 20.0
+		pressione_precedente = pressione
 
-	var volume = 86000 * albero_motore.pistoni[0].aria_cilindro.volume * (1.0 + albero_motore.pistoni[0].aria_cilindro.pressione * 0.00001)
+		var volume = 86000 * albero_motore.pistoni[i].aria_cilindro.volume * (1.0 + albero_motore.pistoni[i].aria_cilindro.pressione * 0.00001)
 
-	audio.aggiungi_campione_fisico(segnale_audio, delta * compensazione_lentezza_simulazione)
-	audio.numero_passaggi_desiderato = volume
+		audio[i].aggiungi_campione_fisico(segnale_audio, delta * compensazione_lentezza_simulazione)
+		audio[i].numero_passaggi_desiderato = volume
