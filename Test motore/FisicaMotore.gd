@@ -32,9 +32,6 @@ var rotazione := 0.0 # radianti
 #Grafici e cazzi
 @export var grafico : Grafico2D
 @export var grafico_pressione : Grafico2D
-@export var buffer_audio : BufferFisicaAudio
-@export var buffer_risonanza : RisonanzaBufferizzataAudioPlayer
-@export var buffer_risonanza_vecchio : RisonanzaBufferizzataAudioPlayerVecchio
 @export var campionatore_pistone : CampionatorePistone
 
 
@@ -93,18 +90,6 @@ func _calcola_audio(delta : float):
 	
 	grafico_pressione.invia_dato(pistoni[0].numero_moli)
 	
-	if buffer_audio :
-		buffer_audio.call_deferred("aggiungi_campione_fisico",(pressione_totale * 0.0000001) ,delta)
-	if buffer_risonanza :
-		buffer_risonanza.aggiungi_campione_fisico(
-			(pressione_totale * 0.0000001)\
-			+ pistoni[0].volume_cilindro * 100,delta)
-		buffer_risonanza.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro
-	if buffer_risonanza_vecchio :
-		buffer_risonanza_vecchio.aggiungi_campione_fisico(
-			pow(pressione_totale * 0.0000002,2),delta)
-		buffer_risonanza_vecchio.numero_passaggi_desiderato = 86800 * pistoni[0].volume_cilindro / (1.0 + pressione_totale * 0.000001)
-		#buffer_risonanza_vecchio.numero_passaggi_desiderato = 88 + 80 * sin(ssss)
 	if campionatore_pistone :
 		campionatore_pistone.invia_campione(pistoni[0].pressione_cilindro, pistoni[0].temperatura_cilindro, delta)
 		campionatore_pistone.imposta_riverbero_retrocompatibile(pistoni[0].volume_cilindro, pistoni[0].pressione_cilindro)

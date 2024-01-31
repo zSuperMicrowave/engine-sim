@@ -4,3 +4,10 @@ res://Sistema audio/TuboAudio.gd
 res://Test motore/RisonanzaBufferizzataAudioPlayer.gd
 res://Sistema audio/ComponenteAudio.gd
 res://Sistema audio/MollaAudio.gd
+res://Test motore/BufferFisicaAudio.gd
+res://Test motore/FisicaMotore.gd
+res://Test motore/BufferCircolareNodo.gd
+res://Test motore/GenitoreFisicaMotore.gd
+res://Test motore/LettoreAudio.gd
+res://Test motore/RisonanzaBufferizzataAudioPlayer2.gd
+res://0Utilità Globali/BufferCircolare.gd
