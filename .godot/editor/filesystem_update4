@@ -2,3 +2,5 @@ res://default_bus_layout.tres
 res://Test motore/test_motore.tscn
 res://Sistema audio/TuboAudio.gd
 res://Test motore/RisonanzaBufferizzataAudioPlayer.gd
+res://Sistema audio/ComponenteAudio.gd
+res://Sistema audio/MollaAudio.gd

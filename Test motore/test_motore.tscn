@@ -105,19 +105,20 @@ contributo_riverbero_pressione = 0.397
 lunghezza_buffer = 3000
 avanzamento_puntatore_scrittura = 0.5
 
-[node name="MollaAudio" type="Node" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("campionatore")]
+[node name="MollaAudio" type="Node" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("7_wo4qm")
-campionatore = NodePath("..")
+componente_precedente = NodePath("..")
 moltiplicatore_durezza = 700
 attrito = 0.931
 
-[node name="TuboAudio" type="Node" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("campionatore")]
+[node name="TuboAudio" type="Node" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("8_rqtgx")
-campionatore = NodePath("..")
+moltiplicatore_input_output = 0.25
+componente_precedente = NodePath("../MollaAudio")
 dimensione_coda = 275
-coda_modulata = true
 attenuazione_suono = 15.0
 ovattamento_suono = 0.0
+silenzia_errori = true
 metodo_allargamento_buffer = 4
 riposiziona_allargamento_buffer = 1
 

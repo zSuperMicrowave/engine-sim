@@ -9,7 +9,7 @@ var i_buffer_negativo := 0
 @export_range(0.01,2.0) var moltiplicatore_input_output := 1.0
 
 @export_category("ComponenteAudio")
-@export var campionatore : CampionatorePistone
+@export var componente_precedente : ComponenteAudio
 
 @export_group("Impostazioni Tubo")
 
@@ -27,6 +27,7 @@ var i_buffer_negativo := 0
 @export var campioni_ovattamento_massimi := 30
 
 @export_group("Debug e Test")
+@export var silenzia_errori := false
 @export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI")\
 	var metodo_restringimento_buffer := 1
 @export_enum("NON FARE NULLA","TRONCA","SCALA","ESTENDI","SCALA PROPORZIONALMENTE","BLOCCA")\
@@ -53,7 +54,7 @@ func ottieni_campione() -> float:
 
 
 	var input : float =\
-		campionatore.ottieni_campione() * moltiplicatore_input_output
+		componente_precedente.ottieni_campione() * moltiplicatore_input_output
 
 	# AGGIORNA POSIZIONI DEI PUNTATORI
 	
@@ -133,7 +134,8 @@ func _scala_proporzionalmente_array(array:Array, nuova_dimensione:int) -> void:
 	if array.size() == nuova_dimensione :
 		return
 	if array.size() > nuova_dimensione :
-		printerr("Non si può scalare proporzionalmente a diminuire")
+		if !silenzia_errori :
+			printerr("Non si può scalare proporzionalmente a diminuire")
 		_scala_array(array,nuova_dimensione)
 		return
 
@@ -181,12 +183,13 @@ func _scala_array(array:Array, nuova_dimensione:int) -> void:
 
 func _aggiorna_dimensione_coda():
 	# Se non ci sono differenze nella coda, concludi la chiamata
-	if campionatore.ottieni_riverbero() as int == dimensione_coda : return
+	if componente_precedente.ottieni_riverbero() as int == dimensione_coda : return
 
-	var dimensione_coda_desiderata := campionatore.ottieni_riverbero() as int
-	if dimensione_coda_desiderata < 2 :
+	var dimensione_coda_desiderata := componente_precedente.ottieni_riverbero() as int
+	if dimensione_coda_desiderata < 1 :
 		dimensione_coda_desiderata = 200
-		printerr("Richiesta dimensione coda minore di zero")
+		if !silenzia_errori:
+			printerr("Richiesta dimensione coda minore di uno")
 	var rapporto = dimensione_coda_desiderata as float / dimensione_coda as float
 
 	if rapporto > 1.0 :
