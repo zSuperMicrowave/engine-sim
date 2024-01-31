@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c5bixtywib6t1"]
+[gd_scene load_steps=11 format=3 uid="uid://c5bixtywib6t1"]
 
 [ext_resource type="Script" path="res://componenti 2d/Grafico2D.gd" id="1_x3gyf"]
 [ext_resource type="Script" path="res://Test motore/GenitoreFisicaMotore.gd" id="2_fx5w0"]
@@ -6,8 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://d0wg15sdbqbcc" path="res://icon.svg" id="4_dy4fy"]
 [ext_resource type="Script" path="res://Test motore/FisicaPistone.gd" id="5_8c6lp"]
 [ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="7_eo2yw"]
-[ext_resource type="Script" path="res://Test motore/MollaAudio.gd" id="7_euxsv"]
+[ext_resource type="Script" path="res://Sistema audio/MollaAudio.gd" id="7_wo4qm"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio.gd" id="8_3qg30"]
+[ext_resource type="Script" path="res://Sistema audio/TuboAudio.gd" id="8_rqtgx"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0adbo"]
 blend_mode = 3
@@ -105,11 +106,21 @@ lunghezza_buffer = 3000
 avanzamento_puntatore_scrittura = 0.5
 
 [node name="MollaAudio" type="Node" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("campionatore")]
-script = ExtResource("7_euxsv")
+script = ExtResource("7_wo4qm")
 campionatore = NodePath("..")
 moltiplicatore_durezza = 700
 attrito = 0.931
 
+[node name="TuboAudio" type="Node" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("campionatore")]
+script = ExtResource("8_rqtgx")
+campionatore = NodePath("..")
+dimensione_coda = 275
+coda_modulata = true
+attenuazione_suono = 15.0
+ovattamento_suono = 0.0
+metodo_allargamento_buffer = 4
+riposiziona_allargamento_buffer = 1
+
 [node name="RiproduttoreAudio" type="AudioStreamPlayer" parent="GenitoreFisicaMotore/CampionatorePistone" node_paths=PackedStringArray("componente_audio_precedente")]
 script = ExtResource("8_3qg30")
-componente_audio_precedente = NodePath("../MollaAudio")
+componente_audio_precedente = NodePath("../TuboAudio")

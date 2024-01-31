@@ -1,4 +1,4 @@
 res://default_bus_layout.tres
 res://Test motore/test_motore.tscn
-res://Test motore/MollaAudio.gd
-res://Sistema audio/CampionatorePistone.gd
+res://Sistema audio/TuboAudio.gd
+res://Test motore/RisonanzaBufferizzataAudioPlayer.gd
