@@ -49,30 +49,30 @@ coppia_nm = 72600.0
 [sub_resource type="Resource" id="Resource_rl3lg"]
 script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
-larghezza_albero_cm = 4.2
-lunghezza_biella_cm = 5.5
+larghezza_albero_cm = 9.35
+lunghezza_biella_cm = 10.0
 volume_extra_cm = 0.2
-alesaggio_cm = 4.5
+alesaggio_cm = 9.5
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_b5ad3"]
 script = ExtResource("4_kmdvj")
 offset_rotazione = 4.18
-larghezza_albero_cm = 4.2
-lunghezza_biella_cm = 5.5
+larghezza_albero_cm = 9.35
+lunghezza_biella_cm = 10.0
 volume_extra_cm = 0.2
-alesaggio_cm = 4.5
+alesaggio_cm = 9.5
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_506ty"]
 script = ExtResource("4_kmdvj")
 offset_rotazione = 8.36
-larghezza_albero_cm = 4.2
-lunghezza_biella_cm = 5.5
+larghezza_albero_cm = 9.35
+lunghezza_biella_cm = 10.0
 volume_extra_cm = 0.2
-alesaggio_cm = 4.5
+alesaggio_cm = 9.5
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
@@ -87,7 +87,7 @@ raggio = 0.3
 massa = 4.0
 
 [sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.0663812, 1)
+offsets = PackedFloat32Array(0.0968586, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
 gradient = SubResource("Gradient_6tv1b")
@@ -134,7 +134,7 @@ light_energy = 2.38
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
-frequenza_aggiornamento_hz = 6000
+frequenza_aggiornamento_hz = 10000
 rallentamento_slow_motion = 0.1
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
@@ -165,10 +165,9 @@ numero_passaggi_desiderato = 160
 passaggi_raggio_tubo = 160.0
 quantita_riverbero = 0
 raggio_riverbero = 0.251
-moltiplicatore_energia_rimbalzo = 1.0
 ovattamento_suono = 0.0
-attenuazione_suono = 70.0
-moltiplicatore_input_output = 0.73
+attenuazione_suono = 160.0
+moltiplicatore_input_output = 0.31
 
 [node name="Pistone3" parent="." instance=ExtResource("2_0andf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.670012, 0, -1.47701)
@@ -179,10 +178,9 @@ numero_passaggi_desiderato = 160
 passaggi_raggio_tubo = 160.0
 quantita_riverbero = 0
 raggio_riverbero = 0.251
-moltiplicatore_energia_rimbalzo = 1.0
 ovattamento_suono = 0.0
-attenuazione_suono = 70.0
-moltiplicatore_input_output = 0.73
+attenuazione_suono = 160.0
+moltiplicatore_input_output = 0.31
 
 [node name="Pistone2" parent="." instance=ExtResource("2_0andf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.789139, 0, -1.50657)
@@ -193,10 +191,9 @@ numero_passaggi_desiderato = 160
 passaggi_raggio_tubo = 160.0
 quantita_riverbero = 0
 raggio_riverbero = 0.251
-moltiplicatore_energia_rimbalzo = 1.0
 ovattamento_suono = 0.0
-attenuazione_suono = 70.0
-moltiplicatore_input_output = 0.73
+attenuazione_suono = 160.0
+moltiplicatore_input_output = 0.31
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

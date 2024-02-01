@@ -139,7 +139,7 @@ func calcola_audio(delta : float):
 			+ albero_motore.pistoni[i].aria_cilindro.volume * 20.0
 		pressione_precedente = pressione
 
-		var volume = 86000 * albero_motore.pistoni[i].aria_cilindro.volume * (1.0 + albero_motore.pistoni[i].aria_cilindro.pressione * 0.00001)
+		var volume = 86000 * albero_motore.pistoni[i].aria_cilindro.volume * (1.0 + albero_motore.pistoni[i].aria_cilindro.pressione * 0.000002)
 
 		audio[i].aggiungi_campione_fisico(segnale_audio, delta * compensazione_lentezza_simulazione)
 		audio[i].numero_passaggi_desiderato = volume
