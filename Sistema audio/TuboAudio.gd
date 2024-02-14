@@ -38,7 +38,10 @@ var i_buffer_negativo := 0
 	var riposiziona_allargamento_buffer := 0
 
 
-func _ready():
+func _process(delta):
+	print(direzione_positiva_passaggi.size())
+
+func _enter_tree():
 	direzione_positiva_passaggi.resize(dimensione_coda)
 	direzione_negativa_passaggi.resize(dimensione_coda)
 

@@ -20,7 +20,7 @@ class_name ComponenteMotore
 @export var velocita_debug_lento_hz := 5
 @export var griglia_parametri : GrigliaDebugParametri
 @export var pistoni_debug : Array[DebugPistone]
-@export var audio : Array[Node3D]
+@export var audio : Array[CampionatorePistone]
 @export var speedometer : Speedometer
 @export var grafici : Node2D
 
@@ -129,17 +129,15 @@ func _process(delta):
 
 var pressione_precedente = 0.0
 
+
 func calcola_audio(delta : float):
 	if audio == null : return
 	
-	for i in range(albero_motore.pistoni.size()) :
-		var pressione = (albero_motore.pistoni[i].aria_cilindro.pressione - pressione_atmosferica)
-		pressione = pressione * 0.00001
-		var segnale_audio = pressione - pressione_precedente\
-			+ albero_motore.pistoni[i].aria_cilindro.volume * 20.0
-		pressione_precedente = pressione
-
-		var volume = 86000 * albero_motore.pistoni[i].aria_cilindro.volume * (1.0 + albero_motore.pistoni[i].aria_cilindro.pressione * 0.000002)
-
-		audio[i].aggiungi_campione_fisico(segnale_audio, delta * compensazione_lentezza_simulazione)
-		audio[i].numero_passaggi_desiderato = volume
+	var range : int = min(albero_motore.pistoni.size(), audio.size())
+	
+	for i in range(range) :
+		var pressione = albero_motore.pistoni[i].aria_cilindro.pressione - pressione_atmosferica
+		var temperatura = albero_motore.pistoni[i].aria_cilindro.temperatura
+		var volume = albero_motore.pistoni[i].aria_cilindro.volume
+		audio[i].invia_campione(pressione, temperatura, delta)
+		audio[i].imposta_riverbero(volume, pressione)

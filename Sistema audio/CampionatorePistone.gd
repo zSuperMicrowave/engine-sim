@@ -18,7 +18,7 @@ class_name CampionatorePistone
 
 @export_group("Dettagli riverbero")
 @export_range(0.0,1.0) var contributo_riverbero_pressione : float
-var lunghezza_riverbero_attuale : float = 0.0
+var lunghezza_riverbero_attuale : float = 1.0
 
 @export_group("Buffer")
 @export var lunghezza_buffer : int = 11025
@@ -64,10 +64,10 @@ func imposta_riverbero(volume : float, pressione : float):
 	lunghezza_riverbero_attuale = volume/pressione
 
 
-func imposta_riverbero_retrocompatibile(volume : float, pressione : float):
-	# Per la vecchia simulazione fisica
-	pressione = pressione + 1.0 / (0.000001 * contributo_riverbero_pressione)
-	imposta_riverbero(volume, pressione)
+#func imposta_riverbero_retrocompatibile(volume : float, pressione : float):
+#	# Per la vecchia simulazione fisica
+#	pressione = pressione + 1.0 / (0.000001 * contributo_riverbero_pressione)
+#	imposta_riverbero(volume, pressione)
 
 
 # TI PREGO SCRIVI MEGLIO QUI SOTTO \/\/\/

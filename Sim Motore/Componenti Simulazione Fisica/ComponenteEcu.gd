@@ -16,7 +16,7 @@ var timer_ecu := 0.0
 
 @export var apertura_minima := 0.0
 @export var apertura_massima := 1.0
-@export var mappa_apertura : GradientTexture2D
+@export var mappa_apertura : Texture2D
 
 var apertura_attuale := 0.1
 var miscela_attuale := 10.0

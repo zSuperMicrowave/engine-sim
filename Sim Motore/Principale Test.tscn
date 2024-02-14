@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=33 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -11,8 +11,11 @@
 [ext_resource type="PackedScene" uid="uid://hgqgwr131a6q" path="res://Sim Motore/Debug/Vettore (WIP)/vettore.tscn" id="4_geq5p"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_kmdvj"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
+[ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="7_3viaw"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="7_6gx75"]
-[ext_resource type="Script" path="res://Sim Motore/RisonanzaBufferizzataVecchio3D.gd" id="10_5yp7l"]
+[ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="8_7hocm"]
+[ext_resource type="Script" path="res://Sistema audio/TuboAudio.gd" id="9_v1fq7"]
+[ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio.gd" id="10_u2bg5"]
 [ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="12_vx4hn"]
 [ext_resource type="Script" path="res://Sim Motore/UITemp/Speedometer.gd" id="13_akf42"]
 [ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Sim Motore/UITemp/lancec.png" id="14_8ryrf"]
@@ -86,13 +89,6 @@ script = ExtResource("5_xp1lm")
 raggio = 0.3
 massa = 4.0
 
-[sub_resource type="Gradient" id="Gradient_6tv1b"]
-offsets = PackedFloat32Array(0.0968586, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
-gradient = SubResource("Gradient_6tv1b")
-fill_to = Vector2(1, 0.123932)
-
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0.482517)
 colors = PackedColorArray(0.886719, 0.886719, 0.886719, 1)
@@ -106,13 +102,13 @@ fill_to = Vector2(0, 0.230769)
 [sub_resource type="Resource" id="Resource_8fclr"]
 script = ExtResource("7_6gx75")
 velocita_aggiornamento_ecu_hz = 30
-rpm_massimi = 20000.0
+rpm_massimi = 16000.0
 miscela_piu_povera = 16.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
 apertura_minima = 0.001
 apertura_massima = 1.0
-mappa_apertura = SubResource("GradientTexture2D_cdv7x")
+mappa_apertura = ExtResource("7_3viaw")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx4qf"]
 bg_color = Color(0, 0, 0, 0.419608)
@@ -134,7 +130,7 @@ light_energy = 2.38
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
-frequenza_aggiornamento_hz = 10000
+frequenza_aggiornamento_hz = 3000
 rallentamento_slow_motion = 0.1
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
@@ -146,10 +142,79 @@ ecu = SubResource("Resource_8fclr")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
 pistoni_debug = [NodePath("../Pistone2"), NodePath("../Pistone3"), NodePath("../Pistone4")]
-audio = [NodePath("../Pistone2/RisonanzaBufferizzataVecchio3D"), NodePath("../Pistone3/RisonanzaBufferizzataVecchio3D"), NodePath("../Pistone4/RisonanzaBufferizzataVecchio3D")]
+audio = [NodePath("CampionatorePistone"), NodePath("CampionatorePistone2"), NodePath("CampionatorePistone3")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
 compensazione_lentezza_simulazione = 1.1
+
+[node name="CampionatorePistone" type="Node" parent="Motore"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("8_7hocm")
+contributo_riverbero_pressione = 1.0
+
+[node name="TuboAudio" type="Node" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("9_v1fq7")
+componente_precedente = NodePath("..")
+dimensione_coda = 20
+coda_modulata = true
+moltiplicatore_energia_rimbalzo = 0.95
+attenuazione_suono = 75.0
+ovattamento_suono = 0.0
+campioni_ovattamento_massimi = 1
+metodo_allargamento_buffer = 4
+riposiziona_allargamento_buffer = 1
+
+[node name="RiproduttoreAudio" type="AudioStreamPlayer" parent="Motore/CampionatorePistone/TuboAudio" node_paths=PackedStringArray("componente_audio_precedente")]
+script = ExtResource("10_u2bg5")
+componente_audio_precedente = NodePath("..")
+
+[node name="CampionatorePistone2" type="Node" parent="Motore"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("8_7hocm")
+contributo_riverbero_pressione = 1.0
+
+[node name="TuboAudio" type="Node" parent="Motore/CampionatorePistone2" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("9_v1fq7")
+componente_precedente = NodePath("..")
+dimensione_coda = 20
+coda_modulata = true
+moltiplicatore_energia_rimbalzo = 0.95
+attenuazione_suono = 75.0
+ovattamento_suono = 0.0
+campioni_ovattamento_massimi = 1
+metodo_allargamento_buffer = 4
+riposiziona_allargamento_buffer = 1
+
+[node name="RiproduttoreAudio" type="AudioStreamPlayer" parent="Motore/CampionatorePistone2/TuboAudio" node_paths=PackedStringArray("componente_audio_precedente")]
+script = ExtResource("10_u2bg5")
+componente_audio_precedente = NodePath("..")
+
+[node name="CampionatorePistone3" type="Node" parent="Motore"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("8_7hocm")
+contributo_riverbero_pressione = 1.0
+
+[node name="TuboAudio" type="Node" parent="Motore/CampionatorePistone3" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("9_v1fq7")
+componente_precedente = NodePath("..")
+dimensione_coda = 20
+coda_modulata = true
+moltiplicatore_energia_rimbalzo = 0.95
+attenuazione_suono = 75.0
+ovattamento_suono = 0.0
+campioni_ovattamento_massimi = 1
+metodo_allargamento_buffer = 4
+riposiziona_allargamento_buffer = 1
+
+[node name="RiproduttoreAudio" type="AudioStreamPlayer" parent="Motore/CampionatorePistone3/TuboAudio" node_paths=PackedStringArray("componente_audio_precedente")]
+script = ExtResource("10_u2bg5")
+componente_audio_precedente = NodePath("..")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
@@ -159,41 +224,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
 [node name="Pistone4" parent="." instance=ExtResource("2_0andf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.515625, 0, -1.47701)
 
-[node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone4"]
-script = ExtResource("10_5yp7l")
-numero_passaggi_desiderato = 160
-passaggi_raggio_tubo = 160.0
-quantita_riverbero = 0
-raggio_riverbero = 0.251
-ovattamento_suono = 0.0
-attenuazione_suono = 160.0
-moltiplicatore_input_output = 0.31
-
 [node name="Pistone3" parent="." instance=ExtResource("2_0andf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.670012, 0, -1.47701)
 
-[node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone3"]
-script = ExtResource("10_5yp7l")
-numero_passaggi_desiderato = 160
-passaggi_raggio_tubo = 160.0
-quantita_riverbero = 0
-raggio_riverbero = 0.251
-ovattamento_suono = 0.0
-attenuazione_suono = 160.0
-moltiplicatore_input_output = 0.31
-
 [node name="Pistone2" parent="." instance=ExtResource("2_0andf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.789139, 0, -1.50657)
-
-[node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone2"]
-script = ExtResource("10_5yp7l")
-numero_passaggi_desiderato = 160
-passaggi_raggio_tubo = 160.0
-quantita_riverbero = 0
-raggio_riverbero = 0.251
-ovattamento_suono = 0.0
-attenuazione_suono = 160.0
-moltiplicatore_input_output = 0.31
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

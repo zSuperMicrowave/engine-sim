@@ -1,3 +1,7 @@
 res://default_bus_layout.tres
 res://Sim Motore/Principale Test.tscn
 res://0Utilità Globali/BufferCircolare.gd
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd
+res://Sistema audio/CampionatorePistone.gd
+res://Sistema audio/TuboAudio.gd
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd
