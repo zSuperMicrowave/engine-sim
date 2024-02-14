@@ -32,7 +32,7 @@ var rotazione := 0.0 # radianti
 #Grafici e cazzi
 @export var grafico : Grafico2D
 @export var grafico_pressione : Grafico2D
-@export var campionatore_pistone : CampionatorePistone
+@export var campionatore_pistone : Array[CampionatorePistone]
 
 
 var t = 0.0
@@ -81,6 +81,7 @@ func _calcola_coppia_motore() :
 var ssss = 0.0
 var ultimo_delta := 1.0
 
+
 func _calcola_audio(delta : float):
 	ultimo_delta = delta
 	ssss += delta
@@ -90,9 +91,13 @@ func _calcola_audio(delta : float):
 	
 	grafico_pressione.invia_dato(pistoni[0].numero_moli)
 	
-	if campionatore_pistone :
-		campionatore_pistone.invia_campione(pistoni[0].pressione_cilindro, pistoni[0].temperatura_cilindro, delta)
-		campionatore_pistone.imposta_riverbero_retrocompatibile(pistoni[0].volume_cilindro, pistoni[0].pressione_cilindro)
+	
+	for i in range(campionatore_pistone.size()) :
+		if pistoni.size() <= i :
+			break
+		campionatore_pistone[i].invia_campione(pistoni[i].pressione_cilindro, pistoni[i].temperatura_cilindro, delta)
+		campionatore_pistone[i].imposta_riverbero_retrocompatibile(pistoni[i].volume_cilindro, pistoni[i].pressione_cilindro)
+
 
 func _physics_process(delta):
 	t+= delta
