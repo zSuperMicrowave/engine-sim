@@ -1,0 +1,165 @@
+[gd_scene load_steps=26 format=3 uid="uid://cshoja5vdfjrb"]
+
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
+[ext_resource type="PackedScene" uid="uid://b3s3jfyy0vj4w" path="res://0Utilità Globali/Navigatore 3D/Navigatore 3D.tscn" id="1_iwx1u"]
+[ext_resource type="PackedScene" uid="uid://bbtvq23aydshw" path="res://Test motore 2/Debug/Pistone/DebugPistone.tscn" id="2_0andf"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteMotore.gd" id="2_3x6jl"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd" id="3_4yohq"]
+[ext_resource type="Script" path="res://Test motore 2/Debug/Parametri/DebugParametri.gd" id="3_ry5gx"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd" id="4_d76iu"]
+[ext_resource type="PackedScene" uid="uid://hgqgwr131a6q" path="res://Test motore 2/Debug/Vettore (WIP)/vettore.tscn" id="4_geq5p"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_kmdvj"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
+[ext_resource type="Script" path="res://Test motore/ComponenteEcu.gd" id="6_s5kjc"]
+[ext_resource type="Script" path="res://Test motore/RisonanzaBufferizzataAudioPlayer.gd" id="13_jai1f"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_vfmxo"]
+energy_multiplier = 1.7
+
+[sub_resource type="Sky" id="Sky_viubw"]
+sky_material = SubResource("PhysicalSkyMaterial_vfmxo")
+
+[sub_resource type="Environment" id="Environment_g16d4"]
+background_mode = 2
+sky = SubResource("Sky_viubw")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.9
+tonemap_white = 1.91
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 1.09
+
+[sub_resource type="Resource" id="Resource_phdcm"]
+script = ExtResource("3_4yohq")
+riduzione = 15.0
+max_velocita_rpm = 800.0
+coppia_nm = 72600.0
+
+[sub_resource type="Resource" id="Resource_rl3lg"]
+script = ExtResource("4_kmdvj")
+offset_rotazione = 0.0
+larghezza_albero_cm = 5.0
+lunghezza_biella_cm = 10.0
+volume_extra_cm = 3.0
+alesaggio_cm = 5.0
+portata_entrata_aria = 3.0
+portata_uscita_aria = 3.0
+
+[sub_resource type="Resource" id="Resource_dymms"]
+script = ExtResource("4_d76iu")
+pistoni = Array[ExtResource("4_kmdvj")]([SubResource("Resource_rl3lg")])
+motorino_avviamento = SubResource("Resource_phdcm")
+
+[sub_resource type="Resource" id="Resource_44qqs"]
+script = ExtResource("5_xp1lm")
+raggio = 0.5
+massa = 10.0
+
+[sub_resource type="Gradient" id="Gradient_1gb0r"]
+colors = PackedColorArray(0.214844, 0.214844, 0.214844, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6b44j"]
+gradient = SubResource("Gradient_1gb0r")
+width = 24
+height = 24
+fill_from = Vector2(0, 1)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_clljs"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qjp4d"]
+gradient = SubResource("Gradient_clljs")
+width = 24
+height = 24
+fill = 1
+fill_from = Vector2(1, 1)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Resource" id="Resource_joh3x"]
+script = ExtResource("6_s5kjc")
+velocita_aggiornamento_ecu_hz = 10
+rpm_massimi = 12000.0
+miscela_piu_povera = 65.0
+miscela_piu_ricca = 12.0
+mappa_stechiometrica = SubResource("GradientTexture2D_qjp4d")
+apertura_minima = 0.05
+apertura_massima = 1.0
+mappa_apertura = SubResource("GradientTexture2D_6b44j")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx4qf"]
+bg_color = Color(0, 0, 0, 0.419608)
+border_width_left = 8
+border_color = Color(0.329412, 0.360784, 0.8, 0.858824)
+
+[node name="Principale motore2" type="Node3D"]
+
+[node name="Ambiente" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Ambiente"]
+environment = SubResource("Environment_g16d4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ambiente"]
+transform = Transform3D(0.780899, -0.485518, 0.393025, 0, 0.629185, 0.777256, -0.624657, -0.606959, 0.49133, 0, 0, 0)
+light_color = Color(1, 0.945098, 0.831373, 1)
+light_energy = 2.38
+
+[node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
+script = ExtResource("1_04wha")
+motori = [NodePath("../Motore")]
+rallentamento_slow_motion = 0.05
+
+[node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio")]
+script = ExtResource("2_3x6jl")
+coefficiente_attrito_meccanico_totale = 0.1
+albero_motore = SubResource("Resource_dymms")
+volano = SubResource("Resource_44qqs")
+ecu = SubResource("Resource_joh3x")
+velocita_debug_lento_hz = 1200
+griglia_parametri = NodePath("../UI/Debug parametri")
+pistoni_debug = [NodePath("../Pistone2")]
+audio = NodePath("../RisonanzaBufferizzataAudioPlayerVecchio")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
+
+[node name="Navigatore 3D" parent="." instance=ExtResource("1_iwx1u")]
+
+[node name="Pistone2" parent="." instance=ExtResource("2_0andf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.335006, 0, -0.738507)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug parametri" type="GridContainer" parent="UI"]
+layout_mode = 1
+columns = 5
+script = ExtResource("3_ry5gx")
+larghezza_minima = 180.0
+stile_testo = SubResource("StyleBoxFlat_hx4qf")
+
+[node name="Vettore" parent="." instance=ExtResource("4_geq5p")]
+
+[node name="RisonanzaBufferizzataAudioPlayerVecchio" type="AudioStreamPlayer" parent="."]
+script = ExtResource("13_jai1f")
+numero_passaggi_desiderato = 50
+passaggi_raggio_tubo = 80.0
+quantita_riverbero = 0
+raggio_riverbero = 0.186
+tubo_chiuso = false
+moltiplicatore_energia_rimbalzo = 1.0
+ovattamento_suono = 0.0
+attenuazione_suono = 15.0
+moltiplicatore_input_output = 0.763

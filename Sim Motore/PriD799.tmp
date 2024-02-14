@@ -1,0 +1,272 @@
+[gd_scene load_steps=30 format=3 uid="uid://cshoja5vdfjrb"]
+
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
+[ext_resource type="PackedScene" uid="uid://b3s3jfyy0vj4w" path="res://0Utilità Globali/Navigatore 3D/Navigatore 3D.tscn" id="1_iwx1u"]
+[ext_resource type="PackedScene" uid="uid://bbtvq23aydshw" path="res://Test motore 2/Debug/Pistone/DebugPistone.tscn" id="2_0andf"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteMotore.gd" id="2_3x6jl"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd" id="3_4yohq"]
+[ext_resource type="Script" path="res://Test motore 2/Debug/Parametri/DebugParametri.gd" id="3_ry5gx"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd" id="4_d76iu"]
+[ext_resource type="PackedScene" uid="uid://hgqgwr131a6q" path="res://Test motore 2/Debug/Vettore (WIP)/vettore.tscn" id="4_geq5p"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_kmdvj"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
+[ext_resource type="Script" path="res://Test motore 2/Componenti Simulazione Fisica/ComponenteEcu.gd" id="7_6gx75"]
+[ext_resource type="Script" path="res://Test motore/RisonanzaBufferizzataVecchio3D.gd" id="12_m87hc"]
+[ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Test motore 2/UITemp/Senza nome.png" id="12_vx4hn"]
+[ext_resource type="Script" path="res://Test motore 2/UITemp/Speedometer.gd" id="13_akf42"]
+[ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Test motore 2/UITemp/lancec.png" id="14_8ryrf"]
+[ext_resource type="Script" path="res://componenti 2d/Grafico2D.gd" id="16_pa44o"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_vfmxo"]
+energy_multiplier = 1.7
+
+[sub_resource type="Sky" id="Sky_viubw"]
+sky_material = SubResource("PhysicalSkyMaterial_vfmxo")
+
+[sub_resource type="Environment" id="Environment_g16d4"]
+background_mode = 2
+sky = SubResource("Sky_viubw")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.9
+tonemap_white = 1.91
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 1.09
+
+[sub_resource type="Resource" id="Resource_phdcm"]
+script = ExtResource("3_4yohq")
+riduzione = 15.0
+max_velocita_rpm = 800.0
+coppia_nm = 72600.0
+
+[sub_resource type="Resource" id="Resource_rl3lg"]
+script = ExtResource("4_kmdvj")
+offset_rotazione = 0.0
+larghezza_albero_cm = 4.2
+lunghezza_biella_cm = 5.5
+volume_extra_cm = 0.5
+alesaggio_cm = 4.5
+portata_entrata_aria = 1.0
+portata_uscita_aria = 1.0
+
+[sub_resource type="Resource" id="Resource_dymms"]
+script = ExtResource("4_d76iu")
+pistoni = Array[ExtResource("4_kmdvj")]([SubResource("Resource_rl3lg")])
+motorino_avviamento = SubResource("Resource_phdcm")
+
+[sub_resource type="Resource" id="Resource_44qqs"]
+script = ExtResource("5_xp1lm")
+raggio = 0.3
+massa = 4.0
+
+[sub_resource type="Gradient" id="Gradient_6tv1b"]
+offsets = PackedFloat32Array(0.169725, 0.894081)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cdv7x"]
+gradient = SubResource("Gradient_6tv1b")
+fill_from = Vector2(1, 1)
+fill_to = Vector2(0.123932, 0.653846)
+
+[sub_resource type="Gradient" id="Gradient_af1oy"]
+offsets = PackedFloat32Array(0, 0.987854)
+colors = PackedColorArray(0.985486, 0.985486, 0.985486, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pgf74"]
+gradient = SubResource("Gradient_af1oy")
+fill = 1
+fill_from = Vector2(0.632479, 1)
+fill_to = Vector2(0, 0.230769)
+
+[sub_resource type="Resource" id="Resource_8fclr"]
+script = ExtResource("7_6gx75")
+velocita_aggiornamento_ecu_hz = 30
+rpm_massimi = 20000.0
+miscela_piu_povera = 30.0
+miscela_piu_ricca = 12.0
+mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
+apertura_minima = 0.5
+apertura_massima = 1.0
+mappa_apertura = SubResource("GradientTexture2D_cdv7x")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx4qf"]
+bg_color = Color(0, 0, 0, 0.419608)
+border_width_left = 8
+border_color = Color(0.329412, 0.360784, 0.8, 0.858824)
+
+[node name="Principale motore2" type="Node3D"]
+
+[node name="Ambiente" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Ambiente"]
+environment = SubResource("Environment_g16d4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ambiente"]
+transform = Transform3D(0.780899, -0.485518, 0.393025, 0, 0.629185, 0.777256, -0.624657, -0.606959, 0.49133, 0, 0, 0)
+light_color = Color(1, 0.945098, 0.831373, 1)
+light_energy = 2.38
+
+[node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
+script = ExtResource("1_04wha")
+motori = [NodePath("../Motore")]
+rallentamento_slow_motion = 0.034
+
+[node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
+script = ExtResource("2_3x6jl")
+coefficiente_attrito_meccanico_totale = 0.1
+albero_motore = SubResource("Resource_dymms")
+volano = SubResource("Resource_44qqs")
+ecu = SubResource("Resource_8fclr")
+velocita_debug_lento_hz = 1200
+griglia_parametri = NodePath("../UI/Debug parametri")
+pistoni_debug = [NodePath("../Pistone2")]
+audio = NodePath("../Pistone2/RisonanzaBufferizzataVecchio3D")
+speedometer = NodePath("../UI/speedometer")
+grafici = NodePath("../grafici")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
+
+[node name="Navigatore 3D" parent="." instance=ExtResource("1_iwx1u")]
+
+[node name="Pistone2" parent="." instance=ExtResource("2_0andf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.335006, 0, -0.738507)
+
+[node name="RisonanzaBufferizzataVecchio3D" type="AudioStreamPlayer3D" parent="Pistone2"]
+script = ExtResource("12_m87hc")
+numero_passaggi_desiderato = 160
+passaggi_raggio_tubo = 160.0
+quantita_riverbero = 5
+raggio_riverbero = 0.251
+moltiplicatore_energia_rimbalzo = 0.94
+ovattamento_suono = 0.0
+attenuazione_suono = 15.0
+moltiplicatore_input_output = 0.73
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug parametri" type="GridContainer" parent="UI"]
+layout_mode = 1
+columns = 5
+script = ExtResource("3_ry5gx")
+larghezza_minima = 180.0
+stile_testo = SubResource("StyleBoxFlat_hx4qf")
+
+[node name="speedometer" type="TextureRect" parent="UI"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("12_vx4hn")
+script = ExtResource("13_akf42")
+
+[node name="TextureRect2" type="TextureRect" parent="UI/speedometer"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 200)
+texture = ExtResource("14_8ryrf")
+
+[node name="Vettore" parent="." instance=ExtResource("4_geq5p")]
+
+[node name="grafici" type="Node2D" parent="."]
+
+[node name="moli_carburante" type="Node2D" parent="grafici"]
+position = Vector2(6, 278)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+spessore_linea = 2.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0.627451, 0.27451, 0.203922, 1)
+velocita = 0.005
+valore_massimo = 0.01
+
+[node name="moli_ossigeno" type="Node2D" parent="grafici"]
+position = Vector2(6, 342)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+velocita = 0.005
+valore_massimo = 0.01
+
+[node name="moli_scarico" type="Node2D" parent="grafici"]
+position = Vector2(6, 405)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0.627451, 0.521569, 0.258824, 1)
+velocita = 0.005
+valore_massimo = 0.01
+
+[node name="pressione" type="Node2D" parent="grafici"]
+position = Vector2(6, 469)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0, 0.0745098, 1, 1)
+velocita = 0.005
+valore_massimo = 1e+06
+
+[node name="temperatura" type="Node2D" parent="grafici"]
+position = Vector2(6, 534)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(1, 0.0235294, 0, 1)
+velocita = 0.005
+valore_massimo = 500.0
+
+[node name="rpm" type="Node2D" parent="grafici"]
+position = Vector2(6, 595)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0, 1, 0.0588235, 1)
+velocita = 0.005
+valore_massimo = 15000.0
+
+[node name="deltatime" type="Node2D" parent="grafici"]
+position = Vector2(6, 205)
+script = ExtResource("16_pa44o")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0.443137)
+colore_linea = Color(1, 0.172549, 0.972549, 1)
+velocita = 0.005
+valore_massimo = 0.005

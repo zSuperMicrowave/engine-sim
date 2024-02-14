@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbtvq23aydshw"]
+
+[ext_resource type="Script" path="res://Sim Motore/Debug/Pistone/DebugPistone.gd" id="1_mkrd0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i0yv1"]
+transparency = 1
+albedo_color = Color(0.529412, 0.803922, 1, 0.34902)
+disable_receive_shadows = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7ld8"]
+transparency = 1
+albedo_color = Color(0.27451, 0.0588235, 0.6, 0.34902)
+disable_receive_shadows = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slwuh"]
+transparency = 1
+albedo_color = Color(1, 0.670588, 0, 0.34902)
+emission_enabled = true
+emission = Color(1, 0.596078, 0, 1)
+emission_energy_multiplier = 4.56
+disable_receive_shadows = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p1e7c"]
+transparency = 1
+albedo_color = Color(0.341176, 0.160784, 0.152941, 0.698039)
+disable_receive_shadows = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m51ci"]
+transparency = 1
+albedo_color = Color(0.380392, 0.380392, 0.380392, 0.568627)
+disable_receive_shadows = true
+
+[node name="Pistone" type="Marker3D"]
+script = ExtResource("1_mkrd0")
+materiale_aspirazione = SubResource("StandardMaterial3D_i0yv1")
+materiale_compressione = SubResource("StandardMaterial3D_v7ld8")
+materiale_combustione = SubResource("StandardMaterial3D_slwuh")
+materiale_espulsione = SubResource("StandardMaterial3D_p1e7c")
+
+[node name="cilindro" type="CSGCylinder3D" parent="."]
+
+[node name="TDC" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10423, 0)
+height = 0.190601
+material = SubResource("StandardMaterial3D_m51ci")
+
+[node name="albero" type="Marker3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="albero"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.081455, 0, 0.0444267)
+size = Vector3(0.0269891, 0.0164861, 0.123994)
