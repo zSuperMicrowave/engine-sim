@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://c1sfdh8ikn2t8"]
+[gd_resource type="AudioBusLayout" load_steps=4 format=3 uid="uid://c1sfdh8ikn2t8"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0f2cx"]
 resource_name = "Reverb"
@@ -8,6 +8,21 @@ damping = 0.64
 spread = 0.51
 hipass = 0.32
 
+[sub_resource type="AudioEffectEQ21" id="AudioEffectEQ21_qncax"]
+resource_name = "EQ21"
+band_db/22_hz = -60.0
+band_db/32_hz = -10.8
+band_db/44_hz = -3.5
+band_db/1000_hz = 0.4
+band_db/1400_hz = 5.4
+band_db/2000_hz = 3.0
+band_db/2800_hz = 3.6
+band_db/4000_hz = 4.0
+band_db/5600_hz = 2.7
+band_db/8000_hz = -1.2
+band_db/11000_hz = -3.1
+band_db/16000_hz = -4.0
+
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
 threshold = -2.0
@@ -15,5 +30,7 @@ threshold = -2.0
 [resource]
 bus/0/effect/0/effect = SubResource("AudioEffectReverb_0f2cx")
 bus/0/effect/0/enabled = false
-bus/0/effect/1/effect = SubResource("AudioEffectCompressor_nji4r")
-bus/0/effect/1/enabled = true
+bus/0/effect/1/effect = SubResource("AudioEffectEQ21_qncax")
+bus/0/effect/1/enabled = false
+bus/0/effect/2/effect = SubResource("AudioEffectCompressor_nji4r")
+bus/0/effect/2/enabled = true
