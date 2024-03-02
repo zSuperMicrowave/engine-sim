@@ -28,12 +28,64 @@ var velocita_attraversamento_int := 1
 @export var silenzia_errori := false
 
 
+func _ready():
+	#Squenza di test: eliminami quando finisci
+	#Log:
+	# Ok ho testato l'avanzamento dei puntatori e funziona correttamente, almeno
+	# fa quel che ho progettato che dovesse fare, no non so poi se effettivamente
+	# il progetto è giusto... Vabbè funziona come da progetto
+	# Però devo provare l'input dei valori, perché funziona in maniera un po'
+	# Strana, è da vedere e capire bene... Forse è sbagliato l'oridne di inserimento
+	# dei numeri... mh sì giusto! vabbè praticamente una volta salta 2 valori
+	# e una volta ne salta 3, quindi devi coordinarti corretamentjo jgnjodg
+	# sbatta, sbatta, ti attacchi ahaha
+	i_buffer_positivo = 0
+	i_buffer_negativo = 0
+	velocita_attraversamento = 1.0
+	velocita_attraversamento_int = 1
+	for i in range(direzione_positiva_passaggi.size()):
+		direzione_positiva_passaggi[i] = 0.0
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	input_valori(1.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	input_valori(2.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	print("adesso metto la velocità a 1.25x")
+	velocita_attraversamento = 1.25
+	velocita_attraversamento_int = 1
+	avanza_puntatori()
+	input_valori(3.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	input_valori(4.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	input_valori(5.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	input_valori(6.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	input_valori(7.0)
+	print(direzione_positiva_passaggi)
+	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+
+
 func _enter_tree():
 	direzione_positiva_passaggi.resize(dimensione_coda)
 	direzione_negativa_passaggi.resize(dimensione_coda)
 
 
 func ottieni_campione() -> float:
+	#return 0.0
 	aggiorna_riverbero()
 
 	var delta = 1.0 / InfoAudio.frequenza_campionamento_hz
@@ -44,7 +96,7 @@ func ottieni_campione() -> float:
 		componente_precedente.ottieni_campione() * moltiplicatore_input_output
 
 	# AGGIORNA POSIZIONI DEI PUNTATORI
-	avanza_puntatori()
+	avanza_puntatori() # L'ho testato, questo funziona
 
 
 	# ATTENUAZIONE
@@ -87,7 +139,7 @@ func applica_attenuazione(attenuazione : float):
 		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
 		
 		
-		if i == velocita_attraversamento :
+		if i == velocita_attraversamento_int :
 			direzione_negativa_passaggi[nuovo_i_negativo] *=\
 				lerpf(attenuazione,1.0,resto_puntatori)
 			direzione_positiva_passaggi[nuovo_i_positivo] *=\
@@ -103,7 +155,7 @@ func scambia_valori():
 		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
 		
 		
-		if i == velocita_attraversamento :
+		if i == velocita_attraversamento_int :
 			var temp_neg = direzione_negativa_passaggi[nuovo_i_negativo]
 			
 			direzione_negativa_passaggi[nuovo_i_negativo] = lerpf(
@@ -132,16 +184,29 @@ func scambia_valori():
 			direzione_positiva_passaggi[nuovo_i_positivo] =\
 				 temp_neg * moltiplicatore_energia_rimbalzo
 
-
+var ultimo_resto := 0.0
 func input_valori(input : float):
-	for i in range(velocita_attraversamento_int+1) :
+	var ultimo = 0.0
+	var extra := 0
+	if not is_equal_approx(velocita_attraversamento,velocita_attraversamento_int) :
+		extra = 1
+	
+	for i in range(velocita_attraversamento_int+extra) :
 		var nuovo_i_negativo = fmod(i_buffer_negativo + i,dimensione_coda)
 		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
 		
-		if i == velocita_attraversamento :
-			direzione_positiva_passaggi[nuovo_i_positivo] += input * resto_puntatori
+		if is_zero_approx(resto_puntatori) :
+			if i != 0 :
+				direzione_positiva_passaggi[nuovo_i_positivo] += input
+			else :
+				direzione_positiva_passaggi[nuovo_i_positivo] += input * resto_puntatori
 		else :
-			direzione_positiva_passaggi[nuovo_i_positivo] += input
+			if i == velocita_attraversamento_int :
+				direzione_positiva_passaggi[nuovo_i_positivo] += input * (1.0-ultimo_resto)
+			else :
+				direzione_positiva_passaggi[nuovo_i_positivo] += input
+			
+			ultimo_resto = resto_puntatori
 
 
 func aggiorna_riverbero():
