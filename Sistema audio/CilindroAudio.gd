@@ -1,11 +1,9 @@
 extends ComponenteAudio
 class_name CilindroAudio
 
-var direzione_positiva_passaggi : Array[float]
-var direzione_negativa_passaggi : Array[float]
-var i_buffer_positivo := 0
-var i_buffer_negativo := 0
-var resto_puntatori := 0.0
+var coda_passaggi : Array[float]
+var puntatore_coda_precedente : float
+var puntatore_coda : float
 
 @export_range(0.01,2.0) var moltiplicatore_input_output := 1.0
 
@@ -17,8 +15,7 @@ var resto_puntatori := 0.0
 @export_subgroup("Riverbero primario")
 @export_range(2,4000) var dimensione_coda := 5
 var velocita_attraversamento := 1.0
-var velocita_attraversamento_int := 1
-@export var tubo_chiuso := true
+#@export var tubo_chiuso := true
 
 @export_subgroup("Attenuazione")
 @export var moltiplicatore_energia_rimbalzo := 0.8
@@ -39,53 +36,53 @@ func _ready():
 	# dei numeri... mh sì giusto! vabbè praticamente una volta salta 2 valori
 	# e una volta ne salta 3, quindi devi coordinarti corretamentjo jgnjodg
 	# sbatta, sbatta, ti attacchi ahaha
-	i_buffer_positivo = 0
-	i_buffer_negativo = 0
-	velocita_attraversamento = 1.0
-	velocita_attraversamento_int = 1
-	for i in range(direzione_positiva_passaggi.size()):
-		direzione_positiva_passaggi[i] = 0.0
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
-	avanza_puntatori()
-	input_valori(1.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
-	avanza_puntatori()
-	input_valori(2.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
-	print("adesso metto la velocità a 1.25x")
+	puntatore_coda = 0
 	velocita_attraversamento = 1.25
-	velocita_attraversamento_int = 1
+	for i in range(coda_passaggi.size()):
+		coda_passaggi[i] = 0.0
+	print("puntatore:", puntatore_coda)
+	input_valori(1.0)
 	avanza_puntatori()
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
+	input_valori(2.0)
+	avanza_puntatori()
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
+	velocita_attraversamento = 1.25
+	print("adesso metto la velocità a ",velocita_attraversamento,"x")
 	input_valori(3.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
 	avanza_puntatori()
-	input_valori(4.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
+	input_valori(2.0)
 	avanza_puntatori()
-	input_valori(5.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
+	input_valori(1.0)
 	avanza_puntatori()
-	input_valori(6.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
+	input_valori(0.0)
 	avanza_puntatori()
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
+	input_valori(-7.0)
+	avanza_puntatori()
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
 	input_valori(7.0)
-	print(direzione_positiva_passaggi)
-	print("pos:", i_buffer_positivo, "neg:", i_buffer_negativo," resto:",resto_puntatori)
+	avanza_puntatori()
+	print(coda_passaggi)
+	print("puntatore:", puntatore_coda)
 
 
 func _enter_tree():
-	direzione_positiva_passaggi.resize(dimensione_coda)
-	direzione_negativa_passaggi.resize(dimensione_coda)
+	coda_passaggi.resize(dimensione_coda*2)
 
 
 func ottieni_campione() -> float:
-	#return 0.0
+	return 0.0
 	aggiorna_riverbero()
 
 	var delta = 1.0 / InfoAudio.frequenza_campionamento_hz
@@ -111,102 +108,85 @@ func ottieni_campione() -> float:
 
 
 	# OUTPUT
-	var risultato = direzione_positiva_passaggi[i_buffer_positivo]
+	var risultato = coda_passaggi[roundi(puntatore_coda)]
 	risultato *= moltiplicatore_input_output
 
 	return risultato
 
 
 func avanza_puntatori():
-	var vel : int = velocita_attraversamento_int
-	resto_puntatori += velocita_attraversamento - velocita_attraversamento_int
-	if resto_puntatori >= 1.0 :
-		resto_puntatori = 0.0
-		vel += 1
-
-	i_buffer_positivo += vel
-	if i_buffer_positivo >= dimensione_coda:
-		i_buffer_positivo = 0
-	
-	i_buffer_negativo -= vel
-	if i_buffer_negativo <= 0:
-		i_buffer_negativo = dimensione_coda - 1
+	puntatore_coda = fmod(puntatore_coda+velocita_attraversamento, dimensione_coda)
 
 
 func applica_attenuazione(attenuazione : float):
-	for i in range(velocita_attraversamento_int+1) :
-		var nuovo_i_negativo = fmod(i_buffer_negativo + i,dimensione_coda)
-		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
-		
-		
-		if i == velocita_attraversamento_int :
-			direzione_negativa_passaggi[nuovo_i_negativo] *=\
-				lerpf(attenuazione,1.0,resto_puntatori)
-			direzione_positiva_passaggi[nuovo_i_positivo] *=\
-				lerpf(attenuazione,1.0,resto_puntatori)
-		else :
-			direzione_negativa_passaggi[nuovo_i_negativo] *= attenuazione
-			direzione_positiva_passaggi[nuovo_i_positivo] *= attenuazione
+	pass
+#	for i in range(velocita_attraversamento_int+1) :
+#		var nuovo_i_negativo = fmod(i_buffer_negativo + i,dimensione_coda)
+#		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
+#
+#
+#		if i == velocita_attraversamento_int :
+#			direzione_negativa_passaggi[nuovo_i_negativo] *=\
+#				lerpf(attenuazione,1.0,resto_puntatori)
+#			direzione_positiva_passaggi[nuovo_i_positivo] *=\
+#				lerpf(attenuazione,1.0,resto_puntatori)
+#		else :
+#			direzione_negativa_passaggi[nuovo_i_negativo] *= attenuazione
+#			direzione_positiva_passaggi[nuovo_i_positivo] *= attenuazione
 
 
 func scambia_valori():
-	for i in range(velocita_attraversamento_int+1) :
-		var nuovo_i_negativo = fmod(i_buffer_negativo + i,dimensione_coda)
-		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
-		
-		
-		if i == velocita_attraversamento_int :
-			var temp_neg = direzione_negativa_passaggi[nuovo_i_negativo]
-			
-			direzione_negativa_passaggi[nuovo_i_negativo] = lerpf(
-				direzione_negativa_passaggi[nuovo_i_negativo],
-				direzione_positiva_passaggi[nuovo_i_positivo] * moltiplicatore_energia_rimbalzo,
-				resto_puntatori)
-			
-			if tubo_chiuso :
-				direzione_negativa_passaggi[nuovo_i_negativo] = lerpf(
-					direzione_negativa_passaggi[nuovo_i_negativo],
-					direzione_negativa_passaggi[nuovo_i_negativo] * -1,
-					resto_puntatori)
-			
-			direzione_positiva_passaggi[nuovo_i_positivo] = lerpf(
-				direzione_positiva_passaggi[nuovo_i_positivo],
-				temp_neg * moltiplicatore_energia_rimbalzo,
-				resto_puntatori)
-		else :
-			var temp_neg = direzione_negativa_passaggi[nuovo_i_negativo]
-			
-			direzione_negativa_passaggi[nuovo_i_negativo] =\
-				 direzione_positiva_passaggi[nuovo_i_positivo] * moltiplicatore_energia_rimbalzo
-			
-			if tubo_chiuso : direzione_negativa_passaggi[nuovo_i_negativo] *= -1
-			
-			direzione_positiva_passaggi[nuovo_i_positivo] =\
-				 temp_neg * moltiplicatore_energia_rimbalzo
+	pass
+#	for i in range(velocita_attraversamento_int+1) :
+#		var nuovo_i_negativo = fmod(i_buffer_negativo + i,dimensione_coda)
+#		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
+#
+#
+#		if i == velocita_attraversamento_int :
+#			var temp_neg = direzione_negativa_passaggi[nuovo_i_negativo]
+#
+#			direzione_negativa_passaggi[nuovo_i_negativo] = lerpf(
+#				direzione_negativa_passaggi[nuovo_i_negativo],
+#				direzione_positiva_passaggi[nuovo_i_positivo] * moltiplicatore_energia_rimbalzo,
+#				resto_puntatori)
+#
+#			if tubo_chiuso :
+#				direzione_negativa_passaggi[nuovo_i_negativo] = lerpf(
+#					direzione_negativa_passaggi[nuovo_i_negativo],
+#					direzione_negativa_passaggi[nuovo_i_negativo] * -1,
+#					resto_puntatori)
+#
+#			direzione_positiva_passaggi[nuovo_i_positivo] = lerpf(
+#				direzione_positiva_passaggi[nuovo_i_positivo],
+#				temp_neg * moltiplicatore_energia_rimbalzo,
+#				resto_puntatori)
+#		else :
+#			var temp_neg = direzione_negativa_passaggi[nuovo_i_negativo]
+#
+#			direzione_negativa_passaggi[nuovo_i_negativo] =\
+#				 direzione_positiva_passaggi[nuovo_i_positivo] * moltiplicatore_energia_rimbalzo
+#
+#			if tubo_chiuso : direzione_negativa_passaggi[nuovo_i_negativo] *= -1
+#
+#			direzione_positiva_passaggi[nuovo_i_positivo] =\
+#				 temp_neg * moltiplicatore_energia_rimbalzo
 
-var ultimo_resto := 0.0
+var ultimo_input := 0.0
 func input_valori(input : float):
-	var ultimo = 0.0
-	var extra := 0
-	if not is_equal_approx(velocita_attraversamento,velocita_attraversamento_int) :
-		extra = 1
+	var delta_input = input - ultimo_input
 	
-	for i in range(velocita_attraversamento_int+extra) :
-		var nuovo_i_negativo = fmod(i_buffer_negativo + i,dimensione_coda)
-		var nuovo_i_positivo = dimensione_coda - 1 - nuovo_i_negativo
+	for i in range(floori(puntatore_coda-velocita_attraversamento), ceili(puntatore_coda)) :
+		var t : float = 1 - min((puntatore_coda - i) / velocita_attraversamento, 1.0)
+		var da_iserire = delta_input * t
 		
-		if is_zero_approx(resto_puntatori) :
-			if i != 0 :
-				direzione_positiva_passaggi[nuovo_i_positivo] += input
-			else :
-				direzione_positiva_passaggi[nuovo_i_positivo] += input * resto_puntatori
-		else :
-			if i == velocita_attraversamento_int :
-				direzione_positiva_passaggi[nuovo_i_positivo] += input * (1.0-ultimo_resto)
-			else :
-				direzione_positiva_passaggi[nuovo_i_positivo] += input
-			
-			ultimo_resto = resto_puntatori
+		i = fposmod(i, dimensione_coda) as int
+		coda_passaggi[i] += da_iserire
+	
+	for i in range(ceili(puntatore_coda), ceili(puntatore_coda + velocita_attraversamento)) :
+		i = fposmod(i, dimensione_coda) as int
+		coda_passaggi[i] += input
+	
+	ultimo_input = input
 
 
 func aggiorna_riverbero():
@@ -214,10 +194,7 @@ func aggiorna_riverbero():
 
 	if nuovo_riverbero > dimensione_coda :
 		dimensione_coda = nuovo_riverbero
-		direzione_positiva_passaggi.resize(dimensione_coda)
-		direzione_negativa_passaggi.resize(dimensione_coda)
-		i_buffer_negativo = fmod(i_buffer_negativo,dimensione_coda)
-		i_buffer_positivo = fmod(i_buffer_positivo,dimensione_coda)
+		coda_passaggi.resize(dimensione_coda*2)
+		puntatore_coda = fmod(puntatore_coda,dimensione_coda)
 
 	velocita_attraversamento = dimensione_coda as float / nuovo_riverbero as float
-	velocita_attraversamento_int = floori(velocita_attraversamento)
