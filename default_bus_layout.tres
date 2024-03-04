@@ -10,18 +10,26 @@ hipass = 0.32
 
 [sub_resource type="AudioEffectEQ21" id="AudioEffectEQ21_qncax"]
 resource_name = "EQ21"
-band_db/22_hz = -60.0
-band_db/32_hz = -10.8
-band_db/44_hz = -3.5
-band_db/1000_hz = 0.4
-band_db/1400_hz = 5.4
-band_db/2000_hz = 3.0
+band_db/32_hz = 8.6
+band_db/44_hz = 6.4
+band_db/63_hz = 10.0
+band_db/90_hz = 2.7
+band_db/125_hz = 13.0
+band_db/175_hz = 10.5
+band_db/250_hz = 11.3
+band_db/350_hz = 15.9
+band_db/500_hz = 17.1
+band_db/700_hz = 15.4
+band_db/1000_hz = 13.0
+band_db/1400_hz = 9.4
+band_db/2000_hz = 7.0
 band_db/2800_hz = 3.6
 band_db/4000_hz = 4.0
 band_db/5600_hz = 2.7
 band_db/8000_hz = -1.2
 band_db/11000_hz = -3.1
-band_db/16000_hz = -4.0
+band_db/16000_hz = -60.0
+band_db/22000_hz = -60.0
 
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
@@ -33,4 +41,4 @@ bus/0/effect/0/enabled = false
 bus/0/effect/1/effect = SubResource("AudioEffectEQ21_qncax")
 bus/0/effect/1/enabled = false
 bus/0/effect/2/effect = SubResource("AudioEffectCompressor_nji4r")
-bus/0/effect/2/enabled = true
+bus/0/effect/2/enabled = false

@@ -81,7 +81,7 @@ esc={
 ]
 }
 pene_temp={
-"deadzone": 0.5,
+"deadzone": 0.0,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":5,"axis_value":1.0,"script":null)
 ]
 }
