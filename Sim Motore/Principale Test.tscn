@@ -53,11 +53,11 @@ coppia_nm = 72600.0
 script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
 larghezza_albero_cm = 9.0
-lunghezza_biella_cm = 20.0
-volume_extra_cm = 0.5
+lunghezza_biella_cm = 12.0
+volume_extra_cm = 0.3
 alesaggio_cm = 10.0
-portata_entrata_aria = 8.0
-portata_uscita_aria = 16.0
+portata_entrata_aria = 2.0
+portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
@@ -66,8 +66,8 @@ motorino_avviamento = SubResource("Resource_phdcm")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.3
-massa = 5.0
+raggio = 0.5
+massa = 15.0
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0.482517)
@@ -121,7 +121,7 @@ volano = SubResource("Resource_44qqs")
 ecu = SubResource("Resource_8fclr")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
-pistoni_debug = [NodePath("../Pistone2"), null]
+pistoni_debug = [NodePath("../Pistone2"), NodePath("")]
 audio = [NodePath("CampionatorePistone")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
@@ -139,12 +139,10 @@ lunghezza_buffer = 5000
 
 [node name="CilindroAudio" type="Node" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_u4chr")
-qualita = 0.4
-moltiplicatore_input_output = 2.0
 componente_precedente = NodePath("..")
 dimensione_coda = 100
 moltiplicatore_energia_rimbalzo = 1.0
-attenuazione_suono = 30.0
+attenuazione_suono = 15.0
 
 [node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore/CampionatorePistone/CilindroAudio" node_paths=PackedStringArray("componente_audio_precedente")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
