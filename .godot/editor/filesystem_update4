@@ -2,3 +2,4 @@ res://default_bus_layout.tres
 res://Sim Motore/Principale Test.tscn
 res://Sistema audio/CilindroAudio.gd
 res://Sistema audio/AudioDelayInterpolato.gd
+res://Sistema audio/AutoLoad/InfoAudio.gd

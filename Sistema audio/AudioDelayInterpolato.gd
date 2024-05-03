@@ -68,6 +68,7 @@ func ottieni_campione() -> float:
 
 func avanza_puntatori():
 	puntatore_buffer += velocita_attraversamento
+	puntatore_buffer = fmod(puntatore_buffer,dimensione_buffer)
 
 
 func applica_attenuazione(attenuazione : float):
