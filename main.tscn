@@ -1,0 +1,161 @@
+[gd_scene load_steps=2 format=3 uid="uid://bje5odmkx5v7h"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_qlkn5"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qlkn5")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="camera1" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 96.0
+offset_top = 213.0
+offset_right = -788.0
+offset_bottom = -245.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="camera1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="names" type="VBoxContainer" parent="camera1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="p" type="Label" parent="camera1/HBoxContainer/names"]
+layout_mode = 2
+text = "Pressione: "
+vertical_alignment = 1
+
+[node name="v" type="Label" parent="camera1/HBoxContainer/names"]
+layout_mode = 2
+text = "Volume:"
+vertical_alignment = 1
+
+[node name="t" type="Label" parent="camera1/HBoxContainer/names"]
+layout_mode = 2
+text = "Temperatura:"
+vertical_alignment = 1
+
+[node name="n" type="Label" parent="camera1/HBoxContainer/names"]
+layout_mode = 2
+text = "Moli: "
+vertical_alignment = 1
+
+[node name="values" type="VBoxContainer" parent="camera1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="p" type="Label" parent="camera1/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="v" type="Label" parent="camera1/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="t" type="Label" parent="camera1/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="n" type="Label" parent="camera1/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="camera2" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 720.0
+offset_top = 215.0
+offset_right = -164.0
+offset_bottom = -243.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="camera2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="names" type="VBoxContainer" parent="camera2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="p" type="Label" parent="camera2/HBoxContainer/names"]
+layout_mode = 2
+text = "Pressione: "
+vertical_alignment = 1
+
+[node name="v" type="Label" parent="camera2/HBoxContainer/names"]
+layout_mode = 2
+text = "Volume:"
+vertical_alignment = 1
+
+[node name="t" type="Label" parent="camera2/HBoxContainer/names"]
+layout_mode = 2
+text = "Temperatura:"
+vertical_alignment = 1
+
+[node name="n" type="Label" parent="camera2/HBoxContainer/names"]
+layout_mode = 2
+text = "Moli: "
+vertical_alignment = 1
+
+[node name="values" type="VBoxContainer" parent="camera2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="p" type="Label" parent="camera2/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="v" type="Label" parent="camera2/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="t" type="Label" parent="camera2/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="n" type="Label" parent="camera2/HBoxContainer/values"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="VSlider" type="VSlider" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 473.0
+offset_top = 259.0
+offset_right = -531.0
+offset_bottom = -283.0
+grow_horizontal = 2
+grow_vertical = 2
