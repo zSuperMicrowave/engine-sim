@@ -1,6 +1,6 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1714752786
-default_bus_layout.tres::AudioBusLayout::6635219462913053403::1714752330::0::1::::<><>::
+::res://::1714752788
+default_bus_layout.tres::AudioBusLayout::6635219462913053403::1714752788::0::1::::<><>::
 icon.svg::CompressedTexture2D::8959811788862810426::1703532517::1713623274::1::::<><>::
 test mappa apertura.png::CompressedTexture2D::5087995317840110400::1714752763::1714752786::1::::<><>::
 ::res://0Utilità Globali/::1714752763
@@ -8,13 +8,13 @@ BufferCircolare.gd::GDScript::-1::1714752763::0::1::::BufferCircolare<>Object<>:
 ::res://0Utilità Globali/Navigatore 3D/::1714752763
 Navigatore 3D.gd::GDScript::-1::1714752763::0::1::::<>CharacterBody3D<>::
 Navigatore 3D.tscn::PackedScene::4390583553890440908::1714752763::0::1::::<><>::res://0Utilità Globali/Navigatore 3D/Navigatore 3D.gd
-::res://Sim Motore/::1714752763
+::res://Sim Motore/::1714761354
 AriaMotore.gd::GDScript::-1::1714752763::0::1::::AriaMotore<>RefCounted<>::
 BufferCircolareNodo.gd::GDScript::-1::1714752763::0::1::::BufferCircolareNodo<>Node<>::
 BufferFisicaAudio.gd::GDScript::-1::1714752763::0::1::::BufferFisicaAudio<>AudioStreamPlayer<>::
 ComponenteMotoreTubo.gd::GDScript::-1::1714752763::0::1::::ComponenteMotoreTubo<>Node<>::
 FunzioniMotore.gd::GDScript::-1::1714752763::0::1::::<>Node<>::
-Principale Test.tscn::PackedScene::6051557354495570911::1714752763::0::1::::<><>::res://Sim Motore/Debug/2d/Grafico2D.gd<>res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd<>uid://b3s3jfyy0vj4w::::res://0Utilità Globali/Navigatore 3D/Navigatore 3D.tscn<>uid://bbtvq23aydshw::::res://Sim Motore/Debug/Pistone/DebugPistone.tscn<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd<>res://Sim Motore/Debug/Parametri/DebugParametri.gd<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd<>uid://hgqgwr131a6q::::res://Sim Motore/Debug/Vettore (WIP)/vettore.tscn<>res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd<>uid://ceqwslxjhbfrs::::res://test mappa apertura.png<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd<>res://Sistema audio/CilindroAudio.gd<>res://Sistema audio/CampionatorePistone.gd<>res://Sistema audio/RiproduttoreAudio3D.gd<>uid://dj4hqjushhfn::::res://Sim Motore/UITemp/Senza nome.png<>res://Sim Motore/UITemp/Speedometer.gd<>uid://568x0t34bumb::::res://Sim Motore/UITemp/lancec.png
+Principale Test.tscn::PackedScene::6051557354495570911::1714761495::0::1::::<><>::res://Sim Motore/Debug/2d/Grafico2D.gd<>res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd<>uid://b3s3jfyy0vj4w::::res://0Utilità Globali/Navigatore 3D/Navigatore 3D.tscn<>uid://bbtvq23aydshw::::res://Sim Motore/Debug/Pistone/DebugPistone.tscn<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd<>res://Sim Motore/Debug/Parametri/DebugParametri.gd<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd<>uid://hgqgwr131a6q::::res://Sim Motore/Debug/Vettore (WIP)/vettore.tscn<>res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd<>uid://ceqwslxjhbfrs::::res://test mappa apertura.png<>res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd<>res://Sistema audio/AudioDelayInterpolato.gd<>res://Sistema audio/TuboAudio.gd<>res://Sistema audio/CilindroAudio.gd<>res://Sistema audio/CampionatorePistone.gd<>res://Sistema audio/RiproduttoreAudio3D.gd<>uid://dj4hqjushhfn::::res://Sim Motore/UITemp/Senza nome.png<>res://Sim Motore/UITemp/Speedometer.gd<>uid://568x0t34bumb::::res://Sim Motore/UITemp/lancec.png
 RisonanzaBufferizzataVecchio3D.gd::GDScript::-1::1714752763::0::1::::RisonanzaBufferizzataVecchio3D<>AudioStreamPlayer3D<>::
 Unita.gd::GDScript::-1::1714752763::0::1::::Unita<>RefCounted<>::
 ::res://Sim Motore/Componenti Simulazione Fisica/::1714752763
@@ -42,17 +42,18 @@ vettore.tscn::PackedScene::504691541633417790::1714752763::0::1::::<><>::res://S
 lancec.png::CompressedTexture2D::2171707097283976449::1714752763::1714752763::1::::<><>::
 Senza nome.png::CompressedTexture2D::230920079258084843::1714752763::1714752763::1::::<><>::
 Speedometer.gd::GDScript::-1::1714752763::0::1::::Speedometer<>TextureRect<>::
-::res://Sistema audio/::1714752763
+::res://Sistema audio/::1714761012
 BufferLetturaAudio.gd::GDScript::-1::1714752763::0::1::::BufferLetturaAudio<>BufferCircolare<>::
 CampionatorePistone.gd::GDScript::-1::1714752763::0::1::::CampionatorePistone<>ComponenteAudio<>res://Sistema audio/CampionatorePistone.gd.png::
 CampionatorePistone.gd.png::CompressedTexture2D::2338238182012204705::1714752763::1714752763::1::::<><>::
-CilindroAudio.gd::GDScript::-1::1714752763::0::1::::CilindroAudio<>ComponenteAudio<>::
+CilindroAudio.gd::GDScript::-1::1714753010::0::1::::CilindroAudio<>ComponenteAudio<>::
 CombinatoreAudio.gd::GDScript::-1::1714752763::0::1::::CombinatoreAudio<>ComponenteAudio<>::
 ComponenteAudio.gd::GDScript::-1::1714752763::0::1::::ComponenteAudio<>Node<>::
 MollaAudio.gd::GDScript::-1::1714752763::0::1::::MollaAudio<>ComponenteAudio<>::
+AudioDelayInterpolato.gd::GDScript::-1::1714761012::0::1::::DelayInterpolato<>ComponenteAudio<>::
 RiproduttoreAudio3D.gd::GDScript::-1::1714752763::0::1::::RiproduttoreAudio3D<>AudioStreamPlayer3D<>::
 RiproduttoreAudio.gd::GDScript::-1::1714752763::0::1::::RiproduttoreAudio<>AudioStreamPlayer<>::
 RiverberoCilindro.gd::GDScript::-1::1714752763::0::1::::<>Node<>::
 TuboAudio.gd::GDScript::-1::1714752763::0::1::::TuboAudio<>ComponenteAudio<>::
-::res://Sistema audio/AutoLoad/::1714752763
-InfoAudio.gd::GDScript::-1::1714752763::0::1::::<>Node<>::
+::res://Sistema audio/AutoLoad/::1714761137
+InfoAudio.gd::GDScript::-1::1714761137::0::1::::<>Node<>::

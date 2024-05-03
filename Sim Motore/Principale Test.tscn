@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=34 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://Sistema audio/AudioDelayInterpolato.gd" id="10_7kq28"]
 [ext_resource type="Script" path="res://Sistema audio/TuboAudio.gd" id="10_45tb7"]
 [ext_resource type="Script" path="res://Sistema audio/CilindroAudio.gd" id="10_u4chr"]
+[ext_resource type="Script" path="res://Sistema audio/AudioDelayOttimizzato.gd" id="10_ykfl2"]
 [ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="10_yw86n"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="11_0u58s"]
 [ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="12_vx4hn"]
@@ -139,6 +140,12 @@ esponenzialita_pressione = 2.0
 contributo_riverbero_pressione = 1.0
 lunghezza_buffer = 5000
 
+[node name="DelayInterpolatoOttimizzato" type="Node" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("10_ykfl2")
+moltiplicatore_input_output = 0.8
+componente_precedente = NodePath("..")
+dimensione_buffer = 35
+
 [node name="TuboAudio" type="Node" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_45tb7")
 moltiplicatore_input_output = 0.8
@@ -172,7 +179,7 @@ attenuazione_suono = 90.0
 [node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_audio_precedente")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
 script = ExtResource("11_0u58s")
-componente_audio_precedente = NodePath("../DelayInterpolato")
+componente_audio_precedente = NodePath("../DelayInterpolatoOttimizzato")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
