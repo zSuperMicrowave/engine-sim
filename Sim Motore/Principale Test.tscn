@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=32 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
 [ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="7_3viaw"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="7_6gx75"]
+[ext_resource type="Script" path="res://Sistema audio/AudioDelayInterpolato.gd" id="10_7kq28"]
 [ext_resource type="Script" path="res://Sistema audio/CilindroAudio.gd" id="10_u4chr"]
 [ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="10_yw86n"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="11_0u58s"]
@@ -121,7 +122,7 @@ volano = SubResource("Resource_44qqs")
 ecu = SubResource("Resource_8fclr")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
-pistoni_debug = [NodePath("../Pistone2"), NodePath("")]
+pistoni_debug = [NodePath("../Pistone2"), null]
 audio = [NodePath("CampionatorePistone")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
@@ -137,10 +138,20 @@ esponenzialita_pressione = 2.0
 contributo_riverbero_pressione = 1.0
 lunghezza_buffer = 5000
 
+[node name="DelayInterpolato" type="Node" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("10_7kq28")
+moltiplicatore_input_output = 0.5
+componente_precedente = NodePath("..")
+dimensione_buffer = 20
+tubo_chiuso = false
+moltiplicatore_energia_rimbalzo = 1.0
+attenuazione_suono = 15.0
+
 [node name="CilindroAudio" type="Node" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_u4chr")
 componente_precedente = NodePath("..")
-dimensione_coda = 100
+dimensione_coda = 20
+tubo_chiuso = false
 moltiplicatore_energia_rimbalzo = 1.0
 attenuazione_suono = 15.0
 
