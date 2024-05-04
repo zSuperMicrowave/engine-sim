@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=34 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
 [ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="7_3viaw"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="7_6gx75"]
+[ext_resource type="Script" path="res://Sistema audio/CombinatoreAudio.gd" id="9_5lr2j"]
+[ext_resource type="Script" path="res://Sistema audio/TuboAudio.gd" id="10_kmilq"]
 [ext_resource type="Script" path="res://Sistema audio/AudioDelayOttimizzato.gd" id="10_ykfl2"]
 [ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="10_yw86n"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="11_0u58s"]
@@ -52,22 +54,32 @@ coppia_nm = 72600.0
 [sub_resource type="Resource" id="Resource_rl3lg"]
 script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
-larghezza_albero_cm = 9.0
-lunghezza_biella_cm = 12.0
-volume_extra_cm = 0.3
-alesaggio_cm = 10.0
+larghezza_albero_cm = 4.0
+lunghezza_biella_cm = 6.0
+volume_extra_cm = 0.25
+alesaggio_cm = 7.0
+portata_entrata_aria = 2.0
+portata_uscita_aria = 4.0
+
+[sub_resource type="Resource" id="Resource_3pjto"]
+script = ExtResource("4_kmdvj")
+offset_rotazione = 3.14
+larghezza_albero_cm = 4.0
+lunghezza_biella_cm = 6.0
+volume_extra_cm = 0.25
+alesaggio_cm = 7.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_dymms"]
 script = ExtResource("4_d76iu")
-pistoni = Array[ExtResource("4_kmdvj")]([SubResource("Resource_rl3lg")])
+pistoni = Array[ExtResource("4_kmdvj")]([SubResource("Resource_rl3lg"), SubResource("Resource_3pjto")])
 motorino_avviamento = SubResource("Resource_phdcm")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.5
-massa = 7.0
+raggio = 0.4
+massa = 5.0
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0.482517)
@@ -81,8 +93,8 @@ fill_to = Vector2(0, 0.230769)
 
 [sub_resource type="Resource" id="Resource_8fclr"]
 script = ExtResource("7_6gx75")
-velocita_aggiornamento_ecu_hz = 30
-rpm_massimi = 10000.0
+velocita_aggiornamento_ecu_hz = 20
+rpm_massimi = 7500.0
 miscela_piu_povera = 16.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
@@ -121,11 +133,30 @@ volano = SubResource("Resource_44qqs")
 ecu = SubResource("Resource_8fclr")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
-pistoni_debug = [NodePath("../Pistone2"), null]
-audio = [NodePath("CampionatorePistone")]
+pistoni_debug = [NodePath("../Pistone2"), NodePath("../Pistone3")]
+audio = [NodePath("CampionatorePistone"), NodePath("CampionatorePistone2")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
 compensazione_lentezza_simulazione = 0.935
+
+[node name="CombinatoreAudio" type="Node" parent="Motore" node_paths=PackedStringArray("componenti_precedenti")]
+script = ExtResource("9_5lr2j")
+componenti_precedenti = [NodePath("../CampionatorePistone/DelayInterpolatoOttimizzato"), NodePath("../CampionatorePistone2/TuboAudio")]
+
+[node name="TuboAudio" type="Node" parent="Motore/CombinatoreAudio" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("10_kmilq")
+moltiplicatore_input_output = 0.78
+componente_precedente = NodePath("..")
+dimensione_coda = 200
+tubo_chiuso = false
+attenuazione_suono = 42.98
+ovattamento_suono = 0.0
+campioni_ovattamento_massimi = 10
+
+[node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore/CombinatoreAudio/TuboAudio" node_paths=PackedStringArray("componente_audio_precedente")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
+script = ExtResource("11_0u58s")
+componente_audio_precedente = NodePath("..")
 
 [node name="CampionatorePistone" type="Node" parent="Motore"]
 process_thread_group = 1
@@ -139,13 +170,35 @@ lunghezza_buffer = 5000
 script = ExtResource("10_ykfl2")
 moltiplicatore_input_output = 0.8
 componente_precedente = NodePath("..")
-dimensione_buffer = 35
+dimensione_buffer = 55
+moltiplicatore_energia_rimbalzo = 0.9
 attenuazione_suono = 0.0
+blocca_estensione_riverbero = true
 
-[node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore/CampionatorePistone" node_paths=PackedStringArray("componente_audio_precedente")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
-script = ExtResource("11_0u58s")
-componente_audio_precedente = NodePath("../DelayInterpolatoOttimizzato")
+[node name="CampionatorePistone2" type="Node" parent="Motore"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("10_yw86n")
+contributo_riverbero_pressione = 1.0
+lunghezza_buffer = 5000
+
+[node name="DelayInterpolatoOttimizzato2" type="Node" parent="Motore/CampionatorePistone2" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("10_ykfl2")
+moltiplicatore_input_output = 0.8
+componente_precedente = NodePath("..")
+dimensione_buffer = 55
+moltiplicatore_energia_rimbalzo = 0.9
+attenuazione_suono = 0.0
+blocca_estensione_riverbero = true
+
+[node name="TuboAudio" type="Node" parent="Motore/CampionatorePistone2" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("10_kmilq")
+componente_precedente = NodePath("../DelayInterpolatoOttimizzato2")
+dimensione_coda = 35
+tubo_chiuso = false
+moltiplicatore_energia_rimbalzo = 0.47
+ovattamento_suono = 0.0
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
@@ -154,6 +207,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
 
 [node name="Pistone2" parent="." instance=ExtResource("2_0andf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.789139, 0, -1.50657)
+
+[node name="Pistone3" parent="." instance=ExtResource("2_0andf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.94657, 0, -1.50657)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

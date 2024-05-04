@@ -23,6 +23,7 @@ var velocita_attraversamento := 1.0
 
 @export_group("Debug e Test")
 @export var silenzia_errori := false
+@export var blocca_estensione_riverbero := false
 
 
 func _enter_tree():
@@ -33,7 +34,7 @@ func _enter_tree():
 func ottieni_campione() -> float:
 	aggiorna_riverbero()
 
-	var delta = 1.0 / InfoAudio.frequenza_campionamento_hz
+#	var delta = 1.0 / InfoAudio.frequenza_campionamento_hz
 	var attenuazione = 1.0/(1.0+attenuazione_suono*0.001)
 
 
@@ -59,9 +60,9 @@ func ottieni_campione() -> float:
 	for i in range(range) :
 		var mul := 1.0
 		if i + idx_min < idx :
-			mul = 2 * max(idx - (idx_min + i), 0.0) / range
+			mul = 2 * maxf(idx - (idx_min + i), 0.0) / range
 		else :
-			mul = 2 * max((idx_min + i) - idx, 0.0) / range
+			mul = 2 * maxf((idx_min + i) - idx, 0.0) / range
 		
 		# definisci cazzi
 		var i_pos := (idx_min + i) as int % dimensione_buffer
@@ -107,7 +108,7 @@ func ottieni_campione() -> float:
 
 
 	# OUTPUT
-	risultato /= max(peso_output, 0.1)
+	risultato /= maxf(peso_output, 0.1)
 	risultato *= moltiplicatore_input_output
 
 	return risultato
@@ -115,6 +116,8 @@ func ottieni_campione() -> float:
 
 func aggiorna_riverbero():
 	var nuovo_riverbero : float = componente_precedente.ottieni_riverbero()
-	nuovo_riverbero = max(nuovo_riverbero, 0.0)
+	nuovo_riverbero = maxf(nuovo_riverbero, 0.0)
+	if blocca_estensione_riverbero :
+		nuovo_riverbero = minf(nuovo_riverbero,dimensione_buffer)
 
 	velocita_attraversamento = nuovo_riverbero / dimensione_buffer as float

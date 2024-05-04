@@ -40,6 +40,8 @@ func _ottieni_miscela(motore : ComponenteMotore):
 
 
 func _ottieni_apertura(motore : ComponenteMotore):
+	if motore.albero_motore.velocita_angolare / Unita.rpm > rpm_massimi :
+		return apertura_minima
 	var pos_mappa := ottieni_posizione_relativa_mappatura(motore)
 	
 	pos_mappa *= Vector2(mappa_apertura.get_width()-1, mappa_apertura.get_height()-1)

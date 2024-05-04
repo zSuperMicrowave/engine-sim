@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=4 format=3 uid="uid://c1sfdh8ikn2t8"]
+[gd_resource type="AudioBusLayout" load_steps=6 format=3 uid="uid://c1sfdh8ikn2t8"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0f2cx"]
 resource_name = "Reverb"
@@ -23,6 +23,21 @@ band_db/8000_hz = -1.2
 band_db/11000_hz = -3.1
 band_db/16000_hz = -4.0
 
+[sub_resource type="AudioEffectEQ10" id="AudioEffectEQ10_cwvmu"]
+resource_name = "EQ10"
+band_db/125_hz = 1.4
+band_db/250_hz = 3.1
+band_db/500_hz = 1.5
+band_db/1000_hz = 0.7
+band_db/2000_hz = -0.7
+band_db/4000_hz = -7.1
+band_db/8000_hz = 1.5
+band_db/16000_hz = -15.8
+
+[sub_resource type="AudioEffectBandLimitFilter" id="AudioEffectBandLimitFilter_ee7vs"]
+resource_name = "BandLimitFilter"
+cutoff_hz = 300.0
+
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
 threshold = -2.0
@@ -32,5 +47,9 @@ bus/0/effect/0/effect = SubResource("AudioEffectReverb_0f2cx")
 bus/0/effect/0/enabled = false
 bus/0/effect/1/effect = SubResource("AudioEffectEQ21_qncax")
 bus/0/effect/1/enabled = false
-bus/0/effect/2/effect = SubResource("AudioEffectCompressor_nji4r")
-bus/0/effect/2/enabled = true
+bus/0/effect/2/effect = SubResource("AudioEffectEQ10_cwvmu")
+bus/0/effect/2/enabled = false
+bus/0/effect/3/effect = SubResource("AudioEffectBandLimitFilter_ee7vs")
+bus/0/effect/3/enabled = false
+bus/0/effect/4/effect = SubResource("AudioEffectCompressor_nji4r")
+bus/0/effect/4/enabled = true

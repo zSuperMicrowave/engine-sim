@@ -45,7 +45,10 @@ func _elabora_rapido(delta: float) -> void :
 
 func _elabora_lento(delta : float) :
 	ecu.elabora(self,delta)
-	
+	if Input.is_action_just_pressed("invio") :
+		batteria_connessa = true
+	if Input.is_action_just_pressed("uccidi") :
+		batteria_connessa = false
 
 
 var ultimo_errore_validazione_formula := 0.0
