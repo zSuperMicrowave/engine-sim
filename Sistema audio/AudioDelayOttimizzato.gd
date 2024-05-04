@@ -1,8 +1,7 @@
 extends ComponenteAudio
 class_name DelayInterpolatoOttimizzato
 
-var direzione_positiva_passaggi : Array[float]
-var direzione_negativa_passaggi : Array[float]
+var buffer : Array[float]
 var puntatore_buffer := 0.0
 
 @export_range(0.01,2.0) var moltiplicatore_input_output := 1.0
@@ -27,8 +26,7 @@ var velocita_attraversamento := 1.0
 
 
 func _enter_tree():
-	direzione_positiva_passaggi.resize(dimensione_buffer)
-	direzione_negativa_passaggi.resize(dimensione_buffer)
+	buffer.resize(dimensione_buffer * 2)
 
 
 func ottieni_campione() -> float:
@@ -66,44 +64,48 @@ func ottieni_campione() -> float:
 		
 		# definisci cazzi
 		var i_pos := (idx_min + i) as int % dimensione_buffer
-		var i_neg := (-idx_min -i) as int % dimensione_buffer
+		var i_neg := i_pos + dimensione_buffer
+		
+#		var i_pos := ( (idx_min + i) as int ) % (dimensione_buffer * 2)
+#		var i_neg := (i_pos + dimensione_buffer) % (dimensione_buffer * 2)
 		
 		# ---------ATTENUA I VALORI---------
-		direzione_positiva_passaggi[i_pos] *= lerpf(attenuazione,1.0, mul)
-		direzione_negativa_passaggi[i_neg] *= lerpf(attenuazione,1.0, mul)
+		buffer[i_pos] *= lerpf(attenuazione,1.0, mul)
+		buffer[i_neg] *= lerpf(attenuazione,1.0, mul)
 		#-----------------------------------
 
 		# ---------SCAMBIA I VALORI---------
-		var temp := direzione_positiva_passaggi[i_pos]
+		var pos_temp := buffer[i_pos]
+		var neg_temp := buffer[i_neg]
 		
 		if tubo_chiuso :
-			direzione_positiva_passaggi[i_pos] = lerpf(
-				direzione_positiva_passaggi[i_pos],
-				direzione_negativa_passaggi[i_neg] * -1 * moltiplicatore_energia_rimbalzo,
+			buffer[i_pos] = lerpf(
+				pos_temp,
+				neg_temp * -1 * moltiplicatore_energia_rimbalzo,
 				mul)
 				
-			direzione_negativa_passaggi[i_neg] = lerpf(
-				direzione_negativa_passaggi[i_neg],
-				temp * -1 * moltiplicatore_energia_rimbalzo,
+			buffer[i_neg] = lerpf(
+				neg_temp,
+				pos_temp * -1 * moltiplicatore_energia_rimbalzo,
 				mul)
 		else :
-			direzione_positiva_passaggi[i_pos] = lerpf(
-				direzione_positiva_passaggi[i_pos],
-				direzione_negativa_passaggi[i_neg] * moltiplicatore_energia_rimbalzo,
+			buffer[i_pos] = lerpf(
+				pos_temp,
+				neg_temp * moltiplicatore_energia_rimbalzo,
 				mul)
 				
-			direzione_negativa_passaggi[i_neg] = lerpf(
-				direzione_negativa_passaggi[i_neg],
-				temp * moltiplicatore_energia_rimbalzo,
+			buffer[i_neg] = lerpf(
+				neg_temp,
+				pos_temp * moltiplicatore_energia_rimbalzo,
 				mul)
 		#-----------------------------------
 
 		# ---------INPUT---------
-		direzione_positiva_passaggi[i_pos] += input
+		buffer[i_pos] += input
 		# -----------------------
 		
 		# OUTPU
-		risultato += direzione_positiva_passaggi[i_pos] * mul
+		risultato += buffer[i_pos] * mul
 		peso_output += mul
 
 
@@ -114,10 +116,99 @@ func ottieni_campione() -> float:
 	return risultato
 
 
+var cnt := 0
 func aggiorna_riverbero():
+	cnt+=1
 	var nuovo_riverbero : float = componente_precedente.ottieni_riverbero()
 	nuovo_riverbero = maxf(nuovo_riverbero, 0.0)
 	if blocca_estensione_riverbero :
 		nuovo_riverbero = minf(nuovo_riverbero,dimensione_buffer)
 
-	velocita_attraversamento = nuovo_riverbero / dimensione_buffer as float
+#	if cnt > InfoAudio.frequenza_campionamento_hz * 0.08 :
+#		ridimensiona_buffer(max(floori(nuovo_riverbero*2.0),2))
+#		cnt = 0
+
+#	_scala_proporzionalmente_array(buffer,maxi(maxi(roundi(nuovo_riverbero),2)*2,2))
+#	puntatore_buffer *= maxi(roundi(nuovo_riverbero),2)*2 as float / dimensione_buffer as float
+#	dimensione_buffer = maxi(roundi(nuovo_riverbero),2)
+
+	# * 0.5 perché il buffer specificato è metà del totale cazzo in culo
+	velocita_attraversamento = nuovo_riverbero * 0.5 / dimensione_buffer as float
+
+
+#func ridimensiona_buffer(nuova_dimensione : int):
+#	var diff := nuova_dimensione*2 as float / dimensione_buffer as float
+#	var nuovo_buffer : Array[float]
+#	nuovo_buffer.resize(nuova_dimensione*2)
+#
+#	for i in range(dimensione_buffer):
+#		var idx_max := ceili( i * diff + diff*0.5)
+#		var idx_min := floori( i * diff - diff*0.5)
+#		var range := idx_max - idx_min
+#
+#		for j in range(range) :
+#			var idx := i * diff + j * diff / range
+#			var mul := 1.0
+#			if i + idx_min < idx :
+#				mul = 2 * maxf(idx - (idx_min + i), 0.0) / range
+#			else :
+#				mul = 2 * maxf((idx_min + i) - idx, 0.0) / range
+#
+#			# definisci cazzi
+#			nuovo_buffer[roundi(idx) % nuova_dimensione*2] = lerpf(buffer[i % dimensione_buffer],buffer[roundi(i + j * diff/range) % dimensione_buffer],mul)
+##			var i_pos := (idx_min + i) as int % dimensione_buffer
+##			var i_neg := i_pos + dimensione_buffer
+#
+#	dimensione_buffer = nuova_dimensione
+#	buffer = nuovo_buffer
+#
+#	puntatore_buffer = fmod(puntatore_buffer,nuova_dimensione)
+#
+#func _scala_array(array:Array, nuova_dimensione:int) -> void:
+#	if array.size() == nuova_dimensione :
+#		return
+#
+#	var vecchio_array = array.duplicate()
+#	array.resize(nuova_dimensione)
+#
+#	var rapporto :=\
+#		vecchio_array.size() as float / nuova_dimensione as float
+#
+#	var j := 0
+#	var contatore := 0.0
+#	for i in range(array.size()):
+#		array[i] = vecchio_array[j]
+#
+#		contatore += rapporto
+#		while contatore >= 1.0 :
+#			contatore -= 1.0
+#			j += 1
+#
+#func _scala_proporzionalmente_array(array:Array, nuova_dimensione:int) -> void:
+#	if array.size() == nuova_dimensione :
+#		return
+#	if array.size() > nuova_dimensione :
+##		if !silenzia_errori :
+##			printerr("Non si può scalare proporzionalmente a diminuire")
+#		_scala_array(array,nuova_dimensione)
+#		return
+#
+#	var vecchio_array = array.duplicate()
+#	array.resize(nuova_dimensione)
+#
+#	var rapporto :=\
+#		vecchio_array.size() as float / nuova_dimensione as float
+#
+#	var j := 0
+#	var contatore := 0.0
+#	for i in range(array.size()):
+#		if j < vecchio_array.size()-1 :
+#			array[i] = vecchio_array[j] * (1.0 - contatore)\
+#				+ vecchio_array[j+1] * contatore
+#		else :
+#			array[i] = vecchio_array[j]
+#
+#		contatore += rapporto
+#		while contatore >= 1.0 :
+#			contatore -= 1.0
+#			j += 1

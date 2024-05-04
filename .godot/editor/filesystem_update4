@@ -4,3 +4,4 @@ res://Sistema audio/CilindroAudio.gd
 res://Sistema audio/AudioDelayOttimizzato.gd
 res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd
 res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd
+res://Sim Motore/AriaMotore.gd

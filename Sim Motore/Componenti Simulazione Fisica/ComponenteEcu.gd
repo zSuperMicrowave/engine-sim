@@ -32,6 +32,10 @@ func elabora(motore : ComponenteMotore, delta) :
 
 
 func _ottieni_miscela(motore : ComponenteMotore):
+	if motore.albero_motore.velocita_angolare / Unita.rpm > rpm_massimi :
+		return mappa_stechiometrica.get_image().get_pixelv(
+			Vector2(mappa_stechiometrica.get_width()-1 , 0)
+			).r
 	var pos_mappa := ottieni_posizione_relativa_mappatura(motore)
 	
 	pos_mappa *= Vector2(mappa_stechiometrica.get_width()-1, mappa_stechiometrica.get_height()-1)
