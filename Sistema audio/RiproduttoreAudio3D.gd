@@ -2,6 +2,7 @@ extends AudioStreamPlayer3D
 class_name RiproduttoreAudio3D
 
 @export var componente_audio_precedente : ComponenteAudio
+@export_range(-1.0,1.0) var dc_offset_manuale := 0.0
 var playback : AudioStreamGeneratorPlayback
 
 func _ready():
@@ -24,6 +25,6 @@ func _physics_process(delta):
 func _elabora_frame_audio():
 	var frame_rimanenti := playback.get_frames_available()
 	while frame_rimanenti > 0:
-		var val = componente_audio_precedente.ottieni_campione()
+		var val = componente_audio_precedente.ottieni_campione() + dc_offset_manuale
 		playback.push_frame(Vector2.ONE * val)
 		frame_rimanenti -= 1

@@ -25,14 +25,14 @@ band_db/16000_hz = -4.0
 
 [sub_resource type="AudioEffectEQ10" id="AudioEffectEQ10_cwvmu"]
 resource_name = "EQ10"
-band_db/125_hz = 1.4
-band_db/250_hz = 3.1
-band_db/500_hz = 1.5
-band_db/1000_hz = 0.7
-band_db/2000_hz = -0.7
-band_db/4000_hz = -7.1
-band_db/8000_hz = 1.5
-band_db/16000_hz = -15.8
+band_db/125_hz = 5.0
+band_db/250_hz = 5.0
+band_db/500_hz = 6.0
+band_db/1000_hz = -0.3
+band_db/2000_hz = -8.5
+band_db/4000_hz = -19.0
+band_db/8000_hz = -2.5
+band_db/16000_hz = -15.5
 
 [sub_resource type="AudioEffectBandLimitFilter" id="AudioEffectBandLimitFilter_ee7vs"]
 resource_name = "BandLimitFilter"

@@ -54,6 +54,7 @@ func invia_campione(val_p: float, val_t : float, delta : float):
 	_popola_buffer(val_p + val_t, delta)
 
 
+
 func imposta_riverbero(volume : float, pressione : float):
 	volume = volume * 86800
 	pressione = pressione * 0.000001 * contributo_riverbero_pressione

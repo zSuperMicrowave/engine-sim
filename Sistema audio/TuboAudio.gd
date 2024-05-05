@@ -17,6 +17,7 @@ var i_buffer_negativo := 0
 @export_range(2,4000) var dimensione_coda := 5
 @export var tubo_chiuso := true
 @export var coda_modulata := false
+@export var ritarda_input := true
 
 @export_subgroup("Attenuazione")
 @export var moltiplicatore_energia_rimbalzo := 0.8
@@ -84,7 +85,8 @@ func ottieni_campione() -> float:
 
 
 	# INPUT
-	direzione_positiva_passaggi[i_buffer_positivo] += input
+	if not ritarda_input :
+		direzione_positiva_passaggi[i_buffer_positivo] += input
 
 
 	# OUTPUT
@@ -94,6 +96,10 @@ func ottieni_campione() -> float:
 		risultato += direzione_positiva_passaggi[sex]
 	risultato /= ampiezza_ovattamento
 	risultato *= moltiplicatore_input_output
+
+
+	if ritarda_input :
+		direzione_positiva_passaggi[i_buffer_positivo] += input
 
 	return risultato
 

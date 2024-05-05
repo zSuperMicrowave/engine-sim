@@ -128,7 +128,7 @@ grafici = NodePath("../grafici")
 compensazione_lentezza_simulazione = 0.935
 
 [node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore" node_paths=PackedStringArray("componente_audio_precedente")]
-process_physics_priority = -1
+process_physics_priority = 1
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 3
@@ -142,11 +142,10 @@ dc_offset_manuale = 0.215
 script = ExtResource("10_ykfl2")
 moltiplicatore_input_output = 0.8
 componente_precedente = NodePath("CampionatorePistone")
-dimensione_buffer_base = 3
-modulazione_buffer = 1.0
-lentezza_modulazine = 50
-dettaglio_modulazione_buffer = 1.0
-moltiplicatore_energia_rimbalzo = 0.1
+dimensione_buffer = 4
+ritarda_input = true
+modulazione_buffer = true
+dettaglio_modulazione_buffer = 0.2
 attenuazione_suono = 1.525
 motore = NodePath("../..")
 
