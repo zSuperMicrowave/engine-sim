@@ -26,5 +26,6 @@ func _elabora_frame_audio():
 	var frame_rimanenti := playback.get_frames_available()
 	while frame_rimanenti > 0:
 		var val = componente_audio_precedente.ottieni_campione() + dc_offset_manuale
+		if is_nan(val) : print("/!\\VALORE NAN RESTITUITO/!\\")
 		playback.push_frame(Vector2.ONE * val)
 		frame_rimanenti -= 1
