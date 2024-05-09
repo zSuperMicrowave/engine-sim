@@ -134,16 +134,18 @@ process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
-volume_db = 21.1
+volume_db = 4.051
 script = ExtResource("11_0u58s")
-componente_audio_precedente = NodePath("TuboAudio")
-dc_offset_manuale = 0.215
+componente_audio_precedente = NodePath("DelayInterpolatoOttimizzato")
+qnt_dc_offset = 1.0
+lentezza_aggiornamento_dc_offset = 2000
 
 [node name="TuboAudio" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_7xka5")
 componente_precedente = NodePath("CampionatorePistone")
+tubo_chiuso = false
 coda_modulata = true
-ritarda_input = false
+attenuazione_suono = 50.0
 ovattamento_suono = 0.0
 metodo_restringimento_buffer = 2
 metodo_allargamento_buffer = 2
@@ -167,8 +169,8 @@ dimensione_buffer_massima = 1500
 ritarda_input = true
 modulazione_buffer = 1.0
 lentezza_modulazine = 15
-dettaglio_modulazione_buffer = 1.0
-attenuazione_suono = 50.0
+dettaglio_modulazione_buffer = 2.0
+moltiplicatore_energia_rimbalzo = 0.98
 motore = NodePath("../..")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
