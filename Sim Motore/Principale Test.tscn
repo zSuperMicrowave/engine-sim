@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=32 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="5_xp1lm"]
 [ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="7_3viaw"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="7_6gx75"]
+[ext_resource type="Script" path="res://Sistema audio/TuboAudio.gd" id="10_7xka5"]
 [ext_resource type="Script" path="res://Sistema audio/AudioDelayOttimizzato.gd" id="10_ykfl2"]
 [ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="10_yw86n"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="11_0u58s"]
@@ -122,7 +123,7 @@ ecu = SubResource("Resource_8fclr")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../UI/Debug parametri")
 pistoni_debug = [NodePath("../Pistone2")]
-audio = [NodePath("RiproduttoreAudio3D/DelayInterpolatoOttimizzato/CampionatorePistone")]
+audio = [NodePath("RiproduttoreAudio3D/TuboAudio/CampionatorePistone")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
 compensazione_lentezza_simulazione = 0.935
@@ -135,13 +136,32 @@ process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
 volume_db = 21.1
 script = ExtResource("11_0u58s")
-componente_audio_precedente = NodePath("DelayInterpolatoOttimizzato")
+componente_audio_precedente = NodePath("TuboAudio")
 dc_offset_manuale = 0.215
+
+[node name="TuboAudio" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componente_precedente")]
+script = ExtResource("10_7xka5")
+componente_precedente = NodePath("CampionatorePistone")
+coda_modulata = true
+ritarda_input = false
+ovattamento_suono = 0.0
+metodo_restringimento_buffer = 2
+metodo_allargamento_buffer = 2
+riposiziona_restringimento_buffer = 1
+riposiziona_allargamento_buffer = 1
+
+[node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D/TuboAudio"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("10_yw86n")
+contributo_riverbero_pressione = 1.0
+lunghezza_buffer = 5000
 
 [node name="DelayInterpolatoOttimizzato" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componente_precedente", "motore")]
 script = ExtResource("10_ykfl2")
 moltiplicatore_input_output = 0.8
-componente_precedente = NodePath("CampionatorePistone")
+componente_precedente = NodePath("../TuboAudio/CampionatorePistone")
 dimensione_buffer_base = 45
 dimensione_buffer_massima = 1500
 ritarda_input = true
@@ -150,14 +170,6 @@ lentezza_modulazine = 15
 dettaglio_modulazione_buffer = 1.0
 attenuazione_suono = 50.0
 motore = NodePath("../..")
-
-[node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D/DelayInterpolatoOttimizzato"]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-script = ExtResource("10_yw86n")
-contributo_riverbero_pressione = 1.0
-lunghezza_buffer = 5000
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)

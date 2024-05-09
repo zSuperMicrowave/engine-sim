@@ -204,14 +204,14 @@ func _aggiorna_dimensione_coda():
 				direzione_positiva_passaggi.resize(dimensione_coda_desiderata)
 				direzione_negativa_passaggi.resize(dimensione_coda_desiderata)
 			2:
-				_scala_array(direzione_positiva_passaggi, dimensione_coda_desiderata)
-				_scala_array(direzione_negativa_passaggi, dimensione_coda_desiderata)
+				direzione_positiva_passaggi = ridimensiona_array_ciclico(direzione_positiva_passaggi, dimensione_coda_desiderata)
+				direzione_negativa_passaggi = ridimensiona_array_ciclico(direzione_negativa_passaggi, dimensione_coda_desiderata)
 			3:
 				_estendi_buffer(dimensione_coda_desiderata)
 			4:
-				_scala_proporzionalmente_array(
+				direzione_positiva_passaggi = ridimensiona_array_ciclico(
 					direzione_positiva_passaggi, dimensione_coda_desiderata)
-				_scala_proporzionalmente_array(
+				direzione_negativa_passaggi = ridimensiona_array_ciclico(
 					direzione_negativa_passaggi, dimensione_coda_desiderata)
 			5:
 				direzione_positiva_passaggi.resize(dimensione_coda_desiderata)
@@ -237,8 +237,8 @@ func _aggiorna_dimensione_coda():
 				direzione_positiva_passaggi.resize(dimensione_coda_desiderata)
 				direzione_negativa_passaggi.resize(dimensione_coda_desiderata)
 			2:
-				_scala_array(direzione_positiva_passaggi, dimensione_coda_desiderata)
-				_scala_array(direzione_negativa_passaggi, dimensione_coda_desiderata)
+				direzione_positiva_passaggi= ridimensiona_array_ciclico(direzione_positiva_passaggi, dimensione_coda_desiderata)
+				direzione_negativa_passaggi= ridimensiona_array_ciclico(direzione_negativa_passaggi, dimensione_coda_desiderata)
 			3:
 				_estendi_buffer(dimensione_coda_desiderata)
 		
@@ -251,3 +251,63 @@ func _aggiorna_dimensione_coda():
 				i_buffer_positivo *= rapporto
 
 	dimensione_coda = dimensione_coda_desiderata
+
+
+func ridimensiona_array(arr : Array[float], nuova_grandezza : int):
+	var passo := (nuova_grandezza-1) as float / (arr.size()-1) as float
+	var nuovo_buffer : Array[float]
+	nuovo_buffer.resize(nuova_grandezza)
+
+	if nuova_grandezza > arr.size() :
+		for i in range(nuova_grandezza):
+			var flr := clampi(floori(i / passo), 0, arr.size()-1)
+			var cel := clampi(ceili( i / passo), 0, arr.size()-1)
+			
+			nuovo_buffer[i] = lerpf(arr[flr],arr[cel], i/passo - flr)
+	else :
+		var div : Array[float]
+		div.resize(nuova_grandezza)
+		nuovo_buffer.fill(0.0)
+		div.fill(0.0)
+		for i in range(arr.size()):
+			var flr := clampi(floori(i * passo), 0, nuova_grandezza-1)
+			var cel := clampi(ceili( i * passo), 0, nuova_grandezza-1)
+			
+			nuovo_buffer[flr] += arr[i] * maxf(i*passo - flr, 0.0)
+			nuovo_buffer[cel] += arr[i] * maxf(cel - i*passo, 0.0)
+			
+			div[flr] += maxf(i*passo - flr, 0.0)
+			div[cel] += maxf(cel - i*passo, 0.0)
+		
+		for i in range(nuova_grandezza) :
+			if is_zero_approx(div[i]) :
+				nuovo_buffer[i] = 0.0
+				continue
+			nuovo_buffer[i] /= div[i]
+	
+	arr = nuovo_buffer
+	
+	return arr
+
+func ridimensiona_array_ciclico(arr : Array[float], nuova_grandezza : int) -> Array[float]:
+	var passo = nuova_grandezza as float / arr.size()
+	var nuovo_buffer : Array[float]
+	nuovo_buffer.resize(nuova_grandezza)
+	
+	if nuova_grandezza > arr.size():
+		for i in range(nuova_grandezza):
+			var idx = i / passo
+			var flr = int(idx) % arr.size()
+			var cel = (flr + 1) % arr.size()
+			var t = idx - flr
+			nuovo_buffer[int(i+passo*0.45) % nuova_grandezza] = lerp(arr[flr], arr[cel], t)
+	else:
+		for i in range(nuova_grandezza):
+			var start_idx = int(i * (arr.size() / nuova_grandezza))
+			var end_idx = int((i + 1) * (arr.size() / nuova_grandezza))
+			var sum = 0.0
+			for j in range(start_idx, end_idx):
+				sum += arr[j % arr.size()]
+			nuovo_buffer[i] = sum / (end_idx - start_idx)
+
+	return nuovo_buffer
