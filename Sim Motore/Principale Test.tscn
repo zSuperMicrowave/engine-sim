@@ -144,10 +144,11 @@ moltiplicatore_input_output = 0.8
 componente_precedente = NodePath("CampionatorePistone")
 dimensione_buffer_base = 45
 dimensione_buffer_massima = 1500
+ritarda_input = true
+modulazione_buffer = 1.0
 lentezza_modulazine = 15
-dettaglio_modulazione_buffer = 1.5
-moltiplicatore_energia_rimbalzo = 0.98
-attenuazione_suono = 1.525
+dettaglio_modulazione_buffer = 1.0
+attenuazione_suono = 50.0
 motore = NodePath("../..")
 
 [node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D/DelayInterpolatoOttimizzato"]
