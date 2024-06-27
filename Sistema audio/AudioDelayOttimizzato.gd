@@ -34,7 +34,7 @@ var velocita_attraversamento := 1.0
 
 
 func _enter_tree():
-	buffer.resize(dimensione_buffer * 2)
+	buffer.resize(dimensione_buffer_base * 2)
 
 
 func ottieni_campione() -> float:
@@ -48,8 +48,8 @@ func ottieni_campione() -> float:
 		componente_precedente.ottieni_campione() * moltiplicatore_input_output
 
 	# CALCOLA ROBE UTILI PER OTTIMIZZAZIONE
-	var idx_max := ceili(puntatore_buffer+velocita_attraversamento*0.5)
-	var idx_min := floori(puntatore_buffer-velocita_attraversamento*0.5)
+	var idx_max := ceili(puntatore_buffer+0.5+velocita_attraversamento*0.5)
+	var idx_min := floori(puntatore_buffer+0.5-velocita_attraversamento*0.5)
 	var range := idx_max - idx_min
 	var idx := puntatore_buffer
 	var risultato : float = 0.0
@@ -146,6 +146,7 @@ var cnt := 0
 func aggiorna_riverbero():
 	cnt+=1
 	var nuovo_riverbero : float = componente_precedente.ottieni_riverbero()
+	#nuovo_riverbero = 90
 	nuovo_riverbero = maxf(nuovo_riverbero, 0.0)
 
 
