@@ -13,8 +13,15 @@ var coppia_totale := 0.0
 
 func _elabora_componenti(motore : ComponenteMotore, delta : float):
 	motorino_avviamento.elabora(motore, delta)
+	var threads : Array[Thread]
 	for pistone in pistoni:
-		pistone.elabora(motore, delta)
+		var t = Thread.new()
+		t.start(Callable(pistone,"elabora").bind(motore,delta))
+		threads.append(t)
+		#pistone.elabora(motore, delta)
+	
+	for t in threads:
+		t.wait_to_finish()
 
 
 func _ottieni_forze(motore : ComponenteMotore):

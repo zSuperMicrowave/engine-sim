@@ -23,14 +23,14 @@ func ottieni_campione() -> float:
 	buffer_pointer += 1
 	
 	var delay_samps : float = campionatore.ottieni_riverbero() * delay_length_multiplier
-	delay_samps = clampf(delay_samps * ratio, 0.1, buffer_len-2)
+	delay_samps = clampf(delay_samps * ratio, 0.01, buffer_len-2)
 	
-	var samps_ago_a : int = int(delay_samps)
-	var samps_ago_b : int = samps_ago_a + 1;
+	var samps_ago_a : int = int(delay_samps+1)
+	var samps_ago_b : int = samps_ago_a - 1;
 
 	var sample : float = read_buffer(-samps_ago_a)
 	var next_sample : float = read_buffer(-samps_ago_b)
-	var a : float = delay_samps - samps_ago_a
+	var a : float = delay_samps+1 - samps_ago_a
 	var delayed_sample := lerpf(sample, next_sample, a)
 
 	var input : float = campionatore.ottieni_campione()
@@ -50,13 +50,13 @@ func ottieni_campione() -> float:
 
 
 func read_buffer(offset : int) -> float:
-	var i := posmod(buffer_pointer - offset, buffer_len)
+	var i := posmod(buffer_pointer + offset, buffer_len)
 	return buffer[i]
 
 func write_buffer(offset : int, input : float):
-	var i := posmod(buffer_pointer - offset, buffer_len)
+	var i := posmod(buffer_pointer + offset, buffer_len)
 	buffer[i] = input
 
 func add_to_buffer(offset : int, input : float):
-	var i := posmod(buffer_pointer - offset, buffer_len)
+	var i := posmod(buffer_pointer + offset, buffer_len)
 	buffer[i] += input
