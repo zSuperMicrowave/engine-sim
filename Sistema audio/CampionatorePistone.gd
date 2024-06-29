@@ -48,7 +48,7 @@ func _physics_process(delta):
 	var half := float(lunghezza_buffer * 0.5)
 	var avg := float(avg_buffer_size) / float(count_avg_samps)
 	var temp_correction_delta = half / avg
-	print("Avg: ",avg)
+#	print("Avg: ",avg)
 #	print("Current length: ", buffer.size())
 #	print("Correction delta: ",temp_correction_delta)
 	correction_delta = lerpf(1.0,temp_correction_delta,correction_delta_amount)

@@ -55,8 +55,8 @@ coppia_nm = 72600.0
 script = ExtResource("4_kmdvj")
 offset_rotazione = 0.0
 larghezza_albero_cm = 3.0
-lunghezza_biella_cm = 6.0
-volume_extra_cm = 0.2
+lunghezza_biella_cm = 4.0
+volume_extra_cm = 0.3
 alesaggio_cm = 10.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
@@ -65,8 +65,8 @@ portata_uscita_aria = 4.0
 script = ExtResource("4_kmdvj")
 offset_rotazione = 240.0
 larghezza_albero_cm = 3.0
-lunghezza_biella_cm = 6.0
-volume_extra_cm = 0.2
+lunghezza_biella_cm = 4.0
+volume_extra_cm = 0.3
 alesaggio_cm = 10.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
@@ -75,8 +75,8 @@ portata_uscita_aria = 4.0
 script = ExtResource("4_kmdvj")
 offset_rotazione = 480.0
 larghezza_albero_cm = 3.0
-lunghezza_biella_cm = 6.0
-volume_extra_cm = 0.2
+lunghezza_biella_cm = 4.0
+volume_extra_cm = 0.3
 alesaggio_cm = 10.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
@@ -89,7 +89,7 @@ motorino_avviamento = SubResource("Resource_phdcm")
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
 raggio = 0.4
-massa = 2.0
+massa = 6.0
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0.482517)
@@ -103,8 +103,8 @@ fill_to = Vector2(0, 0.230769)
 
 [sub_resource type="Resource" id="Resource_8fclr"]
 script = ExtResource("7_6gx75")
-velocita_aggiornamento_ecu_hz = 20
-rpm_massimi = 20000.0
+velocita_aggiornamento_ecu_hz = 40
+rpm_massimi = 8000.0
 miscela_piu_povera = 16.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
@@ -155,10 +155,9 @@ process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
-volume_db = 19.623
+volume_db = 10.0
 script = ExtResource("11_0u58s")
 componente_audio_precedente = NodePath("CombinatoreAudio")
-qnt_dc_offset = 1.0
 lentezza_aggiornamento_dc_offset = 4410
 
 [node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D"]
@@ -192,7 +191,7 @@ moltiplicatore_pressione = 0.9
 esponenzialita_pressione = 2.0
 contributo_riverbero_pressione = 1.0
 lunghezza_buffer = 8000
-correction_delta_amount = 0.5
+correction_delta_amount = 0.185
 
 [node name="DelayInterpolatoOttimizzato" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("campionatore")]
 script = ExtResource("12_tu5we")
