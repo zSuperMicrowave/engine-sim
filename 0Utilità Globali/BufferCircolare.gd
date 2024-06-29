@@ -22,7 +22,7 @@ func scrivi(val : float):
 
 
 func leggi() -> float:
-	i_lettura += 1
+	i_lettura += 1	
 	return buffer[i_lettura % lunghezza]
 
 

@@ -104,7 +104,7 @@ fill_to = Vector2(0, 0.230769)
 [sub_resource type="Resource" id="Resource_8fclr"]
 script = ExtResource("7_6gx75")
 velocita_aggiornamento_ecu_hz = 20
-rpm_massimi = 15000.0
+rpm_massimi = 20000.0
 miscela_piu_povera = 16.0
 miscela_piu_ricca = 12.0
 mappa_stechiometrica = SubResource("GradientTexture2D_pgf74")
@@ -147,7 +147,7 @@ pistoni_debug = [NodePath("../Pistone2")]
 audio = [NodePath("RiproduttoreAudio3D/CampionatorePistone"), NodePath("RiproduttoreAudio3D/CampionatorePistone2"), NodePath("RiproduttoreAudio3D/CampionatorePistone3")]
 speedometer = NodePath("../UI/speedometer")
 grafici = NodePath("../grafici")
-compensazione_lentezza_simulazione = 0.982
+compensazione_lentezza_simulazione = 1.0
 
 [node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore" node_paths=PackedStringArray("componente_audio_precedente")]
 process_physics_priority = -1
@@ -155,7 +155,7 @@ process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
-volume_db = 4.051
+volume_db = 19.623
 script = ExtResource("11_0u58s")
 componente_audio_precedente = NodePath("CombinatoreAudio")
 qnt_dc_offset = 1.0
@@ -170,7 +170,7 @@ moltiplicatore_pressione = 0.9
 esponenzialita_pressione = 2.0
 contributo_riverbero_pressione = 1.0
 lunghezza_buffer = 8000
-avanzamento_puntatore_scrittura = 0.5
+correction_delta_amount = 0.5
 
 [node name="CampionatorePistone2" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
@@ -181,7 +181,7 @@ moltiplicatore_pressione = 0.9
 esponenzialita_pressione = 2.0
 contributo_riverbero_pressione = 1.0
 lunghezza_buffer = 8000
-avanzamento_puntatore_scrittura = 0.5
+correction_delta_amount = 0.5
 
 [node name="CampionatorePistone3" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
@@ -192,38 +192,35 @@ moltiplicatore_pressione = 0.9
 esponenzialita_pressione = 2.0
 contributo_riverbero_pressione = 1.0
 lunghezza_buffer = 8000
-avanzamento_puntatore_scrittura = 0.5
+correction_delta_amount = 0.5
 
 [node name="DelayInterpolatoOttimizzato" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("campionatore")]
 script = ExtResource("12_tu5we")
 campionatore = NodePath("../CampionatorePistone")
 buffer_len = 1000
-feedback = 0.19
+feedback = 0.18
 invert = false
-delay_length_multiplier = 0.15
 gain = 2.0
 
 [node name="DelayInterpolatoOttimizzato2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("campionatore")]
 script = ExtResource("12_tu5we")
 campionatore = NodePath("../CampionatorePistone2")
 buffer_len = 1000
-feedback = 0.19
+feedback = 0.18
 invert = false
-delay_length_multiplier = 0.15
 gain = 2.0
 
 [node name="DelayInterpolatoOttimizzato3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("campionatore")]
 script = ExtResource("12_tu5we")
 campionatore = NodePath("../CampionatorePistone3")
 buffer_len = 1000
-feedback = 0.19
+feedback = 0.18
 invert = false
-delay_length_multiplier = 0.15
 gain = 2.0
 
 [node name="TuboAudio" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_7xka5")
-moltiplicatore_input_output = 1.9
+moltiplicatore_input_output = 2.0
 componente_precedente = NodePath("../DelayInterpolatoOttimizzato")
 dimensione_coda = 200
 tubo_chiuso = false
@@ -236,7 +233,7 @@ riposiziona_allargamento_buffer = 1
 
 [node name="TuboAudio2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_7xka5")
-moltiplicatore_input_output = 1.9
+moltiplicatore_input_output = 2.0
 componente_precedente = NodePath("../DelayInterpolatoOttimizzato2")
 dimensione_coda = 300
 tubo_chiuso = false
@@ -249,7 +246,7 @@ riposiziona_allargamento_buffer = 1
 
 [node name="TuboAudio3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componente_precedente")]
 script = ExtResource("10_7xka5")
-moltiplicatore_input_output = 1.9
+moltiplicatore_input_output = 2.0
 componente_precedente = NodePath("../DelayInterpolatoOttimizzato3")
 dimensione_coda = 140
 tubo_chiuso = false

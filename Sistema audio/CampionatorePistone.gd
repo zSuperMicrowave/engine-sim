@@ -25,17 +25,45 @@ var lunghezza_riverbero_attuale : float = 1.0
 # Quanto il puntatore scrittura del buffer partirà in avanti relativamnete alla
 # lunghezza totale del buffer. Serve per evitare aggiornamenti di valori del
 # buffer che stanno per esser letti.
-@export_range(0.0, 1.0) var avanzamento_puntatore_scrittura : float = 0.1
+@export_range(0.0, 1.0) var correction_delta_amount : float = 0.1
 
-var buffer : BufferLetturaAudio = null
-
+var buffer : RingBuffer = null
 
 func _enter_tree():
-	buffer = BufferLetturaAudio.new(lunghezza_buffer,avanzamento_puntatore_scrittura)
+	var arr := Array()
+	for i in range(lunghezza_buffer * 0.5) :
+		arr.push_back(0.0)
+	
+	buffer = RingBuffer.new(lunghezza_buffer,arr)
+
+
+var avg_buffer_size := 0
+var count_avg_samps := 0
+var correction_delta := 1.0
+func _physics_process(delta):
+	if count_avg_samps == 0 or avg_buffer_size == 0 :
+		correction_delta = 1.0
+		return
+	
+	var half := float(lunghezza_buffer * 0.5)
+	var avg := float(avg_buffer_size) / float(count_avg_samps)
+	var temp_correction_delta = half / avg
+	print("Avg: ",avg)
+#	print("Current length: ", buffer.size())
+#	print("Correction delta: ",temp_correction_delta)
+	correction_delta = lerpf(1.0,temp_correction_delta,correction_delta_amount)
+#	print("Final correction: ",correction_delta)
+	avg_buffer_size = 0
+	count_avg_samps = 0
 
 
 func ottieni_campione() -> float:
-	return buffer.leggi()
+	avg_buffer_size += buffer.size()
+	count_avg_samps += 1
+	
+	var out = buffer.pop_front()
+	if out == null : return 0.0
+	return out
 
 
 func ottieni_riverbero() -> float:
@@ -75,7 +103,11 @@ func imposta_riverbero(volume : float, pressione : float):
 
 var ultimo_valore_buffer = 0.0
 var contatore_resto_buffer := 0.0
+var delta_time := Time.get_ticks_usec()
 func _popola_buffer(val : float, delta : float):
+	delta = float(Time.get_ticks_usec() - delta_time) / 1_000_000.0
+	delta *= correction_delta
+	delta_time = Time.get_ticks_usec()
 	# Numero di campioni necessari a compensare la differenza di velocita
 	# Tra simulazione fisica e simulazione audio.
 	var campioni_compensazione_f : float\
@@ -99,6 +131,6 @@ func _popola_buffer(val : float, delta : float):
 	for i in range(numero_iterazioni):
 		var n = lerp(ultimo_valore_buffer, val, i as float / numero_iterazioni)
 		
-		buffer.scrivi(n)
+		buffer.push_back(n)
 	
 	ultimo_valore_buffer = val
