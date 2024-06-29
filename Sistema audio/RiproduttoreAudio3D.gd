@@ -36,7 +36,7 @@ var count : int = 0
 func _elabora_frame_audio():
 	var frame_rimanenti := playback.get_frames_available()
 	while frame_rimanenti > 0:
-		var val = componente_audio_precedente.ottieni_campione()
+		var val = componente_audio_precedente.sample_audio()
 		
 		dc_offset_continuo += val*vel_agg_dc_offset
 		count += 1

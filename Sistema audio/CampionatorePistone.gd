@@ -57,7 +57,7 @@ func _physics_process(delta):
 	count_avg_samps = 0
 
 
-func ottieni_campione() -> float:
+func sample_audio() -> float:
 	avg_buffer_size += buffer.size()
 	count_avg_samps += 1
 	
@@ -66,7 +66,7 @@ func ottieni_campione() -> float:
 	return out
 
 
-func ottieni_riverbero() -> float:
+func sample_reverb() -> float:
 	return lunghezza_riverbero_attuale
 
 

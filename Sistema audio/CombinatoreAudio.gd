@@ -5,11 +5,11 @@ class_name CombinatoreAudio
 @export var esegui_media := false
 
 
-func ottieni_campione() -> float :
+func sample_audio() -> float :
 	var risultato : float = 0.0
 	
 	for c in componenti_precedenti :
-		risultato += c.ottieni_campione()
+		risultato += c.sample_audio()
 	
 	if esegui_media :
 		risultato /= componenti_precedenti.size()

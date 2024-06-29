@@ -1,7 +1,7 @@
 extends Node
 class_name ComponenteAudio
 
-func ottieni_campione() -> float:
+func sample_audio() -> float:
 	printerr("Questa funzione dev'essere sovrascritta in tutti i componenti")
 
 	if randf() > 0.5 :
@@ -9,7 +9,7 @@ func ottieni_campione() -> float:
 	else :
 		return 0.0
 
-func ottieni_riverbero() -> float:
+func sample_reverb() -> float:
 	printerr("Questa funzione dev'essere sovrascritta almeno
 		nel campionatore audio")
 
