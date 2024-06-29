@@ -37,12 +37,16 @@ func ottieni_campione() -> float:
 	
 	if do_input and not single_delay :
 		write_buffer(0,input)
+	elif not single_delay :
+		write_buffer(0,0)
 	
 	var delay_input = delayed_sample * feedback * (-1 if invert else 1)
 	add_to_buffer(0, delay_input)
 	
 	if do_input and single_delay :
 		write_buffer(0,input)
+	elif single_delay :
+		write_buffer(0,0)
 
 	var out := read_buffer(0) * gain
 	

@@ -1,6 +1,7 @@
 res://default_bus_layout.tres
 res://Sim Motore/Principale Test.tscn
 res://esperimenti/dagadg.tscn
-res://Sistema audio/BespokeDelay.gd
-res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd
 res://Sistema audio/AutoLoad/InfoAudio.gd
+res://Sistema audio/TuboAudio.gd
+res://Sistema audio/BespokeDelay.gd
+res://Sistema audio/BufferLetturaAudio.gd

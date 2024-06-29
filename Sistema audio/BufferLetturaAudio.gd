@@ -7,7 +7,7 @@ func _init(lunghezza : int, compensaziona_ritardo_scrittura : float):
 	clamp(compensaziona_ritardo_scrittura, 0.0, 1.0)
 	self.compensazione_ritardo_scrittura = compensazione_ritardo_scrittura
 	super._init(lunghezza)
-	i_scrittura = compensaziona_ritardo_scrittura
+	i_scrittura = compensaziona_ritardo_scrittura * lunghezza
 
 
 func scrivi(val : float):

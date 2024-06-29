@@ -40,8 +40,9 @@ var i_buffer_negativo := 0
 
 
 func _enter_tree():
-	direzione_positiva_passaggi.resize(dimensione_coda)
-	direzione_negativa_passaggi.resize(dimensione_coda)
+	var ratio = 44100.0 / float(InfoAudio.frequenza_campionamento_hz)
+	direzione_positiva_passaggi.resize(dimensione_coda) * ratio
+	direzione_negativa_passaggi.resize(dimensione_coda) * ratio
 
 
 func ottieni_campione() -> float:
@@ -191,7 +192,9 @@ func _aggiorna_dimensione_coda():
 	# Se non ci sono differenze nella coda, concludi la chiamata
 	if componente_precedente.ottieni_riverbero() as int == dimensione_coda : return
 
-	var dimensione_coda_desiderata := componente_precedente.ottieni_riverbero() as int
+	var ratio = 44100.0 / float(InfoAudio.frequenza_campionamento_hz)
+
+	var dimensione_coda_desiderata : int = componente_precedente.ottieni_riverbero() * ratio
 	if dimensione_coda_desiderata < 1 :
 		dimensione_coda_desiderata = 200
 		if !silenzia_errori:
