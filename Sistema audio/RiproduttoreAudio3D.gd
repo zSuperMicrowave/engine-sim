@@ -21,6 +21,7 @@ func _physics_process(delta):
 	if !playing:
 		play()
 		print("/!\\AUDIO BLOCCATO/!\\")
+	
 	_elabora_frame_audio()
 
 

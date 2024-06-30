@@ -5,6 +5,7 @@ class_name Valve
 @export var cam_profile := Curve.new()
 @export var noise_amount := 1.0
 @export var noise_attenuation := 8000.0
+@export var enabled := true
 
 var turbidity := 0.0
 var previous_valve_pos := 0.0
@@ -20,6 +21,8 @@ func set_valve_position(camshaft_rotation : float):
 			fposmod(camshaft_rotation,TAU*2) / TAU*2.0 )
 
 func sample_audio():
+	if not enabled :
+		return previous_component.sample_audio()
 	var ratio := 44100.0 / float(InfoAudio.frequenza_campionamento_hz)
 	turbidity += max((valve_pos - previous_valve_pos) * ratio,0.0) * pressure * noise_amount
 	turbidity = lerpf(turbidity, 0.0, clampf(noise_attenuation/ratio,0.0,1.0))

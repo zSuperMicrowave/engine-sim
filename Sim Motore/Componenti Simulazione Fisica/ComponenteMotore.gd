@@ -9,6 +9,7 @@ class_name ComponenteMotore
 @export_category("Stato apparecchi")
 @export var batteria_connessa := true
 @export var coefficiente_attrito_meccanico_totale := 0.0
+var resistenza_esterna := 0.0
 @export var carburante_attuale_litri := 10.0 
 
 @export_category("Componenti")
@@ -21,12 +22,8 @@ class_name ComponenteMotore
 @export var griglia_parametri : GrigliaDebugParametri
 @export var pistoni_debug : Array[DebugPistone]
 @export var audio : Array[CampionatorePistone]
-@export var vecchio_audio : Array[RisonanzaBufferizzataVecchio3D]
 @export var speedometer : Speedometer
 @export var grafici : Node2D
-
-@export_category("Audio")
-@export_range(0.8,3.0) var compensazione_lentezza_simulazione := 1.5
 
 
 var dbg_len := 0.0
@@ -135,32 +132,16 @@ var pressione_precedente = 0.0
 
 
 func calcola_audio(delta : float):
-	if audio == null || audio.is_empty():
-		calcola_audio_vecchio(delta)
-		return
-	
 	var range : int = min(albero_motore.pistoni.size(), audio.size())
 	
 	for i in range(range) :
 		var pressione = albero_motore.pistoni[i].aria_cilindro.pressione - pressione_atmosferica
 		var temperatura = albero_motore.pistoni[i].aria_cilindro.temperatura
 		var volume = albero_motore.pistoni[i].aria_cilindro.volume
-		audio[i].invia_campione(pressione, temperatura, delta * compensazione_lentezza_simulazione)
-		audio[i].imposta_riverbero(volume, pressione)
-
-
-func calcola_audio_vecchio(delta : float):
-	if vecchio_audio == null || vecchio_audio.is_empty() : return
-	
-	for i in range(min(albero_motore.pistoni.size(), vecchio_audio.size())) :
+		var rotazione = albero_motore.pistoni[i].rotazione_fase
 		
-		var pressione = (albero_motore.pistoni[i].aria_cilindro.pressione - pressione_atmosferica)
-		pressione = pressione * 0.00001
-		var segnale_audio = pressione - pressione_precedente\
-			+ albero_motore.pistoni[i].aria_cilindro.volume * 20.0
-		pressione_precedente = pressione
+		audio[i].invia_campione(pressione, temperatura, rotazione)
+		audio[i].imposta_riverbero(volume, temperatura)
 
-		var volume = 86000 * albero_motore.pistoni[i].aria_cilindro.volume * (1.0 + albero_motore.pistoni[i].aria_cilindro.pressione * 0.000002)
-
-		vecchio_audio[i].aggiungi_campione_fisico(segnale_audio, delta * compensazione_lentezza_simulazione)
-		vecchio_audio[i].numero_passaggi_desiderato = volume
+func imposta_resistenza_esterna(val : float):
+	resistenza_esterna = val

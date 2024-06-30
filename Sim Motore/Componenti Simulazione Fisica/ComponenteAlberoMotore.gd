@@ -27,6 +27,7 @@ func _elabora_componenti(motore : ComponenteMotore, delta : float):
 func _ottieni_forze(motore : ComponenteMotore):
 	var coppia_avviamento = motorino_avviamento.ottieni_coppia()
 	var coppia_attrito = -motore.coefficiente_attrito_meccanico_totale * velocita_angolare
+	var resistenza = -motore.resistenza_esterna
 	var coppia_pistoni = 0.0
 	for pistone in pistoni:
 		coppia_pistoni += pistone.ottieni_coppia(motore)

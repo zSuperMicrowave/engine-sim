@@ -62,6 +62,21 @@ func pop_front():
 	current_size -= 1
 	return out
 
+func get_back(neg_offset : int):
+	var pointer = (back_pointer - neg_offset) % buffer.size()
+	return buffer[pointer]
+
+func get_front(pos_offset : int):
+	var pointer = (front_pointer + pos_offset) % buffer.size()
+	return buffer[pointer]
+
+func set_back(neg_offset : int, val):
+	var pointer = (back_pointer - neg_offset) % buffer.size()
+	buffer[pointer] = val
+
+func set_front(pos_offset : int, val):
+	var pointer = (front_pointer + pos_offset) % buffer.size()
+	buffer[pointer] = val
 
 func max_size():
 	return buffer.size()
