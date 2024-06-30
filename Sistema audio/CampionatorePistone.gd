@@ -6,6 +6,9 @@ class_name CampionatorePistone
 #@export var motore : FisicaMotore
 #@export var cilindro : int
 
+@export var valve : Valve
+@export var use_valve := true
+
 @export_group("Dettagli campionamento")
 @export_subgroup("Pressione")
 @export_range(0.001,1.0) var moltiplicatore_pressione : float = 1.0
@@ -70,7 +73,7 @@ func sample_reverb() -> float:
 	return lunghezza_riverbero_attuale
 
 
-func invia_campione(val_p: float, val_t : float, delta : float):
+func invia_campione(val_p: float, val_t : float, fase_albero : float):
 	val_p *= moltiplicatore_pressione * 0.000001
 	val_p = pow(val_p,esponenzialita_pressione)
 	val_p = lerp(val_p, val_p * (randf()*2-1), rumorosita_pressione)
@@ -79,7 +82,11 @@ func invia_campione(val_p: float, val_t : float, delta : float):
 	val_t = pow(val_t,esponenzialita_temperatura)
 	val_t = lerp(val_t, val_t * (randf()*2-1), rumorosita_temperatura)
 	
-	_popola_buffer(val_p + val_t, delta)
+	if use_valve and valve != null :
+		valve.set_valve_position(fase_albero)
+		valve.set_pressure(val_p)
+	
+	_popola_buffer(val_p + val_t)
 
 
 
@@ -100,8 +107,8 @@ func imposta_riverbero(volume : float, temperatura : float):
 var ultimo_valore_buffer = 0.0
 var contatore_resto_buffer := 0.0
 var delta_time := Time.get_ticks_usec()
-func _popola_buffer(val : float, delta : float):
-	delta = float(Time.get_ticks_usec() - delta_time) / 1_000_000.0
+func _popola_buffer(val : float):
+	var delta = float(Time.get_ticks_usec() - delta_time) / 1_000_000.0
 	delta *= correction_delta
 	delta_time = Time.get_ticks_usec()
 	# Numero di campioni necessari a compensare la differenza di velocita
