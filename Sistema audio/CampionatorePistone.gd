@@ -18,7 +18,7 @@ class_name CampionatorePistone
 
 @export_group("Dettagli riverbero")
 @export_range(0.0,1.0) var contributo_riverbero_pressione : float
-var lunghezza_riverbero_attuale : float = 1.0
+var lunghezza_riverbero_attuale : float = 1000.0
 
 @export_group("Buffer")
 @export var lunghezza_buffer : int = 11025
@@ -83,14 +83,10 @@ func invia_campione(val_p: float, val_t : float, delta : float):
 
 
 
-func imposta_riverbero(volume : float, pressione : float):
-	volume = volume * 86800
-	pressione = pressione * 0.000001 * contributo_riverbero_pressione
+func imposta_riverbero(volume : float, temperatura : float):
+	var vel_suono : float = sqrt(391*temperatura)
 	
-	volume = max(1.0, volume)
-	pressione = max(1.0, pressione)
-	
-	lunghezza_riverbero_attuale = volume/pressione
+	lunghezza_riverbero_attuale = max(0.1, volume*44100000 / vel_suono)
 
 
 #func imposta_riverbero_retrocompatibile(volume : float, pressione : float):

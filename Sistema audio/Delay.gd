@@ -54,6 +54,7 @@ func _update_params():
 func _debug():
 	print("Min delay: ", debug_min_delay)
 	print("Max delay: ", debug_max_delay)
+	print("Current delay: ",delay_samps)
 
 
 func sample_audio() -> float:
@@ -63,7 +64,7 @@ func sample_audio() -> float:
 	buffer_pointer = (buffer_pointer+1) % buffer_len
 
 	if not force_fixed_delay and can_vary_delay : delay_samps =\
-		previous_component.sample_reverb() * delay_length_multiplier
+		previous_component.sample_reverb() * delay_length_multiplier +1
 
 	delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
 	var delay_samps_int := roundi(delay_samps)
