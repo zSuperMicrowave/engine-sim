@@ -9,6 +9,11 @@ var rotazione := 0.0
 var velocita_angolare := 0.0
 var coppia_totale := 0.0
 
+var forces_sum := 0.0
+var forces_num := 0.0
+var external_angular_velocity := 0.0
+var clutch := 0.0
+var physics_delta := 1.0
 
 
 func _elabora_componenti(motore : ComponenteMotore, delta : float):
@@ -24,6 +29,21 @@ func _elabora_componenti(motore : ComponenteMotore, delta : float):
 		t.wait_to_finish()
 
 
+func get_forces_avg():
+	var out : float = forces_sum / forces_num
+	forces_sum = 0.0
+	forces_num = 0.0
+	return out
+
+func set_clutch(val : float):
+	clutch = clampf(val,0.0,1.0)
+
+func set_external_rpm(val : float):
+	external_angular_velocity = val / Unita.rpm
+
+func set_delta(val:float):
+	physics_delta = val
+
 func _ottieni_forze(motore : ComponenteMotore):
 	var coppia_avviamento = motorino_avviamento.ottieni_coppia()
 	var coppia_attrito = -motore.coefficiente_attrito_meccanico_totale * velocita_angolare
@@ -33,7 +53,14 @@ func _ottieni_forze(motore : ComponenteMotore):
 		coppia_pistoni += pistone.ottieni_coppia(motore)
 
 	coppia_totale = coppia_avviamento + coppia_attrito + coppia_pistoni
-	coppia_totale /= motore.volano.inerzia
+	
+	if motore.guidato :
+		coppia_totale /= lerpf(motore.volano.inerzia,1.0,clutch)
+		
+		forces_sum += coppia_totale
+		forces_num += 1
+	else :
+		coppia_totale /= motore.volano.inerzia 
 
 
 func _aggiorna_parametri():
@@ -57,7 +84,12 @@ func elabora(motore : ComponenteMotore, delta : float):
 	_ottieni_forze(motore)
 
 	# Applica rotazione
-	velocita_angolare += coppia_totale * delta
+	if motore.guidato :
+		velocita_angolare = lerpf(velocita_angolare + coppia_totale * (1-clutch) * delta,
+			external_angular_velocity, clutch)
+	else :
+		velocita_angolare += coppia_totale * delta
+	
 	rotazione += velocita_angolare * delta
 
 	# Aggiorna parametri componenti

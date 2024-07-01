@@ -73,8 +73,8 @@ func sample_audio(samps : int) -> Array[float]:
 	for i in range(samps) :
 		buffer_pointer = (buffer_pointer+1) % buffer_len
 
-		if not force_fixed_delay and can_vary_delay : delay_samps =\
-			rev_buf[i] * delay_length_multiplier +1
+		if not force_fixed_delay and can_vary_delay :
+			delay_samps = rev_buf[i] * delay_length_multiplier +1
 
 		delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
 		var delay_samps_int := roundi(delay_samps)

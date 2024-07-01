@@ -1,7 +1,12 @@
 res://default_bus_layout.tres
+res://esperimenti/macchinina/macina.tscn
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd
+res://esperimenti/macchinina/Transmission.gd
+res://esperimenti/macchinina/TransGearRatio.gd
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd
+res://esperimenti/macchinina/veicolobruto.gd
 res://Sim Motore/Principale Test.tscn
-res://Sistema audio/RiproduttoreAudio3D.gd
-res://Sistema audio/CombinatoreAudio.gd
-res://Sistema audio/Delay.gd
-res://Sistema audio/CampionatorePistone.gd
-res://Sistema audio/AutoLoad/InfoAudio.gd
+res://esperimenti/macchinina/tracciamerda.gd
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd
+res://esperimenti/macchinina/new_standard_material_3d.tres
+res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd

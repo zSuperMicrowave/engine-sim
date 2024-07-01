@@ -49,6 +49,9 @@ func _elabora():
 func _elabora_lento(delta : float):
 	if Input.is_action_pressed("rallenta_fisica") :
 			delta *= rallentamento_slow_motion
+			Engine.time_scale = rallentamento_slow_motion
+	else :
+		Engine.time_scale = 1.0
 	
 	for motore in motori:
 		motore._elabora_lento(delta)

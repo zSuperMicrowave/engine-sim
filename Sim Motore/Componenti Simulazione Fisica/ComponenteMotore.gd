@@ -25,6 +25,8 @@ var resistenza_esterna := 0.0
 @export var speedometer : Speedometer
 @export var grafici : Node2D
 
+@export_category("Sperimentali")
+@export var guidato := false
 
 var dbg_len := 0.0
 var elab_ecu := 0.0
@@ -38,6 +40,15 @@ func _elabora_rapido(delta: float) -> void :
 
 	call_deferred("_debug",delta)
 	
+
+func get_force(external_rpm : float) -> float:
+	albero_motore.set_external_rpm(external_rpm)
+	return albero_motore.get_forces_avg() * albero_motore.clutch
+
+
+func get_inertia(clutch : float):
+	albero_motore.set_clutch(clutch)
+	return volano.inerzia * albero_motore.clutch
 
 
 func _elabora_lento(delta : float) :

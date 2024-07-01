@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dno7msnsfvly8"]
+
+[ext_resource type="Texture2D" uid="uid://dpa64oct6hdxu" path="res://esperimenti/macchinina/template_r.png" id="1_1m4dr"]
+
+[resource]
+albedo_texture = ExtResource("1_1m4dr")
+uv1_triplanar = true

@@ -1,0 +1,20 @@
+extends VehicleBody3D
+class_name Machinina
+
+@export var trans : Transmission
+@export var base_mass := 100
+func _ready():
+	pass
+
+
+func _physics_process(delta):
+	mass = base_mass + trans.get_inertia()
+	engine_force = trans.get_force() * 1000
+	trans.engine.albero_motore.set_delta(delta)
+	print(engine_force)
+
+func get_slip():
+	return 1-($rr.get_skidinfo() + $rl.get_skidinfo())*0.5
+
+func get_wheel_rpm():
+	return max(($rr.get_rpm() + $rl.get_rpm())*0.5,0.0)

@@ -40,8 +40,6 @@ cutoff_hz = 300.0
 
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
-threshold = -6.0
-gain = 6.5
 release_ms = 80.0
 
 [resource]
