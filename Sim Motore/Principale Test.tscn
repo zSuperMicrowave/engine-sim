@@ -160,7 +160,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244
 script = ExtResource("11_0u58s")
 componente_audio_precedente = NodePath("CombinatoreAudio")
 dc_offset_hz = 117
-max_samples_buffer_length = 400
+max_samples_buffer_length = 150
 
 [node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1

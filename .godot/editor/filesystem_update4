@@ -4,3 +4,4 @@ res://Sistema audio/RiproduttoreAudio3D.gd
 res://Sistema audio/CombinatoreAudio.gd
 res://Sistema audio/Delay.gd
 res://Sistema audio/CampionatorePistone.gd
+res://Sistema audio/AutoLoad/InfoAudio.gd
