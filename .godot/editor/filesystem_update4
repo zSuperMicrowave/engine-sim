@@ -1,11 +1,6 @@
 res://default_bus_layout.tres
 res://Sim Motore/Principale Test.tscn
-res://Sistema audio/CampionatorePistone.gd
-res://Sistema audio/Valve.gd
 res://Sistema audio/RiproduttoreAudio3D.gd
 res://Sistema audio/CombinatoreAudio.gd
-res://0Utilità Globali/RingBuffer.gd
-res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd
-res://Sistema audio/AutoLoad/InfoAudio.gd
-res://Sistema audio/AudioSyncronizerBuffer.gd
 res://Sistema audio/Delay.gd
+res://Sistema audio/CampionatorePistone.gd

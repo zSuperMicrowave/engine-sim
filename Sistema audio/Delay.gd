@@ -57,53 +57,44 @@ func _debug():
 	print("Current delay: ",delay_samps)
 
 
-func sample_audio() -> float:
+func sample_audio(samps : int) -> Array[float]:
 	if is_zero_approx(feedback) or straight_trough:
-		return previous_component.sample_audio()
-	
-	buffer_pointer = (buffer_pointer+1) % buffer_len
+		return previous_component.sample_audio(samps)
 
-	if not force_fixed_delay and can_vary_delay : delay_samps =\
-		previous_component.sample_reverb() * delay_length_multiplier +1
+	# Samples retrieving (DO NOT REPEAT!)
+	var samp_buf := previous_component.sample_audio(samps)
+	var rev_buf : Array[float] = []
+	if not force_fixed_delay and can_vary_delay : 
+		rev_buf = previous_component.sample_reverb(samps)
 
-	delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
-	var delay_samps_int := roundi(delay_samps)
+	var out : Array[float] = []
 
-	var sample : float = read_buffer(-delay_samps_int - 1)
-	var next_sample : float = read_buffer(-delay_samps_int)
-	var delayed_sample :=\
-		lerpf(sample, next_sample, delay_samps - delay_samps_int)
+	# Apply filter on samples
+	for i in range(samps) :
+		buffer_pointer = (buffer_pointer+1) % buffer_len
 
-	buffer[buffer_pointer] = previous_component.sample_audio()
-	buffer[buffer_pointer] +=\
-		delayed_sample * feedback * (-1 if invert_feedback else 1)
+		if not force_fixed_delay and can_vary_delay : delay_samps =\
+			rev_buf[i] * delay_length_multiplier +1
 
-	if monitor_params :
-		debug_min_delay = min(debug_min_delay, delay_samps)
-		debug_max_delay = max(debug_max_delay, delay_samps)
+		delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
+		var delay_samps_int := roundi(delay_samps)
 
-	return buffer[buffer_pointer] * gain
+		var sample : float = read_buffer(-delay_samps_int - 1)
+		var next_sample : float = read_buffer(-delay_samps_int)
+		var delayed_sample :=\
+			lerpf(sample, next_sample, delay_samps - delay_samps_int)
 
-#	if not force_fixed_delay and can_vary_delay : delay_samps =\
-#		previous_component.sample_reverb() * delay_length_multiplier
-#
-#	delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
-#
-#	var flr : int = floori(delay_samps)
-#	var a : float = delay_samps - flr
-#
-#	buffer[buffer_pointer] += previous_component.sample_audio()
-#
-#	var samp_to_delay_a := read_buffer(buffer_pointer-1) * feedback * (-1 if invert_feedback else 1)
-#	var samp_to_delay_b := buffer[buffer_pointer] * feedback * (-1 if invert_feedback else 1)
-#
-#	write_buffer(flr,0.0)#lerpf(samp_to_delay_a,samp_to_delay_b,a))
-#
-#	if monitor_params :
-#		debug_min_delay = min(debug_min_delay, delay_samps)
-#		debug_max_delay = max(debug_max_delay, delay_samps)
-#
-#	return buffer[buffer_pointer] * gain
+		buffer[buffer_pointer] = samp_buf[i]
+		buffer[buffer_pointer] +=\
+			delayed_sample * feedback * (-1 if invert_feedback else 1)
+
+		if monitor_params :
+			debug_min_delay = min(debug_min_delay, delay_samps)
+			debug_max_delay = max(debug_max_delay, delay_samps)
+
+		out.append(buffer[buffer_pointer] * gain)
+
+	return out
 
 
 func read_buffer(offset : int) -> float:

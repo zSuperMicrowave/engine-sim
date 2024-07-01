@@ -6,8 +6,6 @@ class_name CampionatorePistone
 #@export var motore : FisicaMotore
 #@export var cilindro : int
 
-@export var valve : Valve
-
 @export_group("Dettagli campionamento")
 @export_subgroup("Pressione")
 @export_range(0.001,1.0) var moltiplicatore_pressione : float = 1.0
@@ -20,9 +18,6 @@ class_name CampionatorePistone
 
 @export_group("Buffer")
 @export var lunghezza_buffer : int = 11025
-# Quanto il puntatore scrittura del buffer partirà in avanti relativamnete alla
-# lunghezza totale del buffer. Serve per evitare aggiornamenti di valori del
-# buffer che stanno per esser letti.
 @export_range(0.0, 1.0) var correction_delta_amount : float = 0.1
 
 var samples_buffer : AudioSynchronizerBuffer = null
@@ -38,12 +33,18 @@ func _physics_process(delta):
 	reverb_buffer.process_correction(correction_delta_amount)
 
 
-func sample_audio() -> float:
-	return samples_buffer.sample(0.0)
+func sample_audio(samps : int) -> Array[float]:
+	var arr : Array[float] = []
+	for i in range(samps):
+		arr.append(samples_buffer.sample(0.0))
+	return arr
 
 
-func sample_reverb() -> float:
-	return reverb_buffer.sample(100.0)
+func sample_reverb(samps : int) -> Array[float]:
+	var arr : Array[float] = []
+	for i in range(samps):
+		arr.append(reverb_buffer.sample(0.0))
+	return arr
 
 
 func invia_campione(val_p: float, val_t : float, fase_albero : float):
@@ -54,10 +55,6 @@ func invia_campione(val_p: float, val_t : float, fase_albero : float):
 	val_t *= moltiplicatore_temperatura * 0.01
 	val_t = pow(val_t,esponenzialita_temperatura)
 	val_t = lerp(val_t, val_t * (randf()*2-1), rumorosita_temperatura)
-	
-	if valve != null :
-		valve.set_valve_position(fase_albero)
-		valve.set_pressure(val_p)
 	
 	samples_buffer.send_value(val_p + val_t)
 

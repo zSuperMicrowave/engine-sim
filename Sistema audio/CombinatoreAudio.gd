@@ -5,13 +5,19 @@ class_name CombinatoreAudio
 @export var esegui_media := false
 
 
-func sample_audio() -> float :
-	var risultato : float = 0.0
-	
+func sample_audio(samps : int) -> Array[float]:
+	var out : Array[float] = []
+	for i in range(samps) :
+		out.append(0.0)
+
 	for c in componenti_precedenti :
-		risultato += c.sample_audio()
+		var samps_buf := c.sample_audio(samps)
+		
+		for i in range(samps) :
+			out[i] += samps_buf[i]
 	
 	if esegui_media :
-		risultato /= componenti_precedenti.size()
-	
-	return risultato
+		for i in range(samps) :
+			out[i] /= componenti_precedenti.size()
+
+	return out

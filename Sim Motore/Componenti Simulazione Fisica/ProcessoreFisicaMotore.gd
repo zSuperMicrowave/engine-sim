@@ -42,7 +42,7 @@ func _elabora():
 
 		tempo_inizio_delta = Time.get_ticks_usec()
 
-		while durata_frame_fisico_usec > Time.get_ticks_usec() - tempo_inizio + COMPENSAZIONE_USEC_CICLO_WHILE:
+		while durata_frame_fisico_usec > Time.get_ticks_usec() - tempo_inizio :#+ COMPENSAZIONE_USEC_CICLO_WHILE:
 			continue
 
 

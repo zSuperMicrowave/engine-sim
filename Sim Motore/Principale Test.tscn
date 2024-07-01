@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cshoja5vdfjrb"]
+[gd_scene load_steps=34 format=3 uid="uid://cshoja5vdfjrb"]
 
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="1_2bv8b"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_04wha"]
@@ -16,7 +16,6 @@
 [ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="10_yw86n"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="11_0u58s"]
 [ext_resource type="Script" path="res://Sistema audio/Delay.gd" id="11_4dcus"]
-[ext_resource type="Script" path="res://Sistema audio/Valve.gd" id="12_ls2vd"]
 [ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="12_vx4hn"]
 [ext_resource type="Script" path="res://Sim Motore/UITemp/Speedometer.gd" id="13_akf42"]
 [ext_resource type="Script" path="res://Sistema audio/CombinatoreAudio.gd" id="13_nhh66"]
@@ -112,11 +111,6 @@ apertura_minima = 0.001
 apertura_massima = 1.0
 mappa_apertura = ExtResource("7_3viaw")
 
-[sub_resource type="Curve" id="Curve_b13gg"]
-bake_resolution = 1000
-_data = [Vector2(0, 0.178947), 0.0, 0.0, 0, 0, Vector2(0.752381, 0.242105), 0.0, 0.0, 0, 0, Vector2(0.87619, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.284211), 0.0, 0.0, 0, 0]
-point_count = 4
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx4qf"]
 bg_color = Color(0, 0, 0, 0.419608)
 border_width_left = 8
@@ -137,7 +131,7 @@ light_energy = 2.38
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
-frequenza_aggiornamento_hz = 20000
+frequenza_aggiornamento_hz = 5000
 rallentamento_slow_motion = 0.1
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
@@ -165,98 +159,57 @@ process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
 script = ExtResource("11_0u58s")
 componente_audio_precedente = NodePath("CombinatoreAudio")
-dc_offset_hz = 10
+dc_offset_hz = 117
+max_samples_buffer_length = 400
 
-[node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("valve")]
+[node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("10_yw86n")
-valve = NodePath("../Valve1")
-moltiplicatore_pressione = null
-esponenzialita_pressione = null
-rumorosita_pressione = null
-moltiplicatore_temperatura = null
-esponenzialita_temperatura = null
-rumorosita_temperatura = null
 lunghezza_buffer = 8000
-correction_delta_amount = 0.175
+correction_delta_amount = 0.24
 
-[node name="CampionatorePistone2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("valve")]
+[node name="CampionatorePistone2" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("10_yw86n")
-valve = NodePath("../Valve2")
-moltiplicatore_pressione = null
-esponenzialita_pressione = null
-rumorosita_pressione = null
-moltiplicatore_temperatura = null
-esponenzialita_temperatura = null
-rumorosita_temperatura = null
 lunghezza_buffer = 8000
-correction_delta_amount = 0.175
+correction_delta_amount = 0.24
 
-[node name="CampionatorePistone3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("valve")]
+[node name="CampionatorePistone3" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("10_yw86n")
-valve = NodePath("../Valve3")
-moltiplicatore_pressione = null
-esponenzialita_pressione = null
-rumorosita_pressione = null
-moltiplicatore_temperatura = null
-esponenzialita_temperatura = null
-rumorosita_temperatura = null
 lunghezza_buffer = 8000
-correction_delta_amount = 0.175
+correction_delta_amount = 0.24
 
 [node name="PistonDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone")
 buffer_len = 1000
-feedback = 0.33
+feedback = 0.323
+invert_feedback = true
 
 [node name="PistonDelay2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone2")
 buffer_len = 1000
-feedback = 0.33
+feedback = 0.323
+invert_feedback = true
 
 [node name="PistonDelay3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone3")
 buffer_len = 1000
-feedback = 0.33
-
-[node name="Valve1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("12_ls2vd")
-previous_component = NodePath("../PistonDelay1")
-cam_profile = SubResource("Curve_b13gg")
-noise_amount = 0.0
-noise_attenuation = 1.0
-enabled = false
-
-[node name="Valve2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("12_ls2vd")
-previous_component = NodePath("../PistonDelay2")
-cam_profile = SubResource("Curve_b13gg")
-noise_amount = 0.0
-noise_attenuation = 1.0
-enabled = false
-
-[node name="Valve3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("12_ls2vd")
-previous_component = NodePath("../PistonDelay3")
-cam_profile = SubResource("Curve_b13gg")
-noise_amount = 0.0
-noise_attenuation = 1.0
-enabled = false
+feedback = 0.323
+invert_feedback = true
 
 [node name="HeaderDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
-previous_component = NodePath("../Valve1")
+previous_component = NodePath("../PistonDelay1")
 buffer_len = 1000
 fixed_delay = 171.846
 feedback = 0.272
@@ -270,7 +223,7 @@ feedback = 0.272
 
 [node name="HeaderDelay3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
-previous_component = NodePath("../Valve3")
+previous_component = NodePath("../PistonDelay3")
 buffer_len = 1000
 fixed_delay = 468.925
 feedback = 0.272
