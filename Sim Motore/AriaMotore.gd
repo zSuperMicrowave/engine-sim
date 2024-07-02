@@ -40,9 +40,9 @@ var volume := 0.00007
 
 
 
-func inizializza(distanza_pistone_tdc, alesaggio_cm, volume_extra_cm):
-	volume = distanza_pistone_tdc * alesaggio_cm * 0.5 * Unita.cm\
-		+ volume_extra_cm * Unita.cm * alesaggio_cm * Unita.cm
+func inizializza(distanza_pistone_tdc, alesaggio_cm, altezza_extra_cm):
+	volume = (distanza_pistone_tdc + altezza_extra_cm) *\
+		pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI
 	
 	var nuovo_moli_totali = pressione * volume\
 		/ (COSTANTE_GAS_IDEALE * temperatura)

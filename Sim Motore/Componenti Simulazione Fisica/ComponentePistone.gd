@@ -14,7 +14,7 @@ enum {
 @export var offset_rotazione := 0.0
 @export var larghezza_albero_cm := 3.0
 @export var lunghezza_biella_cm := 10.0
-@export var volume_extra_cm := 3.0 
+@export var altezza_extra_cm := 3.0 
 @export var alesaggio_cm = 5.0 # Diametro
 @export var portata_entrata_aria := 1.0
 @export var portata_uscita_aria := 1.0
@@ -33,7 +33,7 @@ var aria_cilindro := AriaMotore.new()
 
 
 func inizializza():
-	aria_cilindro.inizializza(distanza_pistone_tdc, alesaggio_cm, volume_extra_cm)
+	aria_cilindro.inizializza(distanza_pistone_tdc, alesaggio_cm, altezza_extra_cm)
 
 
 func elabora(motore : ComponenteMotore, delta : float):
@@ -47,9 +47,8 @@ func elabora(motore : ComponenteMotore, delta : float):
 
 
 func _aggiorna_volume():
-	aria_cilindro.volume = distanza_pistone_tdc *\
-		pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI\
-		+ volume_extra_cm * Unita.cm * alesaggio_cm * Unita.cm
+	aria_cilindro.volume = (distanza_pistone_tdc + altezza_extra_cm) *\
+		pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI
 
 	aria_cilindro.ricalcola_pressione()
 
