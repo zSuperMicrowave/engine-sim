@@ -111,12 +111,12 @@ frizione={
 ]
 }
 sterzo_pos={
-"deadzone": 0.0,
+"deadzone": 0.02,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
 ]
 }
 sterzo_neg={
-"deadzone": 0.0,
+"deadzone": 0.02,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
 ]
 }

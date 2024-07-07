@@ -12,7 +12,7 @@ var coppia_totale := 0.0
 var forces_sum := 0.0
 var forces_num := 0.0
 var external_angular_velocity := 0.0
-var clutch := 0.0
+var clutch := 1.0
 var physics_delta := 1.0
 
 

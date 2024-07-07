@@ -56,8 +56,8 @@ func get_current_ratio() -> float:
 
 func get_force():
 	var ratio = get_current_ratio()
-	return engine.get_force(machinina.get_wheel_rpm() * base_ratio * ratio) * ratio * base_ratio
+	return engine.get_force(machinina.get_wheel_rpm() * 0.4 * ratio ) * 0.05 * ratio 
 
 func get_inertia():
 	var ratio = get_current_ratio()
-	return engine.get_inertia(clutch) * ratio * base_ratio
+	return engine.get_inertia(clutch * machinina.get_slip()) * ratio * base_ratio
