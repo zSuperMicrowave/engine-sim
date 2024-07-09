@@ -51,8 +51,12 @@ func get_inertia(clutch : float):
 	return volano.inerzia * albero_motore.clutch
 
 
-func _elabora_lento(delta : float) :
+func _physics_process(delta):
 	ecu.elabora(self,delta)
+
+func _elabora_lento(delta : float) :
+	#ecu.puoi = true
+	#ecu.elabora(self,delta)
 	if Input.is_action_just_pressed("invio") :
 		batteria_connessa = true
 	if Input.is_action_just_pressed("uccidi") :
@@ -151,8 +155,8 @@ func calcola_audio(delta : float):
 		var volume = albero_motore.pistoni[i].aria_cilindro.volume
 		var rotazione = albero_motore.pistoni[i].rotazione_fase
 		
-		audio[i].invia_campione(pressione, temperatura, rotazione)
-		audio[i].imposta_riverbero(volume, temperatura)
+		audio[i].invia_campione(pressione, temperatura, rotazione,delta)
+		audio[i].imposta_riverbero(volume, temperatura,delta)
 
 func imposta_resistenza_esterna(val : float):
 	resistenza_esterna = val

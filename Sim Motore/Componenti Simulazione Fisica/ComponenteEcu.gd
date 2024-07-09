@@ -21,8 +21,13 @@ var timer_ecu := 0.0
 var apertura_attuale := 0.1
 var miscela_attuale := 10.0
 
+var puoi = false
 
 func elabora(motore : ComponenteMotore, delta) :
+#	if not puoi :
+#		return
+#	puoi = false
+	
 	timer_ecu += delta
 	if timer_ecu >= 1.0 / velocita_aggiornamento_ecu_hz :
 		#print("miscela_attuale: ", apertura_attuale)

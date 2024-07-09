@@ -47,7 +47,7 @@ func sample_reverb(samps : int) -> Array[float]:
 	return arr
 
 
-func invia_campione(val_p: float, val_t : float, fase_albero : float):
+func invia_campione(val_p: float, val_t : float, fase_albero : float,delta:float):
 	val_p *= moltiplicatore_pressione * 0.000001
 	val_p = pow(val_p,esponenzialita_pressione)
 	val_p = lerp(val_p, val_p * (randf()*2-1), rumorosita_pressione)
@@ -56,11 +56,11 @@ func invia_campione(val_p: float, val_t : float, fase_albero : float):
 	val_t = pow(val_t,esponenzialita_temperatura)
 	val_t = lerp(val_t, val_t * (randf()*2-1), rumorosita_temperatura)
 	
-	samples_buffer.send_value(val_p + val_t)
+	samples_buffer.send_value(val_p + val_t,delta)
 
 
 
-func imposta_riverbero(volume : float, temperatura : float):
+func imposta_riverbero(volume : float, temperatura : float,delta:float):
 	var vel_suono : float = sqrt(391*temperatura)
 	
-	reverb_buffer.send_value(max(0.1, volume*44100000 / vel_suono))
+	reverb_buffer.send_value(max(0.1, volume*44100000 / vel_suono),delta)

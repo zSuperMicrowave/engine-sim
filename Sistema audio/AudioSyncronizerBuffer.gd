@@ -42,11 +42,11 @@ func sample(fail_return_value := 0.0) -> float:
 
 
 var remainder := 0.0
-var delta_time := Time.get_ticks_usec()
-func send_value(val : float):
-	var delta = float(Time.get_ticks_usec() - delta_time) / 1_000_000.0
+#var delta_time := Time.get_ticks_usec()
+func send_value(val : float,delta : float):
+	#var delta = float(Time.get_ticks_usec() - delta_time) / 1_000_000.0
 	delta *= correction_delta
-	delta_time = Time.get_ticks_usec()
+	#delta_time = Time.get_ticks_usec()
 	
 	var sample_width : float = delta * InfoAudio.frequenza_campionamento_hz
 	var full_sample_width : int = ceili(sample_width)

@@ -129,9 +129,12 @@ light_color = Color(1, 0.945098, 0.831373, 1)
 light_energy = 2.38
 
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 3
 script = ExtResource("1_04wha")
 motori = [NodePath("../Motore")]
-frequenza_aggiornamento_hz = 5000
+frequenza_aggiornamento_hz = 2000
 rallentamento_slow_motion = 0.1
 
 [node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
@@ -155,7 +158,7 @@ process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
 script = ExtResource("11_0u58s")
 componente_audio_precedente = NodePath("CombinatoreAudio")
-dc_offset_hz = 117
+dc_offset_hz = 152
 max_samples_buffer_length = 150
 
 [node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D"]
@@ -163,74 +166,85 @@ process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("10_yw86n")
-lunghezza_buffer = 8000
-correction_delta_amount = 0.216
+lunghezza_buffer = 20000
+correction_delta_amount = 0.122
 
 [node name="CampionatorePistone2" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("10_yw86n")
-lunghezza_buffer = 8000
-correction_delta_amount = 0.216
+lunghezza_buffer = 20000
+correction_delta_amount = 0.122
 
 [node name="CampionatorePistone3" type="Node" parent="Motore/RiproduttoreAudio3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("10_yw86n")
-lunghezza_buffer = 8000
-correction_delta_amount = 0.216
+lunghezza_buffer = 20000
+correction_delta_amount = 0.122
 
 [node name="PistonDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone")
 buffer_len = 1000
-feedback = 0.327
+gain = 2.0
+feedback = 0.937
 invert_feedback = true
-delay_length_multiplier = 0.225
+base_delay_cutoff = 0.616
+delay_length_multiplier = 0.28
 
 [node name="PistonDelay2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone2")
 buffer_len = 1000
-feedback = 0.327
+gain = 2.0
+feedback = 0.937
 invert_feedback = true
-delay_length_multiplier = 0.225
+base_delay_cutoff = 0.616
+delay_length_multiplier = 0.28
 
 [node name="PistonDelay3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone3")
 buffer_len = 1000
-feedback = 0.327
+gain = 2.0
+feedback = 0.937
 invert_feedback = true
-delay_length_multiplier = 0.225
+base_delay_cutoff = 0.616
+delay_length_multiplier = 0.28
 
 [node name="HeaderDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../PistonDelay1")
 buffer_len = 1000
+gain = 2.0
 fixed_delay = 10.0
-feedback = 0.0
+feedback = 0.19
+base_delay_cutoff = 0.04
 
 [node name="HeaderDelay2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../PistonDelay2")
 buffer_len = 1000
+gain = 2.0
 fixed_delay = 50.0
-feedback = 0.0
+feedback = 0.19
+base_delay_cutoff = 0.04
 
 [node name="HeaderDelay3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../PistonDelay3")
 buffer_len = 1000
+gain = 2.0
 fixed_delay = 20.0
-feedback = 0.0
+feedback = 0.19
+base_delay_cutoff = 0.04
 
 [node name="CombinatoreAudio" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
 script = ExtResource("13_nhh66")
 componenti_precedenti = [NodePath("../HeaderDelay1"), NodePath("../HeaderDelay2"), NodePath("../HeaderDelay3")]
-esegui_media = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)

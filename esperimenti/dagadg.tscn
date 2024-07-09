@@ -1,6 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://cq7jduq3a1p1c"]
-
-[ext_resource type="Script" path="res://esperimenti/dagadg.gd" id="1_74412"]
+[gd_scene format=3 uid="uid://cq7jduq3a1p1c"]
 
 [node name="dagadg" type="Node3D"]
-script = ExtResource("1_74412")

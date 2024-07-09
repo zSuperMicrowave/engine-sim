@@ -2,3 +2,10 @@ res://default_bus_layout.tres
 res://Sim Motore/Principale Test.tscn
 res://esperimenti/macchinina/new_standard_material_3d.tres
 res://esperimenti/macchinina/macina.tscn
+res://esperimenti/dagadg.tscn
+res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd
+res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd
+res://Sistema audio/AudioSyncronizerBuffer.gd
+res://Sistema audio/CampionatorePistone.gd
+res://Sistema audio/AutoLoad/InfoAudio.gd

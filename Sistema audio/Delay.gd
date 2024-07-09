@@ -15,6 +15,7 @@ var buffer_pointer := 0
 @onready var can_vary_delay := previous_component is CampionatorePistone
 @export_range(0.0,1.0) var feedback := 0.8
 @export var invert_feedback := false
+@export_range(0.0,1.0) var base_delay_cutoff := 0.2
 
 @export_group("Debug")
 @export var monitor_params := false
@@ -25,6 +26,7 @@ var buffer_pointer := 0
 
 var debug_min_delay := 999999999.9
 var debug_max_delay := 0.0
+var debug_delay_diff := 0.0
 
 
 func _enter_tree():
@@ -54,9 +56,14 @@ func _update_params():
 func _debug():
 	print("Min delay: ", debug_min_delay)
 	print("Max delay: ", debug_max_delay)
+	print("Diff : ",debug_delay_diff)
 	print("Current delay: ",delay_samps)
+	debug_min_delay = 999999999.9
+	debug_max_delay = 0.0
+	debug_delay_diff = 0.0
 
-
+var old_delayed_samp : float = 0.0
+var old_delay_samps : float = delay_samps
 func sample_audio(samps : int) -> Array[float]:
 	if is_zero_approx(feedback) or straight_trough:
 		return previous_component.sample_audio(samps)
@@ -83,6 +90,8 @@ func sample_audio(samps : int) -> Array[float]:
 		var next_sample : float = read_buffer(-delay_samps_int)
 		var delayed_sample :=\
 			lerpf(sample, next_sample, delay_samps - delay_samps_int)
+		delayed_sample =\
+			lerpf(delayed_sample, old_delayed_samp, min(base_delay_cutoff+abs(delay_samps - old_delay_samps),1.0))
 
 		buffer[buffer_pointer] = samp_buf[i]
 		buffer[buffer_pointer] +=\
@@ -91,6 +100,10 @@ func sample_audio(samps : int) -> Array[float]:
 		if monitor_params :
 			debug_min_delay = min(debug_min_delay, delay_samps)
 			debug_max_delay = max(debug_max_delay, delay_samps)
+			debug_delay_diff = abs(delay_samps - old_delay_samps)
+
+		old_delay_samps = delay_samps
+		old_delayed_samp = delayed_sample
 
 		out.append(buffer[buffer_pointer] * gain)
 
