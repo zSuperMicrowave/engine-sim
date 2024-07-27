@@ -125,3 +125,7 @@ sterzo_neg={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
 ]
 }
+
+[physics]
+
+common/physics_ticks_per_second=30

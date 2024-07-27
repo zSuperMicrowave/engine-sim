@@ -68,6 +68,10 @@ var max_delay := 0.0
 var old_delayed_samp : float = 0.0
 var old_delay_samps : float = delay_samps
 var old_avant := false
+
+
+
+
 var avant := false
 @export var the_cycle := false
 func sample_audio(samps : int) -> Array[float]:
@@ -101,10 +105,10 @@ func sample_audio(samps : int) -> Array[float]:
 			max_delay = max(max_delay,delay_samps)
 			if the_cycle :
 				delayed_sample =\
-					lerpf(delayed_sample, old_delayed_samp, min((delay_samps)/max_delay+abs(delay_samps - old_delay_samps),0.9))
+					lerpf(delayed_sample, old_delayed_samp, min(0.05+(delay_samps)/max_delay+abs(delay_samps - old_delay_samps),0.9))
 			else :
 				delayed_sample =\
-					lerpf(delayed_sample, old_delayed_samp, min(1.0+abs(delay_samps - old_delay_samps),0.9))
+					lerpf(delayed_sample, old_delayed_samp, min(abs(delay_samps - old_delay_samps),0.9))
 			if delay_samps > max_delay*0.8 : avant = true
 			elif delay_samps < max_delay*0.2 : avant = false
 			if old_avant==true and avant ==false:
@@ -114,9 +118,13 @@ func sample_audio(samps : int) -> Array[float]:
 			delayed_sample =\
 				lerpf(delayed_sample, old_delayed_samp, min(base_delay_cutoff+abs(delay_samps - old_delay_samps),1.0))
 
-		buffer[buffer_pointer] = samp_buf[i]
-		buffer[buffer_pointer] +=\
+
+		buffer[buffer_pointer] =\
 			delayed_sample * feedback * (-1 if invert_feedback else 1)
+
+		out.append((buffer[buffer_pointer]) * gain)
+
+		buffer[buffer_pointer] += samp_buf[i]
 
 		if monitor_params :
 			debug_min_delay = min(debug_min_delay, delay_samps)
@@ -125,8 +133,6 @@ func sample_audio(samps : int) -> Array[float]:
 
 		old_delay_samps = delay_samps
 		old_delayed_samp = delayed_sample
-
-		out.append(buffer[buffer_pointer] * gain)
 
 	return out
 

@@ -75,7 +75,8 @@ func _physics_process(delta):
 	var da_elaborare : int = (Time.get_ticks_usec() - tempo_inizio_delta) / durata_frame_fisico_usec
 	var old = da_elaborare
 	da_elaborare = clampi(da_elaborare,0,frequenza_aggiornamento_hz*2)
-	print(old - da_elaborare)
+	if old - da_elaborare > 0:
+		print(old - da_elaborare)
 	t.wait_to_finish()
 	t.start(_elabora.bind(da_elaborare),Thread.PRIORITY_HIGH)
 	tempo_inizio_delta = Time.get_ticks_usec()

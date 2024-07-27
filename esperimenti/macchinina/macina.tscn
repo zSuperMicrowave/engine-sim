@@ -49,20 +49,20 @@ coppia_nm = 72600.0
 [sub_resource type="Resource" id="Resource_rl3lg"]
 script = ExtResource("4_ggd7c")
 offset_rotazione = 0.0
-larghezza_albero_cm = 5.0
-lunghezza_biella_cm = 6.0
+larghezza_albero_cm = 8.0
+lunghezza_biella_cm = 9.0
 volume_extra_cm = 0.3
-alesaggio_cm = 20.0
+alesaggio_cm = 25.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
 [sub_resource type="Resource" id="Resource_6d8r7"]
 script = ExtResource("4_ggd7c")
-offset_rotazione = 240.0
-larghezza_albero_cm = 5.0
-lunghezza_biella_cm = 6.0
+offset_rotazione = 360.0
+larghezza_albero_cm = 8.0
+lunghezza_biella_cm = 9.0
 volume_extra_cm = 0.3
-alesaggio_cm = 20.0
+alesaggio_cm = 25.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
@@ -210,36 +210,39 @@ correction_delta_amount = 0.216
 [node name="PistonDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../CampionatorePistone")
-buffer_len = 1000
-feedback = 0.5
+buffer_len = 4000
+feedback = 0.921
 invert_feedback = true
-base_delay_cutoff = 0.25
-delay_length_multiplier = 0.3
+base_delay_cutoff = 0.0
+auto_cutoff = true
+delay_length_multiplier = 3.343
 
 [node name="PistonDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../CampionatorePistone2")
-buffer_len = 1000
-feedback = 0.5
+buffer_len = 4000
+feedback = 0.921
 invert_feedback = true
-base_delay_cutoff = 0.25
-delay_length_multiplier = 0.3
+base_delay_cutoff = 0.0
+auto_cutoff = true
+delay_length_multiplier = 3.343
+the_cycle = true
 
 [node name="HeaderDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../PistonDelay1")
 buffer_len = 1000
-fixed_delay = 10.0
-feedback = 0.558
-base_delay_cutoff = 0.092
+fixed_delay = 150.0
+feedback = 0.353
+base_delay_cutoff = 0.112
 
 [node name="HeaderDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../PistonDelay2")
 buffer_len = 1000
-fixed_delay = 50.0
-feedback = 0.558
-base_delay_cutoff = 0.092
+fixed_delay = 500.0
+feedback = 0.353
+base_delay_cutoff = 0.112
 
 [node name="CombinatoreAudio" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
 script = ExtResource("15_f4rvr")

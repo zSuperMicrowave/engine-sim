@@ -87,8 +87,8 @@ motorino_avviamento = SubResource("Resource_p8rj7")
 
 [sub_resource type="Resource" id="Resource_44qqs"]
 script = ExtResource("5_xp1lm")
-raggio = 0.462
-massa = 6.0
+raggio = 0.747
+massa = 4.17
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
 offsets = PackedFloat32Array(0.184685, 0.400901, 0.743243)
@@ -188,35 +188,32 @@ correction_delta_amount = 0.122
 [node name="PistonDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone")
-buffer_len = 1000
-gain = 2.0
-feedback = 0.937
+buffer_len = 2000
+gain = 1.27
+feedback = 0.941
 invert_feedback = true
 base_delay_cutoff = 0.0
 auto_cutoff = true
-delay_length_multiplier = 0.249
 
 [node name="PistonDelay2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone2")
-buffer_len = 1000
-gain = 2.0
-feedback = 0.937
+buffer_len = 2000
+gain = 1.27
+feedback = 0.941
 invert_feedback = true
 base_delay_cutoff = 0.0
 auto_cutoff = true
-delay_length_multiplier = 0.249
 
 [node name="PistonDelay3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../CampionatorePistone3")
-buffer_len = 1000
-gain = 2.0
-feedback = 0.937
+buffer_len = 2000
+gain = 1.27
+feedback = 0.941
 invert_feedback = true
 base_delay_cutoff = 0.0
 auto_cutoff = true
-delay_length_multiplier = 0.249
 the_cycle = true
 
 [node name="HeaderDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
@@ -224,30 +221,26 @@ script = ExtResource("11_4dcus")
 previous_component = NodePath("../PistonDelay1")
 buffer_len = 1000
 gain = 2.0
-fixed_delay = 10.0
-feedback = 0.345
+feedback = 0.625
 base_delay_cutoff = 0.095
-straight_trough = true
 
 [node name="HeaderDelay2" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../PistonDelay2")
 buffer_len = 1000
 gain = 2.0
-fixed_delay = 50.0
-feedback = 0.345
+fixed_delay = 200.0
+feedback = 0.625
 base_delay_cutoff = 0.095
-straight_trough = true
 
 [node name="HeaderDelay3" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("11_4dcus")
 previous_component = NodePath("../PistonDelay3")
 buffer_len = 1000
 gain = 2.0
-fixed_delay = 20.0
-feedback = 0.345
+fixed_delay = 400.0
+feedback = 0.625
 base_delay_cutoff = 0.095
-straight_trough = true
 
 [node name="CombinatoreAudio" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
 script = ExtResource("13_nhh66")
