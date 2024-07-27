@@ -78,12 +78,12 @@ func get_current_ratio() -> float:
 	return current_gearratio
 
 func get_gear_pitch_a(current_ratio : float, gear : int, min: float, max : float):
-	return clampf(engine.albero_motore.velocita_angolare * Unita.rpm / current_ratio\
+	return clampf(engine.get_avg_vel() * Unita.rpm / current_ratio\
 		* gearratios[gear].teeth_multiplier * gearratios[gear].over_d\
 		/ 2000, min, max)
 
 func get_gear_pitch_b(current_ratio : float, gear : int, min: float, max : float):
-	return clampf(engine.albero_motore.velocita_angolare * Unita.rpm / current_ratio\
+	return clampf(engine.get_avg_vel() * Unita.rpm / current_ratio\
 		* gearratios[gear].teeth_multiplier * gearratios[gear].n\
 		/ 2000, min, max)
 

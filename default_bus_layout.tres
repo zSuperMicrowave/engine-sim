@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=8 format=3 uid="uid://c1sfdh8ikn2t8"]
+[gd_resource type="AudioBusLayout" load_steps=10 format=3 uid="uid://c1sfdh8ikn2t8"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0f2cx"]
 resource_name = "Reverb"
@@ -34,13 +34,26 @@ band_db/4000_hz = -19.0
 band_db/8000_hz = -2.5
 band_db/16000_hz = -15.5
 
-[sub_resource type="AudioEffectBandLimitFilter" id="AudioEffectBandLimitFilter_ee7vs"]
-resource_name = "BandLimitFilter"
-cutoff_hz = 300.0
+[sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_alrq4"]
+resource_name = "Distortion"
+mode = 1
+pre_gain = 5.0
+drive = 0.16
+post_gain = 5.7
+
+[sub_resource type="AudioEffectEQ6" id="AudioEffectEQ6_t8y1x"]
+resource_name = "EQ6"
+band_db/32_hz = -60.0
+band_db/100_hz = -48.6
+band_db/320_hz = -6.6
+band_db/1000_hz = -1.8
 
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
 release_ms = 80.0
+
+[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_huotn"]
+resource_name = "Limiter"
 
 [sub_resource type="AudioEffectChorus" id="AudioEffectChorus_rm0lr"]
 resource_name = "Chorus"
@@ -75,10 +88,14 @@ bus/0/effect/1/effect = SubResource("AudioEffectEQ21_qncax")
 bus/0/effect/1/enabled = false
 bus/0/effect/2/effect = SubResource("AudioEffectEQ10_cwvmu")
 bus/0/effect/2/enabled = false
-bus/0/effect/3/effect = SubResource("AudioEffectBandLimitFilter_ee7vs")
+bus/0/effect/3/effect = SubResource("AudioEffectDistortion_alrq4")
 bus/0/effect/3/enabled = false
-bus/0/effect/4/effect = SubResource("AudioEffectCompressor_nji4r")
-bus/0/effect/4/enabled = true
+bus/0/effect/4/effect = SubResource("AudioEffectEQ6_t8y1x")
+bus/0/effect/4/enabled = false
+bus/0/effect/5/effect = SubResource("AudioEffectCompressor_nji4r")
+bus/0/effect/5/enabled = true
+bus/0/effect/6/effect = SubResource("AudioEffectLimiter_huotn")
+bus/0/effect/6/enabled = false
 bus/1/name = &"trans"
 bus/1/solo = false
 bus/1/mute = false

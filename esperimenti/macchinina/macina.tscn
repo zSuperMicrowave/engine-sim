@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://xt4tqlyc1r0c"]
+[gd_scene load_steps=40 format=3 uid="uid://xt4tqlyc1r0c"]
 
 [ext_resource type="Script" path="res://esperimenti/macchinina/veicolobruto.gd" id="1_3ecxm"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_dr80e"]
@@ -66,19 +66,9 @@ alesaggio_cm = 20.0
 portata_entrata_aria = 2.0
 portata_uscita_aria = 4.0
 
-[sub_resource type="Resource" id="Resource_yktr8"]
-script = ExtResource("4_ggd7c")
-offset_rotazione = 480.0
-larghezza_albero_cm = 5.0
-lunghezza_biella_cm = 6.0
-volume_extra_cm = 0.3
-alesaggio_cm = 20.0
-portata_entrata_aria = 2.0
-portata_uscita_aria = 4.0
-
 [sub_resource type="Resource" id="Resource_nl58y"]
 script = ExtResource("5_eyt0b")
-pistoni = Array[ExtResource("4_ggd7c")]([SubResource("Resource_rl3lg"), SubResource("Resource_6d8r7"), SubResource("Resource_yktr8")])
+pistoni = Array[ExtResource("4_ggd7c")]([SubResource("Resource_rl3lg"), SubResource("Resource_6d8r7")])
 motorino_avviamento = SubResource("Resource_cfys5")
 
 [sub_resource type="Resource" id="Resource_nsf5j"]
@@ -175,7 +165,7 @@ light_color = Color(1, 0.976471, 0.964706, 1)
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
 script = ExtResource("1_dr80e")
 motori = [NodePath("../VehicleBody3D/Motore")]
-frequenza_aggiornamento_hz = 2000
+frequenza_aggiornamento_hz = 3000
 rallentamento_slow_motion = 0.1
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("traccia", "guarda")]
@@ -217,14 +207,6 @@ script = ExtResource("11_gfwda")
 lunghezza_buffer = 8000
 correction_delta_amount = 0.216
 
-[node name="CampionatorePistone3" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-script = ExtResource("11_gfwda")
-lunghezza_buffer = 8000
-correction_delta_amount = 0.216
-
 [node name="PistonDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../CampionatorePistone")
@@ -237,15 +219,6 @@ delay_length_multiplier = 0.3
 [node name="PistonDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../CampionatorePistone2")
-buffer_len = 1000
-feedback = 0.5
-invert_feedback = true
-base_delay_cutoff = 0.25
-delay_length_multiplier = 0.3
-
-[node name="PistonDelay3" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("14_bns4e")
-previous_component = NodePath("../CampionatorePistone3")
 buffer_len = 1000
 feedback = 0.5
 invert_feedback = true
@@ -268,17 +241,9 @@ fixed_delay = 50.0
 feedback = 0.558
 base_delay_cutoff = 0.092
 
-[node name="HeaderDelay3" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("14_bns4e")
-previous_component = NodePath("../PistonDelay3")
-buffer_len = 1000
-fixed_delay = 20.0
-feedback = 0.558
-base_delay_cutoff = 0.092
-
 [node name="CombinatoreAudio" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
 script = ExtResource("15_f4rvr")
-componenti_precedenti = [NodePath("../HeaderDelay1"), NodePath("../HeaderDelay2"), NodePath("../HeaderDelay3")]
+componenti_precedenti = [NodePath("../HeaderDelay1"), NodePath("../HeaderDelay2")]
 esegui_media = true
 
 [node name="Motore" type="Node" parent="VehicleBody3D" node_paths=PackedStringArray("griglia_parametri", "audio", "speedometer", "grafici")]
@@ -289,7 +254,7 @@ volano = SubResource("Resource_nsf5j")
 ecu = SubResource("Resource_ordda")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../../UI/Debug parametri")
-audio = [NodePath("../RiproduttoreAudio3D/CampionatorePistone"), NodePath("../RiproduttoreAudio3D/CampionatorePistone2"), NodePath("../RiproduttoreAudio3D/CampionatorePistone3")]
+audio = [NodePath("../RiproduttoreAudio3D/CampionatorePistone"), NodePath("../RiproduttoreAudio3D/CampionatorePistone2")]
 speedometer = NodePath("../../UI/speedometer")
 grafici = NodePath("../../grafici")
 guidato = true

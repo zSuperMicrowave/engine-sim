@@ -30,9 +30,13 @@ var resistenza_esterna := 0.0
 
 var dbg_len := 0.0
 var elab_ecu := 0.0
+var vel := 0.0
+var count_vel := 0
 
 func _elabora_rapido(delta: float) -> void :
 	albero_motore.elabora(self, delta)
+	vel += albero_motore.velocita_angolare
+	count_vel += 1
 	
 	calcola_audio(delta)
 
@@ -160,3 +164,10 @@ func calcola_audio(delta : float):
 
 func imposta_resistenza_esterna(val : float):
 	resistenza_esterna = val
+
+
+func get_avg_vel():
+	var out = vel / float(count_vel)
+	vel = 0.0
+	count_vel = 0
+	return out

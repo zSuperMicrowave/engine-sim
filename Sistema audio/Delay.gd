@@ -16,6 +16,7 @@ var buffer_pointer := 0
 @export_range(0.0,1.0) var feedback := 0.8
 @export var invert_feedback := false
 @export_range(0.0,1.0) var base_delay_cutoff := 0.2
+@export var auto_cutoff := false
 
 @export_group("Debug")
 @export var monitor_params := false
@@ -34,6 +35,7 @@ func _enter_tree():
 
 
 func _physics_process(delta):
+	max_delay = 0.0
 	_update_params()
 	
 	if monitor_params :
@@ -62,8 +64,12 @@ func _debug():
 	debug_max_delay = 0.0
 	debug_delay_diff = 0.0
 
+var max_delay := 0.0
 var old_delayed_samp : float = 0.0
 var old_delay_samps : float = delay_samps
+var old_avant := false
+var avant := false
+@export var the_cycle := false
 func sample_audio(samps : int) -> Array[float]:
 	if is_zero_approx(feedback) or straight_trough:
 		return previous_component.sample_audio(samps)
@@ -90,8 +96,23 @@ func sample_audio(samps : int) -> Array[float]:
 		var next_sample : float = read_buffer(-delay_samps_int)
 		var delayed_sample :=\
 			lerpf(sample, next_sample, delay_samps - delay_samps_int)
-		delayed_sample =\
-			lerpf(delayed_sample, old_delayed_samp, min(base_delay_cutoff+abs(delay_samps - old_delay_samps),1.0))
+		
+		if auto_cutoff :
+			max_delay = max(max_delay,delay_samps)
+			if the_cycle :
+				delayed_sample =\
+					lerpf(delayed_sample, old_delayed_samp, min((delay_samps)/max_delay+abs(delay_samps - old_delay_samps),0.9))
+			else :
+				delayed_sample =\
+					lerpf(delayed_sample, old_delayed_samp, min(1.0+abs(delay_samps - old_delay_samps),0.9))
+			if delay_samps > max_delay*0.8 : avant = true
+			elif delay_samps < max_delay*0.2 : avant = false
+			if old_avant==true and avant ==false:
+				the_cycle = !the_cycle
+			old_avant = avant
+		else :
+			delayed_sample =\
+				lerpf(delayed_sample, old_delayed_samp, min(base_delay_cutoff+abs(delay_samps - old_delay_samps),1.0))
 
 		buffer[buffer_pointer] = samp_buf[i]
 		buffer[buffer_pointer] +=\
