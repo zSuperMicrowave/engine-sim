@@ -2,7 +2,7 @@
 
 ## What is this?
 
-What one was a little project of mine has become a bigger piece of art where physics and sound combine to create a magnificent flow of samples which we name sound.
+What once was a little project of mine has become a bigger piece of art where physics and sound combine to create a magnificent flow of samples which we name sound.
 This is the repository of a personal project of mine that once tried to accurately simulate the sound of Internal Combustion Engines without ever leaving the Godot engine workspace.
 Since I first started this project it has grown and now I'm about to rewrite everything from zero, so I decided that it would be a great idea to let everyone see this old project of mine.
 
