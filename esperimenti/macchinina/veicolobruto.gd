@@ -18,7 +18,7 @@ func _physics_process(delta):
 	engine_force = trans.get_force() * 15
 	trans.engine.albero_motore.set_delta(delta)
 	#print((Input.get_action_strength("freno1")+1-Input.get_action_strength("freno2"))*0.5)
-	brake = 10 * (Input.get_action_strength("freno1")+1-Input.get_action_strength("freno2"))*0.5
+	brake = 40 * (Input.get_action_strength("freno1")+1-Input.get_action_strength("freno2"))*0.5
 	
 	steering = (-Input.get_action_strength("sterzo_pos") + Input.get_action_strength("sterzo_neg"))*0.6
 

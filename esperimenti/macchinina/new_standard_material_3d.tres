@@ -3,5 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://dpa64oct6hdxu" path="res://esperimenti/macchinina/template_r.png" id="1_1m4dr"]
 
 [resource]
+albedo_color = Color(0.239216, 0.239216, 0.239216, 1)
 albedo_texture = ExtResource("1_1m4dr")
 uv1_triplanar = true

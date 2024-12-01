@@ -48,11 +48,12 @@ func _update_params():
 	if buffer_len != buffer.size() :
 		buffer.resize(buffer_len)
 	
-	if force_fixed_delay :
-		delay_samps = fixed_delay 
-	
 	can_vary_delay =\
 		previous_component is CampionatorePistone
+	
+	if force_fixed_delay or not can_vary_delay:
+		delay_samps = fixed_delay * delay_length_multiplier * InfoAudio.scala_campionamento
+	
 
 
 func _debug():
@@ -91,7 +92,7 @@ func sample_audio(samps : int) -> Array[float]:
 		buffer_pointer = (buffer_pointer+1) % buffer_len
 
 		if not force_fixed_delay and can_vary_delay :
-			delay_samps = rev_buf[i] * delay_length_multiplier +1
+			delay_samps = rev_buf[i] * delay_length_multiplier * InfoAudio.scala_campionamento +1
 
 		delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
 		var delay_samps_int := roundi(delay_samps)
@@ -105,7 +106,7 @@ func sample_audio(samps : int) -> Array[float]:
 			max_delay = max(max_delay,delay_samps)
 			if the_cycle :
 				delayed_sample =\
-					lerpf(delayed_sample, old_delayed_samp, min(0.05+(delay_samps)/max_delay+abs(delay_samps - old_delay_samps),0.9))
+					lerpf(delayed_sample, old_delayed_samp, min(base_delay_cutoff+(delay_samps)/max_delay+abs(delay_samps - old_delay_samps),0.9))
 			else :
 				delayed_sample =\
 					lerpf(delayed_sample, old_delayed_samp, min(abs(delay_samps - old_delay_samps),0.9))

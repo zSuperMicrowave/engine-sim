@@ -78,5 +78,5 @@ func _physics_process(delta):
 	if old - da_elaborare > 0:
 		print(old - da_elaborare)
 	t.wait_to_finish()
-	t.start(_elabora.bind(da_elaborare),Thread.PRIORITY_HIGH)
+	t.start(_elabora.bind(roundi(frequenza_aggiornamento_hz * delta)),Thread.PRIORITY_HIGH)
 	tempo_inizio_delta = Time.get_ticks_usec()

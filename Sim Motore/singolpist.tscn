@@ -1,0 +1,301 @@
+[gd_scene load_steps=31 format=3 uid="uid://b0xc7fqxd82hi"]
+
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_t21f6"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd" id="2_4wpbs"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd" id="3_0wwbw"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_s7whs"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd" id="5_m6pfh"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="6_gnsk4"]
+[ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="7_bxiiq"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="8_7tnvo"]
+[ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="9_b88ky"]
+[ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="10_e4hdr"]
+[ext_resource type="Script" path="res://Sistema audio/Delay.gd" id="11_qtjb0"]
+[ext_resource type="PackedScene" uid="uid://b3s3jfyy0vj4w" path="res://0Utilità Globali/Navigatore 3D/Navigatore 3D.tscn" id="13_1n0ev"]
+[ext_resource type="PackedScene" uid="uid://bbtvq23aydshw" path="res://Sim Motore/Debug/Pistone/DebugPistone.tscn" id="14_hwm22"]
+[ext_resource type="Script" path="res://Sim Motore/Debug/Parametri/DebugParametri.gd" id="15_2heyb"]
+[ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="16_ss8cw"]
+[ext_resource type="Script" path="res://Sim Motore/UITemp/Speedometer.gd" id="17_4chns"]
+[ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Sim Motore/UITemp/lancec.png" id="18_86wvx"]
+[ext_resource type="PackedScene" uid="uid://hgqgwr131a6q" path="res://Sim Motore/Debug/Vettore (WIP)/vettore.tscn" id="19_eu4x8"]
+[ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="20_i42j8"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_vfmxo"]
+energy_multiplier = 1.7
+
+[sub_resource type="Sky" id="Sky_viubw"]
+sky_material = SubResource("PhysicalSkyMaterial_vfmxo")
+
+[sub_resource type="Environment" id="Environment_g16d4"]
+background_mode = 2
+sky = SubResource("Sky_viubw")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.9
+tonemap_white = 1.91
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 1.09
+
+[sub_resource type="Resource" id="Resource_m8k1d"]
+script = ExtResource("3_0wwbw")
+riduzione = 15.0
+max_velocita_rpm = 800.0
+coppia_nm = 72600.0
+
+[sub_resource type="Resource" id="Resource_rl3lg"]
+script = ExtResource("4_s7whs")
+offset_rotazione = 0.0
+larghezza_albero_cm = 4.2
+lunghezza_biella_cm = 5.0
+volume_extra_cm = 9.71
+alesaggio_cm = 9.74
+portata_entrata_aria = 1.0
+portata_uscita_aria = 1.0
+
+[sub_resource type="Resource" id="Resource_hm54l"]
+script = ExtResource("5_m6pfh")
+pistoni = Array[ExtResource("4_s7whs")]([SubResource("Resource_rl3lg")])
+motorino_avviamento = SubResource("Resource_m8k1d")
+
+[sub_resource type="Resource" id="Resource_44qqs"]
+script = ExtResource("6_gnsk4")
+raggio = 0.3
+massa = 4.0
+
+[sub_resource type="Gradient" id="Gradient_af1oy"]
+offsets = PackedFloat32Array(0, 0.195991, 0.318486, 0.873051)
+colors = PackedColorArray(1, 1, 1, 1, 0.537735, 0.537735, 0.537735, 1, 0.426267, 0.426267, 0.426267, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ooph5"]
+gradient = SubResource("Gradient_af1oy")
+fill_from = Vector2(0, 0.619658)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Resource" id="Resource_8fclr"]
+script = ExtResource("8_7tnvo")
+velocita_aggiornamento_ecu_hz = 40
+rpm_massimi = 7500.0
+miscela_piu_povera = 12.0
+miscela_piu_ricca = 6.5
+mappa_stechiometrica = SubResource("GradientTexture2D_ooph5")
+apertura_minima = 0.001
+apertura_massima = 1.0
+mappa_apertura = ExtResource("7_bxiiq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx4qf"]
+bg_color = Color(0, 0, 0, 0.419608)
+border_width_left = 8
+border_color = Color(0.329412, 0.360784, 0.8, 0.858824)
+
+[node name="Principale motore2" type="Node3D"]
+
+[node name="Ambiente" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Ambiente"]
+environment = SubResource("Environment_g16d4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ambiente"]
+transform = Transform3D(0.780899, -0.485518, 0.393025, 0, 0.629185, 0.777256, -0.624657, -0.606959, 0.49133, 0, 0, 0)
+light_color = Color(1, 0.945098, 0.831373, 1)
+light_energy = 2.38
+
+[node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 3
+script = ExtResource("1_t21f6")
+motori = [NodePath("../Motore")]
+frequenza_aggiornamento_hz = 12000
+rallentamento_slow_motion = 0.5
+
+[node name="Motore" type="Node" parent="." node_paths=PackedStringArray("griglia_parametri", "pistoni_debug", "audio", "speedometer", "grafici")]
+script = ExtResource("2_4wpbs")
+coefficiente_attrito_meccanico_totale = 0.057
+albero_motore = SubResource("Resource_hm54l")
+volano = SubResource("Resource_44qqs")
+ecu = SubResource("Resource_8fclr")
+velocita_debug_lento_hz = 300
+griglia_parametri = NodePath("../UI/Debug parametri")
+pistoni_debug = [NodePath("../Pistone2")]
+audio = [NodePath("RiproduttoreAudio3D/CampionatorePistone")]
+speedometer = NodePath("../UI/speedometer")
+grafici = NodePath("../grafici")
+
+[node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="Motore" node_paths=PackedStringArray("componente_audio_precedente")]
+process_physics_priority = -1
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 3
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, 0.0834627, -1.26244)
+max_db = 6.0
+script = ExtResource("9_b88ky")
+componente_audio_precedente = NodePath("EndDelay")
+dc_offset_hz = 62
+
+[node name="CampionatorePistone" type="Node" parent="Motore/RiproduttoreAudio3D"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("10_e4hdr")
+lunghezza_buffer = 5000
+correction_delta_amount = 0.057
+
+[node name="PistonDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("11_qtjb0")
+previous_component = NodePath("../CampionatorePistone")
+buffer_len = 2000
+gain = 2.0
+feedback = 0.879
+invert_feedback = true
+base_delay_cutoff = 0.219
+auto_cutoff = true
+
+[node name="HeaderDelay1" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("11_qtjb0")
+previous_component = NodePath("../PistonDelay1")
+buffer_len = 1000
+gain = 2.0
+fixed_delay = 11.527
+force_fixed_delay = true
+feedback = 0.19
+base_delay_cutoff = 0.254
+
+[node name="EndDelay" type="Node" parent="Motore/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("11_qtjb0")
+previous_component = NodePath("../HeaderDelay1")
+buffer_len = 1000
+gain = 2.0
+fixed_delay = 198.95
+feedback = 0.175
+base_delay_cutoff = 0.223
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.25859)
+
+[node name="Navigatore 3D" parent="." instance=ExtResource("13_1n0ev")]
+
+[node name="Pistone2" parent="." instance=ExtResource("14_hwm22")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.789139, 0, -1.50657)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug parametri" type="GridContainer" parent="UI"]
+layout_mode = 1
+columns = 5
+script = ExtResource("15_2heyb")
+larghezza_minima = 180.0
+stile_testo = SubResource("StyleBoxFlat_hx4qf")
+
+[node name="speedometer" type="TextureRect" parent="UI"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("16_ss8cw")
+script = ExtResource("17_4chns")
+
+[node name="TextureRect2" type="TextureRect" parent="UI/speedometer"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 200)
+texture = ExtResource("18_86wvx")
+
+[node name="Vettore" parent="." instance=ExtResource("19_eu4x8")]
+
+[node name="grafici" type="Node2D" parent="."]
+
+[node name="moli_carburante" type="Node2D" parent="grafici"]
+position = Vector2(6, 278)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+spessore_linea = 2.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0.627451, 0.27451, 0.203922, 1)
+velocita = 0.005
+valore_massimo = 0.01
+
+[node name="moli_ossigeno" type="Node2D" parent="grafici"]
+position = Vector2(6, 342)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+velocita = 0.005
+valore_massimo = 0.01
+
+[node name="moli_scarico" type="Node2D" parent="grafici"]
+position = Vector2(6, 405)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0.627451, 0.521569, 0.258824, 1)
+velocita = 0.005
+valore_massimo = 0.01
+
+[node name="pressione" type="Node2D" parent="grafici"]
+position = Vector2(6, 469)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0, 0.0745098, 1, 1)
+velocita = 0.005
+valore_massimo = 1e+06
+
+[node name="temperatura" type="Node2D" parent="grafici"]
+position = Vector2(6, 534)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(1, 0.0235294, 0, 1)
+velocita = 0.005
+valore_massimo = 500.0
+
+[node name="rpm" type="Node2D" parent="grafici"]
+position = Vector2(6, 595)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0)
+colore_linea = Color(0, 1, 0.0588235, 1)
+velocita = 0.005
+valore_massimo = 5000.0
+
+[node name="deltatime" type="Node2D" parent="grafici"]
+position = Vector2(6, 205)
+script = ExtResource("20_i42j8")
+larghezza = 650
+altezza = 60.0
+colore_sfondo = Color(0, 0, 0, 0.443137)
+colore_linea = Color(1, 0.172549, 0.972549, 1)
+velocita = 0.005
+valore_massimo = 0.1

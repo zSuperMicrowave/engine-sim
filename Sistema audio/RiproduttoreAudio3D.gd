@@ -21,6 +21,7 @@ func _ready():
 func _physics_process(delta):
 	if !playing:
 		play()
+		playback = get_stream_playback()
 		print("/!\\AUDIO BLOCCATO/!\\")
 	
 	_elabora_frame_audio()
@@ -40,6 +41,8 @@ func _elabora_frame_audio():
 			dc_offset = lerpf(dc_offset,e,d)
 			e -= dc_offset
 			
-			if is_nan(e) : print("/!\\VALORE NAN RESTITUITO/!\\")
+			if is_nan(e) :
+				print("/!\\VALORE NAN RESTITUITO/!\\")
+				e = 0.0
 			playback.push_frame(Vector2.ONE * e)
 			frame_rimanenti -= 1

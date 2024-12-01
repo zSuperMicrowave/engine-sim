@@ -1,12 +1,12 @@
-[gd_resource type="AudioBusLayout" load_steps=10 format=3 uid="uid://c1sfdh8ikn2t8"]
+[gd_resource type="AudioBusLayout" load_steps=11 format=3 uid="uid://c1sfdh8ikn2t8"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0f2cx"]
 resource_name = "Reverb"
-predelay_msec = 40.0
-room_size = 0.4
-damping = 0.64
-spread = 0.51
-hipass = 0.32
+predelay_msec = 20.0
+room_size = 0.74
+damping = 0.89
+spread = 0.4
+hipass = 0.13
 
 [sub_resource type="AudioEffectEQ21" id="AudioEffectEQ21_qncax"]
 resource_name = "EQ21"
@@ -37,8 +37,8 @@ band_db/16000_hz = -15.5
 [sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_alrq4"]
 resource_name = "Distortion"
 mode = 1
-pre_gain = 5.0
-drive = 0.16
+pre_gain = 5.92
+drive = 0.46
 post_gain = 5.7
 
 [sub_resource type="AudioEffectEQ6" id="AudioEffectEQ6_t8y1x"]
@@ -48,8 +48,14 @@ band_db/100_hz = -48.6
 band_db/320_hz = -6.6
 band_db/1000_hz = -1.8
 
+[sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_gu810"]
+resource_name = "Amplify"
+volume_db = 19.66
+
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"
+threshold = -1.0
+ratio = 2.0
 release_ms = 80.0
 
 [sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_huotn"]
@@ -81,7 +87,7 @@ cutoff_hz = 500.0
 resonance = 0.32
 
 [resource]
-bus/0/volume_db = -0.130497
+bus/0/volume_db = -0.330477
 bus/0/effect/0/effect = SubResource("AudioEffectReverb_0f2cx")
 bus/0/effect/0/enabled = false
 bus/0/effect/1/effect = SubResource("AudioEffectEQ21_qncax")
@@ -92,10 +98,12 @@ bus/0/effect/3/effect = SubResource("AudioEffectDistortion_alrq4")
 bus/0/effect/3/enabled = false
 bus/0/effect/4/effect = SubResource("AudioEffectEQ6_t8y1x")
 bus/0/effect/4/enabled = false
-bus/0/effect/5/effect = SubResource("AudioEffectCompressor_nji4r")
+bus/0/effect/5/effect = SubResource("AudioEffectAmplify_gu810")
 bus/0/effect/5/enabled = true
-bus/0/effect/6/effect = SubResource("AudioEffectLimiter_huotn")
-bus/0/effect/6/enabled = false
+bus/0/effect/6/effect = SubResource("AudioEffectCompressor_nji4r")
+bus/0/effect/6/enabled = true
+bus/0/effect/7/effect = SubResource("AudioEffectLimiter_huotn")
+bus/0/effect/7/enabled = false
 bus/1/name = &"trans"
 bus/1/solo = false
 bus/1/mute = false

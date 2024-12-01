@@ -3,7 +3,7 @@ class_name AriaMotore
 
 const COSTANTE_GAS_IDEALE := 8.314
 
-const QNT_OSSIGENO_PER_BENZINA := 12.5
+const QNT_OSSIGENO_PER_BENZINA := 12.5 
 const TEMP_COMBUSTIONE_SPONTANEA_BENZINA := 523.15
 const TEMP_ENTALPIA_BENZINA := 40000.0 # per ora è un valore arbitrario
 #const QNT_OSSIGENO_PER_DIESEL := 12.5
@@ -41,8 +41,8 @@ var volume := 0.00007
 
 
 func inizializza(distanza_pistone_tdc, alesaggio_cm, volume_extra_cm):
-	volume = distanza_pistone_tdc * alesaggio_cm * 0.5 * Unita.cm\
-		+ volume_extra_cm * Unita.cm * alesaggio_cm * Unita.cm
+	volume = distanza_pistone_tdc * pow(alesaggio_cm * 0.5 * Unita.cm,2.0)\
+		+ volume_extra_cm * Unita.cm * pow(alesaggio_cm * 0.5 * Unita.cm,2.0)
 	
 	var nuovo_moli_totali = pressione * volume\
 		/ (COSTANTE_GAS_IDEALE * temperatura)
@@ -59,7 +59,7 @@ func ricalcola_somma_moli():
 
 func ricalcola_pressione():
 	pressione = (_moli_totali * COSTANTE_GAS_IDEALE * temperatura) / volume
-	if pressione > 8000000.0 :
+	if pressione > 80000000.0 :
 		printerr("Pressione elevata.")
 		printerr("Moli: ",_moli_totali," b: ",moli_benzina," o: ", moli_ossigeno," s: ", moli_gas_scarico)
 #	elif randf() > 0.999:
@@ -131,27 +131,43 @@ func esegui_combustione(velocita : float):
 	var moli_ossigeno_bruciate := 0.0
 	var moli_benzina_bruciate := 0.0
 
+#	if risultato_combustione < 0.0 :
+#		# L'ossiegeno è più del carburante
+#		moli_ossigeno_bruciate = moli_ossigeno\
+#			+ risultato_combustione * QNT_OSSIGENO_PER_BENZINA
+#		moli_benzina_bruciate = moli_benzina
+#	else :
+#		# Il carburante è più dell'ossigeno
+#		moli_ossigeno_bruciate = moli_ossigeno
+#		moli_benzina_bruciate = moli_benzina\
+#			- risultato_combustione
+#
+#	moli_ossigeno_bruciate *= velocita
+#	moli_benzina_bruciate *= velocita
+#	var moli_totali_bruciate = moli_ossigeno_bruciate + moli_benzina_bruciate
+#
+#	# Applica
+#	moli_ossigeno = moli_ossigeno - moli_ossigeno_bruciate
+#	moli_benzina = moli_benzina - moli_benzina_bruciate
+#	moli_gas_scarico += moli_totali_bruciate
+
 	if risultato_combustione < 0.0 :
 		# L'ossiegeno è più del carburante
-		moli_ossigeno_bruciate = moli_ossigeno\
-			+ risultato_combustione * QNT_OSSIGENO_PER_BENZINA
-		moli_benzina_bruciate = moli_benzina
+		moli_ossigeno_bruciate = moli_benzina * velocita * QNT_OSSIGENO_PER_BENZINA
+		moli_benzina_bruciate = moli_benzina * velocita
 	else :
 		# Il carburante è più dell'ossigeno
-		moli_ossigeno_bruciate = moli_ossigeno
-		moli_benzina_bruciate = moli_benzina\
-			- risultato_combustione
+		moli_ossigeno_bruciate = moli_ossigeno_bruciate * velocita
+		moli_benzina_bruciate = (moli_ossigeno / QNT_OSSIGENO_PER_BENZINA) * velocita
 	
-	moli_ossigeno_bruciate *= velocita
-	moli_benzina_bruciate *= velocita
-	var moli_totali_bruciate = moli_ossigeno_bruciate + moli_benzina_bruciate
-
-	# Applica
 	moli_ossigeno = moli_ossigeno - moli_ossigeno_bruciate
 	moli_benzina = moli_benzina - moli_benzina_bruciate
+	var moli_totali_bruciate := moli_ossigeno_bruciate + moli_benzina_bruciate
+	
+	
 	moli_gas_scarico += moli_totali_bruciate
-
-	temperatura += TEMP_ENTALPIA_BENZINA * moli_totali_bruciate
+	
+	temperatura += TEMP_ENTALPIA_BENZINA * (moli_totali_bruciate)
 	
 	
 	

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://owff363cmiew"]
+
+[ext_resource type="Script" path="res://bueRumoroso.gd" id="1_hpxc3"]
+[ext_resource type="AudioStream" uid="uid://c8r0cv0kci334" path="res://caos.wav" id="2_wjyep"]
+
+[node name="Node" type="Node"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+script = ExtResource("1_hpxc3")
+audio = ExtResource("2_wjyep")
+am_hz = 18
+am_effect = 88.101
+low_boost = 0.592

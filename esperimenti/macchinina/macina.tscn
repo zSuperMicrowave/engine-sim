@@ -5,6 +5,7 @@
 [ext_resource type="Material" uid="uid://dno7msnsfvly8" path="res://esperimenti/macchinina/new_standard_material_3d.tres" id="1_pahb5"]
 [ext_resource type="Script" path="res://esperimenti/macchinina/tracciamerda.gd" id="2_5wr2a"]
 [ext_resource type="Script" path="res://esperimenti/macchinina/Transmission.gd" id="2_7bsp6"]
+[ext_resource type="Texture2D" uid="uid://dpa64oct6hdxu" path="res://esperimenti/macchinina/template_r.png" id="2_webtk"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd" id="3_bufa2"]
 [ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="3_hnyor"]
 [ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_ggd7c"]
@@ -17,12 +18,16 @@
 [ext_resource type="Script" path="res://esperimenti/macchinina/TransGearRatio.gd" id="13_gyaip"]
 [ext_resource type="Script" path="res://Sim Motore/Debug/2d/Grafico2D.gd" id="14_7ff5f"]
 [ext_resource type="Script" path="res://Sistema audio/Delay.gd" id="14_bns4e"]
-[ext_resource type="Script" path="res://Sistema audio/CombinatoreAudio.gd" id="15_f4rvr"]
 [ext_resource type="Script" path="res://Sim Motore/Debug/Parametri/DebugParametri.gd" id="15_lga2q"]
 [ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="16_7ucpb"]
 [ext_resource type="Script" path="res://Sim Motore/UITemp/Speedometer.gd" id="17_tup3l"]
 [ext_resource type="AudioStream" uid="uid://bnrab6ylgqrpf" path="res://esperimenti/macchinina/gear.wav" id="18_bsjhu"]
 [ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Sim Motore/UITemp/lancec.png" id="18_o808g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tpudj"]
+albedo_color = Color(0.337255, 1, 0.462745, 1)
+albedo_texture = ExtResource("2_webtk")
+uv1_triplanar = true
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gvvnf"]
 
@@ -37,63 +42,50 @@ reflected_light_source = 2
 tonemap_mode = 1
 tonemap_exposure = 0.71
 tonemap_white = 0.92
-ssao_enabled = true
-ssil_enabled = true
 
-[sub_resource type="Resource" id="Resource_cfys5"]
+[sub_resource type="Resource" id="Resource_pl34m"]
 script = ExtResource("4_xwk1h")
 riduzione = 15.0
 max_velocita_rpm = 800.0
 coppia_nm = 72600.0
 
-[sub_resource type="Resource" id="Resource_rl3lg"]
+[sub_resource type="Resource" id="Resource_6bwoi"]
 script = ExtResource("4_ggd7c")
 offset_rotazione = 0.0
-larghezza_albero_cm = 8.0
-lunghezza_biella_cm = 9.0
-volume_extra_cm = 0.3
-alesaggio_cm = 25.0
-portata_entrata_aria = 2.0
-portata_uscita_aria = 4.0
+larghezza_albero_cm = 6.13
+lunghezza_biella_cm = 11.06
+volume_extra_cm = 0.735
+alesaggio_cm = 17.86
+portata_entrata_aria = 12.0
+portata_uscita_aria = 12.0
 
-[sub_resource type="Resource" id="Resource_6d8r7"]
-script = ExtResource("4_ggd7c")
-offset_rotazione = 360.0
-larghezza_albero_cm = 8.0
-lunghezza_biella_cm = 9.0
-volume_extra_cm = 0.3
-alesaggio_cm = 25.0
-portata_entrata_aria = 2.0
-portata_uscita_aria = 4.0
-
-[sub_resource type="Resource" id="Resource_nl58y"]
+[sub_resource type="Resource" id="Resource_mhbtg"]
 script = ExtResource("5_eyt0b")
-pistoni = Array[ExtResource("4_ggd7c")]([SubResource("Resource_rl3lg"), SubResource("Resource_6d8r7")])
-motorino_avviamento = SubResource("Resource_cfys5")
+pistoni = Array[ExtResource("4_ggd7c")]([SubResource("Resource_6bwoi")])
+motorino_avviamento = SubResource("Resource_pl34m")
 
 [sub_resource type="Resource" id="Resource_nsf5j"]
 script = ExtResource("7_55lvu")
-raggio = 0.4
-massa = 15.0
+raggio = 0.31
+massa = 4.0
 
-[sub_resource type="Gradient" id="Gradient_qcfmc"]
-offsets = PackedFloat32Array(0.184685, 0.400901, 0.743243)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_af1oy"]
+offsets = PackedFloat32Array(0, 0.195991, 0.318486, 0.873051)
+colors = PackedColorArray(1, 1, 1, 1, 0.537735, 0.537735, 0.537735, 1, 0.426267, 0.426267, 0.426267, 1, 0, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_pak3r"]
-gradient = SubResource("Gradient_qcfmc")
-fill = 1
-fill_from = Vector2(1, 1)
-fill_to = Vector2(0, 0)
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_w00gh"]
+gradient = SubResource("Gradient_af1oy")
+fill_from = Vector2(0, 0.611111)
+fill_to = Vector2(1, 1)
 
 [sub_resource type="Resource" id="Resource_ordda"]
 script = ExtResource("8_258e5")
 velocita_aggiornamento_ecu_hz = 40
-rpm_massimi = 10000.0
-miscela_piu_povera = 12.5
-miscela_piu_ricca = 12.5
-mappa_stechiometrica = SubResource("GradientTexture2D_pak3r")
-apertura_minima = 0.001
+rpm_massimi = 16000.0
+miscela_piu_povera = 14.325
+miscela_piu_ricca = 11.11
+mappa_stechiometrica = SubResource("GradientTexture2D_w00gh")
+apertura_minima = 0.016
 apertura_massima = 1.0
 mappa_apertura = ExtResource("8_c7r42")
 
@@ -155,6 +147,189 @@ use_collision = true
 size = Vector3(339.797, 1, 61.9024)
 material = ExtResource("1_pahb5")
 
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.535779, 0, 0, 0, 1, 0, 0, 0, 0.638751, 0, 0, 0)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.943194, 0, 0.332243, 0, 1, 0, -0.332243, 0, 0.943194, 141.096, 0.18712, 16.9253)
+use_collision = true
+size = Vector3(58.3582, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.660212, 0, 0.75108, 0, 1, 0, -0.75108, 0, 0.660212, 106.293, 0.18712, 40.4213)
+use_collision = true
+size = Vector3(58.3582, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.17076, 0, 0.985313, 0, 1, 0, -0.985313, 0, 0.17076, 87.9443, 0.18712, 76.2898)
+use_collision = true
+size = Vector3(58.3582, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.667339, 0, 0.744754, 0, 1, 0, -0.744754, 0, -0.667339, 97.6445, 0.18712, 114.731)
+use_collision = true
+size = Vector3(58.3582, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.999106, 0, 0.0422767, 0, 1, 0, -0.0422768, 0, -0.999106, 138.027, 0.18712, 134.353)
+use_collision = true
+size = Vector3(58.3582, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.963238, 0, -0.268651, 0, 1, 0, 0.268651, 0, -0.963238, 248.231, 0.18712, 111.643)
+use_collision = true
+size = Vector3(187.652, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.996829, 0, -0.0795725, 0, 1, 0, 0.0795725, 0, -0.996829, 367.601, 0.18712, 86.6202)
+use_collision = true
+size = Vector3(99.6753, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.992881, 0, 0.119115, 0, 1, 0, -0.119115, 0, -0.992881, 462.226, 0.18712, 88.3269)
+use_collision = true
+size = Vector3(99.6753, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.955015, 0, 0.296558, 0, 1, 0, -0.296558, 0, -0.955015, 609.207, 0.187089, 124.764)
+use_collision = true
+size = Vector3(232.802, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.779666, 0, 0.626196, 0, 1, 0, -0.626196, 0, -0.779666, 740.107, 0.187059, 177.736)
+use_collision = true
+size = Vector3(78.3427, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.541561, 0, 0.840661, 0, 1, 0, -0.840661, 0, -0.541561, 784.569, 0.186998, 223.919)
+use_collision = true
+size = Vector3(78.3427, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.289099, 0, 0.957299, 0, 1, 0, -0.957299, 0, -0.289099, 817.686, 0.186998, 303.659)
+use_collision = true
+size = Vector3(133.459, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.692836, 0, 0.721096, 0, 1, 0, -0.721096, 0, -0.692836, 860.627, 0.186998, 384.711)
+use_collision = true
+size = Vector3(73.8494, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.97459, 0, 0.223999, 0, 1, 0, -0.223999, 0, -0.97459, 915.037, 0.186998, 411.58)
+use_collision = true
+size = Vector3(73.8494, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.76268, 0, -0.646776, 0, 1, 0, 0.646776, 0, -0.76268, 972.385, 0.187059, 399.572)
+use_collision = true
+size = Vector3(73.8494, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.367849, 0, -0.929886, 0, 1, 0, 0.929886, 0, -0.367849, 1008.49, 0.187028, 348.49)
+use_collision = true
+size = Vector3(73.8494, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.020262, 0, -0.999795, 0, 1, 0, 0.999795, 0, -0.020262, 1019.66, 0.187089, 203.745)
+use_collision = true
+size = Vector3(252.964, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.667066, 0, -0.744999, 0, 1, 0, 0.744999, 0, 0.667066, 1003.61, 0.187082, 55.7188)
+use_collision = true
+size = Vector3(78.2751, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.850967, 0, 0.525219, 0, 1, 0, -0.525219, 0, 0.850967, 957.711, 0.187082, 45.0229)
+use_collision = true
+size = Vector3(78.2751, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.715083, 0, -0.69904, 0, 1, 0, 0.69904, 0, 0.715083, 801.618, 0.187082, -63.8886)
+use_collision = true
+size = Vector3(393.761, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.88075, 0, -0.473581, 0, 1, 0, 0.473581, 0, 0.88075, 577.858, 0.187082, -242.031)
+use_collision = true
+size = Vector3(228.386, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.985741, 0, 0.168266, 0, 1, 0, -0.168266, 0, 0.985741, 428.659, 0.187082, -288.375)
+use_collision = true
+size = Vector3(118.406, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.576332, 0, 0.817215, 0, 1, 0, -0.817215, 0, 0.576332, 357.197, 0.187082, -254.338)
+use_collision = true
+size = Vector3(76.4109, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.00820291, 0, 0.999966, 0, 1, 0, -0.999966, 0, -0.00820291, 338.981, 0.187082, -197.749)
+use_collision = true
+size = Vector3(76.4109, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(-0.499818, 0, 0.86613, 0, 1, 0, -0.86613, 0, -0.499818, 351.113, 0.187082, -138.574)
+use_collision = true
+size = Vector3(76.4109, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.0557693, 0, 0.998443, 0, 1, 0, -0.998443, 0, 0.0557693, 369.149, 0.187082, -80.3372)
+use_collision = true
+size = Vector3(76.4109, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D34" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.750965, 0, 0.660342, 0, 1, 0, -0.660342, 0, 0.750965, 347.504, 0.187067, -28.1132)
+use_collision = true
+size = Vector3(76.4109, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 672.087, 0.146, 9.77754)
+use_collision = true
+size = Vector3(1269.49, 1, 870.293)
+material = SubResource("StandardMaterial3D_tpudj")
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.946678, 0, 0.322183, 0, 1, 0, -0.322183, 0, 0.946678, 297.816, 0.187067, 3.83056)
+use_collision = true
+size = Vector3(76.4109, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 218.376, 0.18712, 8.3528)
+use_collision = true
+size = Vector3(116.366, 1, 22.3815)
+material = ExtResource("1_pahb5")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8nkkr")
 
@@ -163,9 +338,12 @@ transform = Transform3D(1, 0, 0, 0, 0.306144, 0.951985, 0, -0.951985, 0.306144, 
 light_color = Color(1, 0.976471, 0.964706, 1)
 
 [node name="ProcessoreFisicaMotore" type="Node" parent="." node_paths=PackedStringArray("motori")]
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 3
 script = ExtResource("1_dr80e")
 motori = [NodePath("../VehicleBody3D/Motore")]
-frequenza_aggiornamento_hz = 3000
+frequenza_aggiornamento_hz = 10000
 rallentamento_slow_motion = 0.1
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("traccia", "guarda")]
@@ -175,8 +353,10 @@ traccia = NodePath("../VehicleBody3D/Marker3D2")
 guarda = NodePath("../VehicleBody3D/Marker3D3")
 
 [node name="VehicleBody3D" type="VehicleBody3D" parent="." node_paths=PackedStringArray("trans")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.80156, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 46.0635, 1.93669, 58.33)
 mass = 3.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -0.1, 0)
 script = ExtResource("1_3ecxm")
 trans = NodePath("Transmission")
 
@@ -185,9 +365,9 @@ process_physics_priority = -1
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 3
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783175, -1.7181, -1.26244)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783173, -1.7181, -1.26244)
 script = ExtResource("3_hnyor")
-componente_audio_precedente = NodePath("CombinatoreAudio")
+componente_audio_precedente = NodePath("HeaderDelay1")
 dc_offset_hz = 117
 max_samples_buffer_length = 150
 
@@ -197,87 +377,56 @@ process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("11_gfwda")
 lunghezza_buffer = 8000
-correction_delta_amount = 0.216
-
-[node name="CampionatorePistone2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-script = ExtResource("11_gfwda")
-lunghezza_buffer = 8000
-correction_delta_amount = 0.216
+correction_delta_amount = 0.075
 
 [node name="PistonDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../CampionatorePistone")
 buffer_len = 4000
-feedback = 0.921
+feedback = 0.813
 invert_feedback = true
-base_delay_cutoff = 0.0
+base_delay_cutoff = 0.265
 auto_cutoff = true
-delay_length_multiplier = 3.343
-
-[node name="PistonDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("14_bns4e")
-previous_component = NodePath("../CampionatorePistone2")
-buffer_len = 4000
-feedback = 0.921
-invert_feedback = true
-base_delay_cutoff = 0.0
-auto_cutoff = true
-delay_length_multiplier = 3.343
-the_cycle = true
 
 [node name="HeaderDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
 script = ExtResource("14_bns4e")
 previous_component = NodePath("../PistonDelay1")
 buffer_len = 1000
-fixed_delay = 150.0
-feedback = 0.353
-base_delay_cutoff = 0.112
-
-[node name="HeaderDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("14_bns4e")
-previous_component = NodePath("../PistonDelay2")
-buffer_len = 1000
-fixed_delay = 500.0
-feedback = 0.353
-base_delay_cutoff = 0.112
-
-[node name="CombinatoreAudio" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
-script = ExtResource("15_f4rvr")
-componenti_precedenti = [NodePath("../HeaderDelay1"), NodePath("../HeaderDelay2")]
-esegui_media = true
+gain = 0.438
+fixed_delay = 126.495
+feedback = 0.312
+invert_feedback = true
+base_delay_cutoff = 0.486
 
 [node name="Motore" type="Node" parent="VehicleBody3D" node_paths=PackedStringArray("griglia_parametri", "audio", "speedometer", "grafici")]
 script = ExtResource("3_bufa2")
-coefficiente_attrito_meccanico_totale = 0.1
-albero_motore = SubResource("Resource_nl58y")
+coefficiente_attrito_meccanico_totale = 0.05
+albero_motore = SubResource("Resource_mhbtg")
 volano = SubResource("Resource_nsf5j")
 ecu = SubResource("Resource_ordda")
 velocita_debug_lento_hz = 1200
 griglia_parametri = NodePath("../../UI/Debug parametri")
-audio = [NodePath("../RiproduttoreAudio3D/CampionatorePistone"), NodePath("../RiproduttoreAudio3D/CampionatorePistone2")]
+audio = [NodePath("../RiproduttoreAudio3D/CampionatorePistone")]
 speedometer = NodePath("../../UI/speedometer")
 grafici = NodePath("../../grafici")
 guidato = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.59511e-09, 0.223278, -0.0754393)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.223278, -0.0754395)
 shape = SubResource("BoxShape3D_ypd2x")
 
 [node name="Marker3D" type="Marker3D" parent="VehicleBody3D"]
 
 [node name="fr" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.481901, 0.133036, 0.836508)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.481903, 0.0100001, 0.83651)
 use_as_steering = true
 wheel_roll_influence = 0.055
 wheel_radius = 0.2
 wheel_rest_length = 0.08
-wheel_friction_slip = 1.335
+wheel_friction_slip = 0.996
 suspension_travel = 0.15
 suspension_stiffness = 50.0
-damping_compression = 0.4
+damping_compression = 0.55
 damping_relaxation = 0.9
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="VehicleBody3D/fr"]
@@ -286,15 +435,15 @@ radius = 0.2
 height = 0.067
 
 [node name="fl" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.482, 0.133036, 0.837)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.482002, 0.0100001, 0.836998)
 use_as_steering = true
 wheel_roll_influence = 0.055
 wheel_radius = 0.2
 wheel_rest_length = 0.08
-wheel_friction_slip = 1.335
+wheel_friction_slip = 0.996
 suspension_travel = 0.15
 suspension_stiffness = 50.0
-damping_compression = 0.4
+damping_compression = 0.55
 damping_relaxation = 0.9
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="VehicleBody3D/fl"]
@@ -303,15 +452,15 @@ radius = 0.2
 height = 0.067
 
 [node name="rr" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.481901, 0.133036, -1.09725)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.481903, 0.0100001, -1.09725)
 use_as_traction = true
 wheel_roll_influence = 0.005
 wheel_radius = 0.2
 wheel_rest_length = 0.08
-wheel_friction_slip = 1.335
+wheel_friction_slip = 0.996
 suspension_travel = 0.15
 suspension_stiffness = 50.0
-damping_compression = 0.4
+damping_compression = 0.55
 damping_relaxation = 0.9
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="VehicleBody3D/rr"]
@@ -320,15 +469,15 @@ radius = 0.2
 height = 0.067
 
 [node name="rl" type="VehicleWheel3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.482, 0.133036, -1.09676)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.482002, 0.0100001, -1.09676)
 use_as_traction = true
 wheel_roll_influence = 0.005
 wheel_radius = 0.2
 wheel_rest_length = 0.08
-wheel_friction_slip = 1.335
+wheel_friction_slip = 0.996
 suspension_travel = 0.15
 suspension_stiffness = 50.0
-damping_compression = 0.4
+damping_compression = 0.55
 damping_relaxation = 0.9
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="VehicleBody3D/rl"]
@@ -339,7 +488,7 @@ height = 0.067
 [node name="Transmission" type="Node3D" parent="VehicleBody3D" node_paths=PackedStringArray("engine", "gear_audios")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01786e-07, 0.0866086, -1.1643)
 script = ExtResource("2_7bsp6")
-base_ratio = 2.875
+base_ratio = 2.525
 engine = NodePath("../Motore")
 gear_audios = [NodePath("a1"), NodePath("a2"), NodePath("a3"), NodePath("a4"), NodePath("a5"), NodePath("a6")]
 disable_audio = true
@@ -372,13 +521,13 @@ stream = ExtResource("18_bsjhu")
 bus = &"trans"
 
 [node name="Marker3D2" type="Marker3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81072e-07, 1.21239, -3.21509)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21239, -3.21509)
 
 [node name="Marker3D3" type="Marker3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.23389e-09, 0.673686, -0.082746)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.673686, -0.0827484)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1904e-09, 0.12802, -0.0936872)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12802, -0.093689)
 size = Vector3(0.685508, 0.195847, 2.46031)
 
 [node name="grafici" type="Node2D" parent="."]

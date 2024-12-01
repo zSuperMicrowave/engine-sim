@@ -9,6 +9,7 @@ class_name Transmission
 @export var reverse_gears : Array[Array]
 @export var forward_gears : Array[Array]
 @onready var machinina : Machinina = get_parent()
+@export var MOLTIPLICA_IL_POTERE := 1.0
 var current_gear := 0
 var clutch := 0.0
 
@@ -90,7 +91,7 @@ func get_gear_pitch_b(current_ratio : float, gear : int, min: float, max : float
 
 func get_force():
 	var ratio = get_current_ratio()
-	return engine.get_force(machinina.get_wheel_rpm() * 0.3 * ratio * base_ratio ) * 0.05 * ratio * base_ratio
+	return MOLTIPLICA_IL_POTERE * engine.get_force(machinina.get_wheel_rpm() * 0.3 * ratio * base_ratio ) * 0.05 * ratio * base_ratio
 
 func get_inertia():
 	var ratio = get_current_ratio()

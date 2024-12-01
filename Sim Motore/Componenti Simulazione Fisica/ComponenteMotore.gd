@@ -111,7 +111,7 @@ func _debug_lento():
 #		if max_deltatime > 0.001 :
 #			print("IL DELTA IL DELTA ANANGG: ", albero_motore.pistoni[0].fase_attuale)
 	if speedometer :
-		speedometer.rpm = albero_motore.velocita_angolare / Unita.rpm
+		speedometer.rpm = albero_motore.velocita_angolare * 9.54929658#/ Unita.rpm
 	if griglia_parametri :
 		var validita_formula = 1000 * albero_motore.pistoni[0].aria_cilindro.ottieni_validita_formula()
 		if not is_equal_approx(validita_formula, 1000.0):

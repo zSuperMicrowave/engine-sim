@@ -3,6 +3,9 @@ class_name ComponentePistone
 
 const OFFSET_BASE_ROTAZIONE := -PI/2.0
 const PESO_SPECIFICO_SU_MASSA_MOLARE_ARIA := 42.698
+const MOLTIPLICATORE_IRREALISTICO_ENTRATA_ARIA := 10000
+
+const NEW_CODE := false
 
 enum {
 	ASPIRAZIONE,
@@ -47,9 +50,9 @@ func elabora(motore : ComponenteMotore, delta : float):
 
 
 func _aggiorna_volume():
-	aria_cilindro.volume = distanza_pistone_tdc *\
-		pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI\
-		+ volume_extra_cm * Unita.cm * alesaggio_cm * Unita.cm
+	aria_cilindro.volume = \
+		distanza_pistone_tdc * pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI\
+		+ volume_extra_cm * Unita.cm * pow(alesaggio_cm * 0.5 * Unita.cm,2.0)
 
 	aria_cilindro.ricalcola_pressione()
 
@@ -57,45 +60,104 @@ func _aggiorna_volume():
 func _aggiorna_moli(motore : ComponenteMotore, delta : float):
 	# Qui dentro vengono eseguiti calcoli vari per definire quanti e che tipi
 	# di gas entrano ed escono dal cilindro.
+	if not NEW_CODE :
+		var flusso_in = clamp(delta * 1000 * motore.ecu.apertura_attuale\
+			* portata_entrata_aria, 0.0, 1.0)
+		var flusso_out = clamp(delta * 1000\
+			* portata_uscita_aria, 0.0, 1.0)
 
-	var flusso_in = clamp(delta * 1000 * motore.ecu.apertura_attuale\
-		* portata_entrata_aria, 0.0, 1.0)
-	var flusso_out = clamp(delta * 1000\
-		* portata_uscita_aria, 0.0, 1.0)
+		if fase_attuale == ASPIRAZIONE:
+			var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_in)\
+				+ motore.pressione_atmosferica * flusso_in
 
-	if fase_attuale == ASPIRAZIONE:
-		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_in)\
-			+ motore.pressione_atmosferica * flusso_in
+			var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(pressione_obiettivo)
 
-		var moli_aggiuntive = aria_cilindro.ottieni_moli_necessarie(pressione_obiettivo)
-		
-		if moli_aggiuntive > 0.0 :
-			# Il valore di moli deve essere maggiore di 0
-			
-			aria_cilindro.moli_ossigeno +=\
-				moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
-			aria_cilindro.moli_benzina +=\
-				 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
-			
-			aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
-			aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
+			if moli_aggiuntive > 0.0 :
+				# Il valore di moli deve essere maggiore di 0
+
+				aria_cilindro.moli_ossigeno +=\
+					moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
+				aria_cilindro.moli_benzina +=\
+					 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
+
+				aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
+				aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
+
+		if fase_attuale == ESPULSIONE:
+			var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_out)\
+				+ motore.pressione_atmosferica * flusso_out
+
+			aria_cilindro.pressione = pressione_obiettivo
+
+			aria_cilindro.ricalcola_moli()
+	else :
+		if fase_attuale == ASPIRAZIONE :
+			if motore.pressione_atmosferica < aria_cilindro.pressione :
+				# Se la pressione interna è maggiore (caso raro)
+				aria_cilindro.pressione -= calcola_flusso(
+					motore.pressione_atmosferica - aria_cilindro.pressione,
+					portata_entrata_aria * motore.ecu.apertura_attuale
+					) * min(delta,1.0)
+				aria_cilindro.ricalcola_moli()
+			else :
+				# Se è tutto ordinario e l'aria deve entrareù
+				var pressione_obiettivo : float =\
+					aria_cilindro.pressione + calcola_flusso(
+						motore.pressione_atmosferica - aria_cilindro.pressione,
+						portata_entrata_aria * motore.ecu.apertura_attuale) * min(delta * MOLTIPLICATORE_IRREALISTICO_ENTRATA_ARIA,1.0)
+
+				var moli_aggiuntive : float =\
+				aria_cilindro.ottieni_moli_necessarie(
+					pressione_obiettivo)
+
+				aria_cilindro.moli_ossigeno +=\
+					moli_aggiuntive * (1.0 - 1.0 / motore.ecu.miscela_attuale)
+				aria_cilindro.moli_benzina +=\
+					 moli_aggiuntive * (1.0 / motore.ecu.miscela_attuale)
+				aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
+				aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
+
+		elif fase_attuale == ESPULSIONE :
+			if motore.pressione_atmosferica < aria_cilindro.pressione :
+				# Se la pressione interna è maggiore
+				aria_cilindro.pressione -= calcola_flusso(
+					motore.pressione_atmosferica - aria_cilindro.pressione,
+					portata_uscita_aria
+					) * min(delta * MOLTIPLICATORE_IRREALISTICO_ENTRATA_ARIA,1.0)
+				aria_cilindro.ricalcola_moli()
+			else :
+				# Se la pressione interna è minore (caso raro)
+				var pressione_obiettivo : float =\
+					aria_cilindro.pressione + calcola_flusso(
+						motore.pressione_atmosferica - aria_cilindro.pressione,
+						portata_uscita_aria) * min(delta ,1.0)
+				
+				var moli_aggiuntive : float =\
+				aria_cilindro.ottieni_moli_necessarie(
+					pressione_obiettivo)
+				
+				aria_cilindro.moli_gas_scarico += moli_aggiuntive
+				
+				aria_cilindro.pressione = pressione_obiettivo # IMPOSTA PRESSIONE
+				aria_cilindro._moli_totali += moli_aggiuntive # IMPOSTA MOLI
 
 
-	if fase_attuale == ESPULSIONE:
-		var pressione_obiettivo = aria_cilindro.pressione * (1.0-flusso_out)\
-			+ motore.pressione_atmosferica * flusso_out
 
-		aria_cilindro.pressione = pressione_obiettivo
-		
-		aria_cilindro.ricalcola_moli()
+func calcola_flusso(p_diff:float,section_area:float):
+	var out = 0.1206 * sqrt(abs(p_diff)) * section_area
+	#print(out)
+	return out * PESO_SPECIFICO_SU_MASSA_MOLARE_ARIA
 
-
+var temp_camera := 273.0
 func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
+	
+	var diff = abs(temp_camera - aria_cilindro.temperatura)
+	
 	if fase_attuale == COMBUSTIONE:
 		if motore.batteria_connessa and\
 		rotazione + offset_rotazione >= 0.0:
 			# questa funzione sotto è rotta (probabilmente)
-			aria_cilindro.esegui_combustione(delta * 2.5 \
+			aria_cilindro.esegui_combustione(delta * 250 \
 				/ ( alesaggio_cm * larghezza_albero_cm * Unita.cm2) )
 		
 	elif fase_attuale == ASPIRAZIONE:
@@ -106,10 +168,19 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 			aria_cilindro.temperatura = motore.temperatura_esterna
 		
 	else:
-		aria_cilindro.temperatura -= delta * 0.01\
-			* (aria_cilindro.temperatura - motore.temperatura_esterna)
-		if aria_cilindro.temperatura < motore.temperatura_esterna :
-			aria_cilindro.temperatura = motore.temperatura_esterna
+		aria_cilindro.temperatura = lerpf(aria_cilindro.temperatura, temp_camera, delta * diff * 0.01)
+#		aria_cilindro.temperatura -= delta * 0.01\
+#			* (aria_cilindro.temperatura - motore.temperatura_esterna)
+#		if aria_cilindro.temperatura < motore.temperatura_esterna :
+#			aria_cilindro.temperatura = motore.temperatura_esterna
+
+	temp_camera = lerpf(temp_camera, aria_cilindro.temperatura, delta * 0.001)
+	aria_cilindro.temperatura = lerpf(aria_cilindro.temperatura, temp_camera, delta * 0.001)
+	
+#	if randf() >0.999:
+#		print(temp_camera - 273)
+	
+	temp_camera = lerpf(temp_camera, motore.temperatura_esterna, delta * 0.001)
 	
 	aria_cilindro.ricalcola_pressione()
 

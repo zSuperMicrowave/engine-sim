@@ -14,6 +14,7 @@ config/name="audio procedurale"
 run/main_scene="res://esperimenti/macchinina/macina.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+run/vsync/vsync_mode=1
 
 [autoload]
 
@@ -23,6 +24,7 @@ FunzioniMotore="*res://Sim Motore/FunzioniMotore.gd"
 [display]
 
 window/stretch/mode="viewport"
+window/vsync/vsync_mode=0
 
 [editor]
 
@@ -116,12 +118,12 @@ frizione={
 ]
 }
 sterzo_pos={
-"deadzone": 0.02,
+"deadzone": 0.04,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
 ]
 }
 sterzo_neg={
-"deadzone": 0.02,
+"deadzone": 0.04,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
 ]
 }
