@@ -29,11 +29,13 @@ var debug_min_delay := 999999999.9
 var debug_max_delay := 0.0
 var debug_delay_diff := 0.0
 
+var return_buffer : Array[float] = []
 
 func _enter_tree():
 	buffer.resize(buffer_len)
 
 
+var can_send_return_buffer := false
 func _physics_process(delta):
 	max_delay = 0.0
 	_update_params()
@@ -51,6 +53,9 @@ func _update_params():
 	can_vary_delay =\
 		previous_component is CampionatorePistone
 	
+	can_send_return_buffer =\
+		previous_component is Delay or previous_component is CombinatoreAudio
+	
 	if force_fixed_delay or not can_vary_delay:
 		delay_samps = fixed_delay * delay_length_multiplier * InfoAudio.scala_campionamento
 	
@@ -61,6 +66,7 @@ func _debug():
 	print("Max delay: ", debug_max_delay)
 	print("Diff : ",debug_delay_diff)
 	print("Current delay: ",delay_samps)
+	print("Last out: ",last_out)
 	debug_min_delay = 999999999.9
 	debug_max_delay = 0.0
 	debug_delay_diff = 0.0
@@ -69,12 +75,13 @@ var max_delay := 0.0
 var old_delayed_samp : float = 0.0
 var old_delay_samps : float = delay_samps
 var old_avant := false
-
+var last_out := 0.0
 
 
 
 var avant := false
 @export var the_cycle := false
+var return_buffer_index := 0
 func sample_audio(samps : int) -> Array[float]:
 	if is_zero_approx(feedback) or straight_trough:
 		return previous_component.sample_audio(samps)
@@ -85,7 +92,9 @@ func sample_audio(samps : int) -> Array[float]:
 	if not force_fixed_delay and can_vary_delay : 
 		rev_buf = previous_component.sample_reverb(samps)
 
+
 	var out : Array[float] = []
+	var ret_out : Array[float] = []
 
 	# Apply filter on samples
 	for i in range(samps) :
@@ -94,8 +103,16 @@ func sample_audio(samps : int) -> Array[float]:
 		if not force_fixed_delay and can_vary_delay :
 			delay_samps = rev_buf[i] * delay_length_multiplier * InfoAudio.scala_campionamento +1
 
-		delay_samps = clampf(delay_samps * samp_rate_ratio, 0.1, buffer_len-2)
+		delay_samps = clampf(delay_samps * samp_rate_ratio * delay_length_multiplier, 0.1, buffer_len-2)
 		var delay_samps_int := roundi(delay_samps)
+
+		if return_buffer_index >= return_buffer.size():
+			return_buffer_index == 0
+			return_buffer = []
+			write_buffer(delay_samps_int, 0)
+		else :
+			write_buffer(delay_samps_int, return_buffer[return_buffer_index] * feedback)
+			return_buffer_index += 1
 
 		var sample : float = read_buffer(-delay_samps_int - 1)
 		var next_sample : float = read_buffer(-delay_samps_int)
@@ -120,10 +137,17 @@ func sample_audio(samps : int) -> Array[float]:
 				lerpf(delayed_sample, old_delayed_samp, min(base_delay_cutoff+abs(delay_samps - old_delay_samps),1.0))
 
 
-		buffer[buffer_pointer] =\
-			delayed_sample * feedback * (-1 if invert_feedback else 1)
+		if not force_fixed_delay and can_vary_delay :
+			buffer[buffer_pointer] =\
+				delayed_sample * feedback * (-1 if invert_feedback else 1) 
+		else :
+			# Using += because the return buffer will write everything to zero
+			buffer[buffer_pointer] +=\
+				delayed_sample * feedback * (-1 if invert_feedback else 1)
 
 		out.append((buffer[buffer_pointer]) * gain)
+		if can_send_return_buffer :
+			ret_out.append(read_buffer(-delay_samps_int / 2) * feedback)
 
 		buffer[buffer_pointer] += samp_buf[i]
 
@@ -135,6 +159,9 @@ func sample_audio(samps : int) -> Array[float]:
 		old_delay_samps = delay_samps
 		old_delayed_samp = delayed_sample
 
+	if can_send_return_buffer:
+		previous_component.send_return_buffer(ret_out)
+	last_out = out[0]
 	return out
 
 
@@ -149,3 +176,6 @@ func write_buffer(offset : int, input : float):
 func add_to_buffer(offset : int, input : float):
 	var i := posmod(buffer_pointer + offset, buffer_len)
 	buffer[i] += input
+
+func send_return_buffer(buffer : Array[float]):
+	return_buffer = buffer

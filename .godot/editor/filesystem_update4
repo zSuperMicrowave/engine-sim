@@ -1,1 +1,12 @@
 res://default_bus_layout.tres
+res://Sim Motore/Audi Quattro.tscn
+res://esperimenti/macchinina/new_standard_material_3d.tres
+res://Sim Motore/Principale Test.tscn
+res://esperimenti/macchinina/macina.tscn
+res://Sim Motore/singolpist.tscn
+res://Sim Motore/macinascema.tscn
+res://Sim Motore/2JZ.tscn
+res://esperimenti/macchinina/macina2.tscn
+res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd
+res://Sistema audio/CombinatoreAudio.gd
+res://Sim Motore/PistonSamplerBufferManager.gd

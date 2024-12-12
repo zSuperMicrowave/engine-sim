@@ -127,6 +127,10 @@ sterzo_neg={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
 ]
 }
+forza={
+"deadzone": 0.5,
+"events": []
+}
 
 [physics]
 

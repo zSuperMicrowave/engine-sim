@@ -4,6 +4,7 @@ class_name RiproduttoreAudio3D
 @export var componente_audio_precedente : ComponenteAudio
 @export_range(2,8000) var dc_offset_hz : int
 @export_range(20,16000) var max_samples_buffer_length := 500
+@export_range(0.0,1.0) var multiply_amplitude := 1.0
 var dc_offset := 0.0
 
 var playback : AudioStreamGeneratorPlayback
@@ -44,5 +45,5 @@ func _elabora_frame_audio():
 			if is_nan(e) :
 				print("/!\\VALORE NAN RESTITUITO/!\\")
 				e = 0.0
-			playback.push_frame(Vector2.ONE * e)
+			playback.push_frame(Vector2.ONE * clampf(e * multiply_amplitude,-1.0,1.0))
 			frame_rimanenti -= 1

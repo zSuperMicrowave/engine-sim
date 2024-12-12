@@ -27,3 +27,14 @@ func sample_audio(samps : int) -> Array[float]:
 			out[i] /= componenti_precedenti.size()
 
 	return out
+
+func send_return_buffer(buffer : Array[float]):
+	var mul = 1.0 / float(componenti_precedenti.size())
+	
+	var new_buff : Array[float] = []
+	for e in buffer :
+		new_buff.append(e*mul)
+	
+	for c in componenti_precedenti:
+		if c is Delay or c is CombinatoreAudio :
+			c.send_return_buffer(new_buff)

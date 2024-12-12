@@ -14,7 +14,7 @@ func _init(buffer_length):
 var avg_buffer_size := 0
 var count_avg_samps := 0
 var correction_delta := 1.0
-func process_correction(size_correction_amount):
+func process_correction(size_correction_amount, overpopulate):
 	if count_avg_samps == 0 or avg_buffer_size == 0 :
 		correction_delta = 1.0
 		return
@@ -25,7 +25,7 @@ func process_correction(size_correction_amount):
 #	print("Avg: ",avg)
 #	print("Current length: ", buffer.size())
 #	print("Correction delta: ",temp_correction_delta)
-	correction_delta = lerpf(1.0,temp_correction_delta,size_correction_amount)
+	correction_delta = lerpf(1.0,temp_correction_delta * (1.0 + overpopulate),size_correction_amount)
 #	print("Final correction: ",correction_delta)
 	
 	avg_buffer_size = 0
@@ -37,7 +37,7 @@ func sample(fail_return_value := 0.0) -> float:
 	count_avg_samps += 1
 	
 	var out = buffer.pop_front()
-	if out == null : return 0.0
+	if out == null : return fail_return_value
 	return out
 
 

@@ -18,7 +18,8 @@ class_name CampionatorePistone
 
 @export_group("Buffer")
 @export var lunghezza_buffer : int = 11025
-@export_range(0.0, 1.0) var correction_delta_amount : float = 0.1
+@export_range(0.0, 10.0) var correction_delta_amount : float = 0.5
+@export_range(0.0,0.1) var overpopulate_buffer : float = 0.0
 
 var samples_buffer : AudioSynchronizerBuffer = null
 var reverb_buffer : AudioSynchronizerBuffer = null
@@ -29,21 +30,21 @@ func _enter_tree():
 
 
 func _physics_process(delta):
-	samples_buffer.process_correction(correction_delta_amount)
-	reverb_buffer.process_correction(correction_delta_amount)
+	samples_buffer.process_correction(correction_delta_amount * min(delta,1.0), overpopulate_buffer)
+	reverb_buffer.process_correction(correction_delta_amount * min(delta,1.0), overpopulate_buffer)
 
 
 func sample_audio(samps : int) -> Array[float]:
 	var arr : Array[float] = []
 	for i in range(samps):
-		arr.append(samples_buffer.sample(0.0))
+		arr.append(clampf(samples_buffer.sample(0.0),-1.0,1.0))
 	return arr
 
 
 func sample_reverb(samps : int) -> Array[float]:
 	var arr : Array[float] = []
 	for i in range(samps):
-		arr.append(reverb_buffer.sample(0.0))
+		arr.append(max(reverb_buffer.sample(1.0),1.0 / InfoAudio.scala_campionamento))
 	return arr
 
 

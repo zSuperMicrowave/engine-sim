@@ -25,14 +25,13 @@ band_db/16000_hz = -4.0
 
 [sub_resource type="AudioEffectEQ10" id="AudioEffectEQ10_cwvmu"]
 resource_name = "EQ10"
-band_db/125_hz = 5.0
-band_db/250_hz = 5.0
-band_db/500_hz = 6.0
-band_db/1000_hz = -0.3
-band_db/2000_hz = -8.5
-band_db/4000_hz = -19.0
-band_db/8000_hz = -2.5
-band_db/16000_hz = -15.5
+band_db/31_hz = -60.0
+band_db/125_hz = 0.1
+band_db/250_hz = 9.8
+band_db/500_hz = 7.6
+band_db/1000_hz = 7.2
+band_db/2000_hz = 6.8
+band_db/4000_hz = -0.9
 
 [sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_alrq4"]
 resource_name = "Distortion"
@@ -50,7 +49,7 @@ band_db/1000_hz = -1.8
 
 [sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_gu810"]
 resource_name = "Amplify"
-volume_db = 19.66
+volume_db = 12.83
 
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nji4r"]
 resource_name = "Compressor"

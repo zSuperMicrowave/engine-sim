@@ -16,6 +16,8 @@ func _physics_process(delta):
 	var intertia_mass = 15*trans.get_inertia()
 	mass = base_mass + intertia_mass
 	engine_force = trans.get_force() * 15
+	if Input.is_action_pressed("forza"):
+		engine_force = 2000
 	trans.engine.albero_motore.set_delta(delta)
 	#print((Input.get_action_strength("freno1")+1-Input.get_action_strength("freno2"))*0.5)
 	brake = 40 * (Input.get_action_strength("freno1")+1-Input.get_action_strength("freno2"))*0.5

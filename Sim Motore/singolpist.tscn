@@ -148,7 +148,6 @@ previous_component = NodePath("../CampionatorePistone")
 buffer_len = 2000
 gain = 2.0
 feedback = 0.879
-invert_feedback = true
 base_delay_cutoff = 0.219
 auto_cutoff = true
 

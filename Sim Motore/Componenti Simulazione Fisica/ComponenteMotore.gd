@@ -100,7 +100,7 @@ func _debug(delta : float):
 
 
 func _debug_lento():
-	if grafici :
+	if grafici != null :
 		grafici.find_child("moli_carburante").invia_dato(max_carb)
 		grafici.find_child("moli_ossigeno").invia_dato(max_oss)
 		grafici.find_child("moli_scarico").invia_dato(max_scar)
@@ -112,7 +112,7 @@ func _debug_lento():
 #			print("IL DELTA IL DELTA ANANGG: ", albero_motore.pistoni[0].fase_attuale)
 	if speedometer :
 		speedometer.rpm = albero_motore.velocita_angolare * 9.54929658#/ Unita.rpm
-	if griglia_parametri :
+	if griglia_parametri != null :
 		var validita_formula = 1000 * albero_motore.pistoni[0].aria_cilindro.ottieni_validita_formula()
 		if not is_equal_approx(validita_formula, 1000.0):
 			ultimo_errore_validazione_formula = validita_formula

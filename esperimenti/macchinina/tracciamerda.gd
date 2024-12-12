@@ -8,7 +8,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	global_position = global_position.lerp(traccia.global_position,delta*10.0)
 	look_at(guarda.global_position)
 	#global_transform.basis.from_euler(global_transform.basis.get_rotation_quaternion().slerp(traccia.global_transform.basis.get_rotation_quaternion(),delta*10.0).get_euler())

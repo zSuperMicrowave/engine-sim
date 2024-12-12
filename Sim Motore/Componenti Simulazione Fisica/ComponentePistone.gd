@@ -52,7 +52,7 @@ func elabora(motore : ComponenteMotore, delta : float):
 func _aggiorna_volume():
 	aria_cilindro.volume = \
 		distanza_pistone_tdc * pow(alesaggio_cm  * Unita.cm * 0.5,2.0) * PI\
-		+ volume_extra_cm * Unita.cm * pow(alesaggio_cm * 0.5 * Unita.cm,2.0)
+		+ volume_extra_cm * Unita.cm * pow(alesaggio_cm * 0.5 * Unita.cm,2.0) * PI
 
 	aria_cilindro.ricalcola_pressione()
 
@@ -155,7 +155,7 @@ func _aggiorna_temperatura(motore : ComponenteMotore, delta : float):
 	
 	if fase_attuale == COMBUSTIONE:
 		if motore.batteria_connessa and\
-		rotazione + offset_rotazione >= 0.0:
+		rotazione + deg_to_rad(offset_rotazione) >= 0.0:
 			# questa funzione sotto è rotta (probabilmente)
 			aria_cilindro.esegui_combustione(delta * 250 \
 				/ ( alesaggio_cm * larghezza_albero_cm * Unita.cm2) )
@@ -210,12 +210,12 @@ func ottieni_coppia(motore : ComponenteMotore):
 
 
 func imposta_parametri(rotazione : float):
-	self.rotazione = OFFSET_BASE_ROTAZIONE + offset_rotazione + rotazione
+	self.rotazione = OFFSET_BASE_ROTAZIONE + deg_to_rad(offset_rotazione) + rotazione
 
-	if rotazione + offset_rotazione < 0.0 :
-		self.rotazione_fase = TAU*2 - fmod(-(rotazione + offset_rotazione), TAU*2)
+	if rotazione + deg_to_rad(offset_rotazione) < 0.0 :
+		self.rotazione_fase = TAU*2 - fmod(-(rotazione + deg_to_rad(offset_rotazione)), TAU*2)
 	else :
-		self.rotazione_fase = fmod(rotazione + offset_rotazione, TAU*2)
+		self.rotazione_fase = fmod(rotazione + deg_to_rad(offset_rotazione), TAU*2)
 
 	if rotazione_fase < PI :
 		self.fase_attuale = ASPIRAZIONE

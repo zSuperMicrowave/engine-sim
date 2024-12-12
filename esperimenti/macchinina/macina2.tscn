@@ -1,30 +1,31 @@
-[gd_scene load_steps=37 format=3 uid="uid://xt4tqlyc1r0c"]
+[gd_scene load_steps=42 format=3 uid="uid://donbgk11076id"]
 
-[ext_resource type="Script" path="res://esperimenti/macchinina/veicolobruto.gd" id="1_3ecxm"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="1_dr80e"]
-[ext_resource type="Material" uid="uid://dno7msnsfvly8" path="res://esperimenti/macchinina/new_standard_material_3d.tres" id="1_pahb5"]
-[ext_resource type="Script" path="res://esperimenti/macchinina/tracciamerda.gd" id="2_5wr2a"]
-[ext_resource type="Script" path="res://esperimenti/macchinina/Transmission.gd" id="2_7bsp6"]
-[ext_resource type="Texture2D" uid="uid://dpa64oct6hdxu" path="res://esperimenti/macchinina/template_r.png" id="2_webtk"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd" id="3_bufa2"]
-[ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="3_hnyor"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd" id="4_ggd7c"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd" id="4_xwk1h"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd" id="5_eyt0b"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="7_55lvu"]
-[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="8_258e5"]
-[ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="8_c7r42"]
-[ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="11_gfwda"]
-[ext_resource type="Script" path="res://esperimenti/macchinina/TransGearRatio.gd" id="13_gyaip"]
-[ext_resource type="Script" path="res://Sistema audio/Delay.gd" id="14_bns4e"]
-[ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="16_7ucpb"]
-[ext_resource type="Script" path="res://Sim Motore/UITemp/Speedometer.gd" id="17_tup3l"]
-[ext_resource type="AudioStream" uid="uid://bnrab6ylgqrpf" path="res://esperimenti/macchinina/gear.wav" id="18_bsjhu"]
-[ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Sim Motore/UITemp/lancec.png" id="18_o808g"]
+[ext_resource type="Material" uid="uid://dno7msnsfvly8" path="res://esperimenti/macchinina/new_standard_material_3d.tres" id="1_chk1e"]
+[ext_resource type="Texture2D" uid="uid://dpa64oct6hdxu" path="res://esperimenti/macchinina/template_r.png" id="2_5cuck"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ProcessoreFisicaMotore.gd" id="3_bfedb"]
+[ext_resource type="Script" path="res://esperimenti/macchinina/tracciamerda.gd" id="4_uq3bx"]
+[ext_resource type="Script" path="res://esperimenti/macchinina/veicolobruto.gd" id="5_5lhw1"]
+[ext_resource type="Script" path="res://Sistema audio/RiproduttoreAudio3D.gd" id="6_pne37"]
+[ext_resource type="Script" path="res://Sistema audio/CampionatorePistone.gd" id="7_jekyg"]
+[ext_resource type="Script" path="res://Sistema audio/Delay.gd" id="8_qn6qb"]
+[ext_resource type="Script" path="res://Sistema audio/CombinatoreAudio.gd" id="9_f35tj"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotore.gd" id="9_s3x1d"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteMotorinoAvviamento.gd" id="10_vnro5"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponentePistone.gd" id="11_xtdxg"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteAlberoMotore.gd" id="12_rhccf"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteVolano.gd" id="13_uh0pc"]
+[ext_resource type="Texture2D" uid="uid://ceqwslxjhbfrs" path="res://test mappa apertura.png" id="14_o8568"]
+[ext_resource type="Script" path="res://Sim Motore/Componenti Simulazione Fisica/ComponenteEcu.gd" id="15_r1iwo"]
+[ext_resource type="Script" path="res://esperimenti/macchinina/Transmission.gd" id="16_ueibc"]
+[ext_resource type="Script" path="res://esperimenti/macchinina/TransGearRatio.gd" id="17_b6kmn"]
+[ext_resource type="AudioStream" uid="uid://bnrab6ylgqrpf" path="res://esperimenti/macchinina/gear.wav" id="18_1k7j8"]
+[ext_resource type="Texture2D" uid="uid://dj4hqjushhfn" path="res://Sim Motore/UITemp/Senza nome.png" id="19_1jmxi"]
+[ext_resource type="Script" path="res://Sim Motore/UITemp/Speedometer.gd" id="20_lxlvs"]
+[ext_resource type="Texture2D" uid="uid://568x0t34bumb" path="res://Sim Motore/UITemp/lancec.png" id="21_6u4t1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tpudj"]
 albedo_color = Color(0.337255, 1, 0.462745, 1)
-albedo_texture = ExtResource("2_webtk")
+albedo_texture = ExtResource("2_5cuck")
 uv1_triplanar = true
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gvvnf"]
@@ -41,30 +42,70 @@ tonemap_mode = 1
 tonemap_exposure = 0.71
 tonemap_white = 0.92
 
-[sub_resource type="Resource" id="Resource_pl34m"]
-script = ExtResource("4_xwk1h")
-riduzione = 30.0
-max_velocita_rpm = 1600.0
-coppia_nm = 7.26e+06
+[sub_resource type="Resource" id="Resource_qdtpr"]
+script = ExtResource("10_vnro5")
+riduzione = 15.0
+max_velocita_rpm = 800.0
+coppia_nm = 72600.0
 
-[sub_resource type="Resource" id="Resource_6bwoi"]
-script = ExtResource("4_ggd7c")
+[sub_resource type="Resource" id="Resource_rl3lg"]
+script = ExtResource("11_xtdxg")
 offset_rotazione = 0.0
-larghezza_albero_cm = 6.13
-lunghezza_biella_cm = 11.06
-volume_extra_cm = 0.735
-alesaggio_cm = 17.86
-portata_entrata_aria = 12.0
-portata_uscita_aria = 12.0
+larghezza_albero_cm = 4.3
+lunghezza_biella_cm = 5.0
+volume_extra_cm = 1.0
+alesaggio_cm = 7.9
+portata_entrata_aria = 2.0
+portata_uscita_aria = 2.0
 
-[sub_resource type="Resource" id="Resource_mhbtg"]
-script = ExtResource("5_eyt0b")
-pistoni = Array[ExtResource("4_ggd7c")]([SubResource("Resource_6bwoi")])
-motorino_avviamento = SubResource("Resource_pl34m")
+[sub_resource type="Resource" id="Resource_6d8r7"]
+script = ExtResource("11_xtdxg")
+offset_rotazione = 144.0
+larghezza_albero_cm = 4.3
+lunghezza_biella_cm = 5.0
+volume_extra_cm = 1.0
+alesaggio_cm = 7.9
+portata_entrata_aria = 2.0
+portata_uscita_aria = 2.0
+
+[sub_resource type="Resource" id="Resource_yktr8"]
+script = ExtResource("11_xtdxg")
+offset_rotazione = 576.0
+larghezza_albero_cm = 4.3
+lunghezza_biella_cm = 5.0
+volume_extra_cm = 1.0
+alesaggio_cm = 7.9
+portata_entrata_aria = 2.0
+portata_uscita_aria = 2.0
+
+[sub_resource type="Resource" id="Resource_hghhc"]
+script = ExtResource("11_xtdxg")
+offset_rotazione = 288.0
+larghezza_albero_cm = 4.3
+lunghezza_biella_cm = 5.0
+volume_extra_cm = 1.0
+alesaggio_cm = 7.9
+portata_entrata_aria = 2.0
+portata_uscita_aria = 2.0
+
+[sub_resource type="Resource" id="Resource_jox1q"]
+script = ExtResource("11_xtdxg")
+offset_rotazione = 432.0
+larghezza_albero_cm = 4.3
+lunghezza_biella_cm = 5.0
+volume_extra_cm = 1.0
+alesaggio_cm = 7.9
+portata_entrata_aria = 2.0
+portata_uscita_aria = 2.0
+
+[sub_resource type="Resource" id="Resource_awpl6"]
+script = ExtResource("12_rhccf")
+pistoni = Array[ExtResource("11_xtdxg")]([SubResource("Resource_rl3lg"), SubResource("Resource_6d8r7"), SubResource("Resource_yktr8"), SubResource("Resource_hghhc"), SubResource("Resource_jox1q")])
+motorino_avviamento = SubResource("Resource_qdtpr")
 
 [sub_resource type="Resource" id="Resource_nsf5j"]
-script = ExtResource("7_55lvu")
-raggio = 0.45
+script = ExtResource("13_uh0pc")
+raggio = 0.8
 massa = 2.0
 
 [sub_resource type="Gradient" id="Gradient_af1oy"]
@@ -77,33 +118,33 @@ fill_from = Vector2(0, 0.611111)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="Resource" id="Resource_ordda"]
-script = ExtResource("8_258e5")
+script = ExtResource("15_r1iwo")
 velocita_aggiornamento_ecu_hz = 40
-rpm_massimi = 16000.0
+rpm_massimi = 9000.0
 miscela_piu_povera = 14.325
 miscela_piu_ricca = 11.11
 mappa_stechiometrica = SubResource("GradientTexture2D_w00gh")
 apertura_minima = 0.016
 apertura_massima = 1.0
-mappa_apertura = ExtResource("8_c7r42")
+mappa_apertura = ExtResource("14_o8568")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ypd2x"]
-size = Vector3(1.20025, 0.167683, 2.56872)
+size = Vector3(0.731412, 0.167683, 2.56872)
 
 [sub_resource type="Resource" id="Resource_aid1b"]
-script = ExtResource("13_gyaip")
+script = ExtResource("17_b6kmn")
 n = 2
 over_d = 3
 teeth_multiplier = 3
 
 [sub_resource type="Resource" id="Resource_frc2o"]
-script = ExtResource("13_gyaip")
+script = ExtResource("17_b6kmn")
 n = 1
 over_d = 2
 teeth_multiplier = 6
 
 [sub_resource type="Resource" id="Resource_pmoj6"]
-script = ExtResource("13_gyaip")
+script = ExtResource("17_b6kmn")
 n = 1
 over_d = 3
 teeth_multiplier = 5
@@ -114,31 +155,31 @@ teeth_multiplier = 5
 transform = Transform3D(0.999166, -0.0408294, 0, 0.0408294, 0.999166, 0, 0, 0, 1, 10.4951, 0.18712, 0)
 use_collision = true
 size = Vector3(15.2688, 1, 14.1019)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
 transform = Transform3D(0.521513, -0.0213108, -0.852977, 0.0408294, 0.999166, 0, 0.852266, -0.0348265, 0.521948, 8.98691, 0.18712, 6.09803)
 use_collision = true
 size = Vector3(15.2688, 1, 14.1019)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
 transform = Transform3D(-0.0978833, 0.00399985, -0.99519, 0.0408294, 0.999166, 1.94441e-09, 0.99436, -0.040633, -0.097965, 0.467442, 0.18712, 8.3528)
 use_collision = true
 size = Vector3(217.614, 1, 61.9024)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="."]
 transform = Transform3D(-0.0978833, 0.00399985, -0.99519, -0.0719805, 0.997344, 0.0110883, 0.992592, 0.0727196, -0.0973355, 18.2037, 3.67733, -175.335)
 use_collision = true
 size = Vector3(217.614, 1, 61.9024)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="."]
 transform = Transform3D(-0.0978833, 0.00399985, -0.99519, 0.00368755, 0.999986, 0.00365644, 0.995191, -0.00331189, -0.0978967, 49.5043, 10.9439, -447.593)
 use_collision = true
 size = Vector3(339.797, 1, 61.9024)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(0.535779, 0, 0, 0, 1, 0, 0, 0, 0.638751, 0, 0, 0)
@@ -147,163 +188,187 @@ transform = Transform3D(0.535779, 0, 0, 0, 1, 0, 0, 0, 0.638751, 0, 0, 0)
 transform = Transform3D(0.943194, 0, 0.332243, 0, 1, 0, -0.332243, 0, 0.943194, 141.096, 0.18712, 16.9253)
 use_collision = true
 size = Vector3(58.3582, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.939495, -0.083451, 0.332243, 0.0884771, 0.996078, 7.45058e-09, -0.33094, 0.0293959, 0.943194, 141.237, -1.49965, 16.8755)
+use_collision = true
+size = Vector3(20.9665, 5.27346, 22.3815)
+material = ExtResource("1_chk1e")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.988278, -0.072534, -0.134331, 0.0789414, 0.995952, 0.0429952, 0.130668, -0.0530956, 0.990002, 180.684, -1.72085, 7.34186)
+use_collision = true
+size = Vector3(20.9665, 5.27346, 22.3815)
+material = ExtResource("1_chk1e")
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.988278, -0.072534, -0.134331, 0.0789414, 0.995952, 0.0429952, 0.130668, -0.0530955, 0.990001, 259.796, -1.75475, 8.95922)
+use_collision = true
+size = Vector3(20.9665, 5.27346, 22.3815)
+material = ExtResource("1_chk1e")
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(0.98943, 0.0814471, 0.119971, -0.0855354, 0.995904, 0.0293229, -0.117091, -0.0392748, 0.992342, 199.934, -1.86149, 9.94421)
+use_collision = true
+size = Vector3(20.9665, 5.27346, 22.3815)
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.660212, 0, 0.75108, 0, 1, 0, -0.75108, 0, 0.660212, 106.293, 0.18712, 40.4213)
 use_collision = true
 size = Vector3(58.3582, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.17076, 0, 0.985313, 0, 1, 0, -0.985313, 0, 0.17076, 87.9443, 0.18712, 76.2898)
 use_collision = true
 size = Vector3(58.3582, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.667339, 0, 0.744754, 0, 1, 0, -0.744754, 0, -0.667339, 97.6445, 0.18712, 114.731)
 use_collision = true
 size = Vector3(58.3582, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.999106, 0, 0.0422767, 0, 1, 0, -0.0422768, 0, -0.999106, 138.027, 0.18712, 134.353)
 use_collision = true
 size = Vector3(58.3582, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.963238, 0, -0.268651, 0, 1, 0, 0.268651, 0, -0.963238, 248.231, 0.18712, 111.643)
 use_collision = true
 size = Vector3(187.652, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.996829, 0, -0.0795725, 0, 1, 0, 0.0795725, 0, -0.996829, 367.601, 0.18712, 86.6202)
 use_collision = true
 size = Vector3(99.6753, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.992881, 0, 0.119115, 0, 1, 0, -0.119115, 0, -0.992881, 462.226, 0.18712, 88.3269)
 use_collision = true
 size = Vector3(99.6753, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.955015, 0, 0.296558, 0, 1, 0, -0.296558, 0, -0.955015, 609.207, 0.187089, 124.764)
 use_collision = true
 size = Vector3(232.802, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.779666, 0, 0.626196, 0, 1, 0, -0.626196, 0, -0.779666, 740.107, 0.187059, 177.736)
 use_collision = true
 size = Vector3(78.3427, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.541561, 0, 0.840661, 0, 1, 0, -0.840661, 0, -0.541561, 784.569, 0.186998, 223.919)
 use_collision = true
 size = Vector3(78.3427, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.289099, 0, 0.957299, 0, 1, 0, -0.957299, 0, -0.289099, 817.686, 0.186998, 303.659)
 use_collision = true
 size = Vector3(133.459, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D20" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.692836, 0, 0.721096, 0, 1, 0, -0.721096, 0, -0.692836, 860.627, 0.186998, 384.711)
 use_collision = true
 size = Vector3(73.8494, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D21" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.97459, 0, 0.223999, 0, 1, 0, -0.223999, 0, -0.97459, 915.037, 0.186998, 411.58)
 use_collision = true
 size = Vector3(73.8494, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D22" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.76268, 0, -0.646776, 0, 1, 0, 0.646776, 0, -0.76268, 972.385, 0.187059, 399.572)
 use_collision = true
 size = Vector3(73.8494, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D23" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.367849, 0, -0.929886, 0, 1, 0, 0.929886, 0, -0.367849, 1008.49, 0.187028, 348.49)
 use_collision = true
 size = Vector3(73.8494, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D24" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.020262, 0, -0.999795, 0, 1, 0, 0.999795, 0, -0.020262, 1019.66, 0.187089, 203.745)
 use_collision = true
 size = Vector3(252.964, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D25" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.667066, 0, -0.744999, 0, 1, 0, 0.744999, 0, 0.667066, 1003.61, 0.187082, 55.7188)
 use_collision = true
 size = Vector3(78.2751, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D26" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.850967, 0, 0.525219, 0, 1, 0, -0.525219, 0, 0.850967, 957.711, 0.187082, 45.0229)
 use_collision = true
 size = Vector3(78.2751, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D27" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.715083, 0, -0.69904, 0, 1, 0, 0.69904, 0, 0.715083, 801.618, 0.187082, -63.8886)
 use_collision = true
 size = Vector3(393.761, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D28" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.88075, 0, -0.473581, 0, 1, 0, 0.473581, 0, 0.88075, 577.858, 0.187082, -242.031)
 use_collision = true
 size = Vector3(228.386, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D29" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.985741, 0, 0.168266, 0, 1, 0, -0.168266, 0, 0.985741, 428.659, 0.187082, -288.375)
 use_collision = true
 size = Vector3(118.406, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D30" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.576332, 0, 0.817215, 0, 1, 0, -0.817215, 0, 0.576332, 357.197, 0.187082, -254.338)
 use_collision = true
 size = Vector3(76.4109, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D31" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.00820291, 0, 0.999966, 0, 1, 0, -0.999966, 0, -0.00820291, 338.981, 0.187082, -197.749)
 use_collision = true
 size = Vector3(76.4109, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D32" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(-0.499818, 0, 0.86613, 0, 1, 0, -0.86613, 0, -0.499818, 351.113, 0.187082, -138.574)
 use_collision = true
 size = Vector3(76.4109, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D33" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.0557693, 0, 0.998443, 0, 1, 0, -0.998443, 0, 0.0557693, 369.149, 0.187082, -80.3372)
 use_collision = true
 size = Vector3(76.4109, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D34" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(0.750965, 0, 0.660342, 0, 1, 0, -0.660342, 0, 0.750965, 347.504, 0.187067, -28.1132)
 use_collision = true
 size = Vector3(76.4109, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D36" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 672.087, 0.146, 9.77754)
@@ -315,13 +380,13 @@ material = SubResource("StandardMaterial3D_tpudj")
 transform = Transform3D(0.946678, 0, 0.322183, 0, 1, 0, -0.322183, 0, 0.946678, 297.816, 0.187067, 3.83056)
 use_collision = true
 size = Vector3(76.4109, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 218.376, 0.18712, 8.3528)
 use_collision = true
 size = Vector3(116.366, 1, 22.3815)
-material = ExtResource("1_pahb5")
+material = ExtResource("1_chk1e")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8nkkr")
@@ -334,14 +399,14 @@ light_color = Color(1, 0.976471, 0.964706, 1)
 process_thread_group = 2
 process_thread_group_order = 0
 process_thread_messages = 3
-script = ExtResource("1_dr80e")
+script = ExtResource("3_bfedb")
 motori = [NodePath("../VehicleBody3D/Motore")]
-frequenza_aggiornamento_hz = 10000
+frequenza_aggiornamento_hz = 3000
 rallentamento_slow_motion = 0.1
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("traccia", "guarda")]
 transform = Transform3D(1, -1.61506e-08, 1.74098e-07, 0, 0.995725, 0.0923706, -1.74846e-07, -0.0923706, 0.995725, 2.36304e-07, 2.37964, 2.703)
-script = ExtResource("2_5wr2a")
+script = ExtResource("4_uq3bx")
 traccia = NodePath("../VehicleBody3D/Marker3D2")
 guarda = NodePath("../VehicleBody3D/Marker3D3")
 
@@ -350,7 +415,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 46.063
 mass = 3.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.1, 0)
-script = ExtResource("1_3ecxm")
+script = ExtResource("5_5lhw1")
 trans = NodePath("Transmission")
 
 [node name="RiproduttoreAudio3D" type="AudioStreamPlayer3D" parent="VehicleBody3D" node_paths=PackedStringArray("componente_audio_precedente")]
@@ -359,45 +424,197 @@ process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.783173, -1.7181, -1.26244)
-script = ExtResource("3_hnyor")
-componente_audio_precedente = NodePath("HeaderDelay1")
-dc_offset_hz = 117
+script = ExtResource("6_pne37")
+componente_audio_precedente = NodePath("EndDelay")
+dc_offset_hz = 3397
 max_samples_buffer_length = 150
 
 [node name="CampionatorePistone" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
-script = ExtResource("11_gfwda")
-lunghezza_buffer = 8000
-correction_delta_amount = 0.075
+script = ExtResource("7_jekyg")
+lunghezza_buffer = 5000
+correction_delta_amount = 1.696
+overpopulate_buffer = 0.068
+
+[node name="CampionatorePistone2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("7_jekyg")
+lunghezza_buffer = 5000
+correction_delta_amount = 1.696
+overpopulate_buffer = 0.068
+
+[node name="CampionatorePistone3" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("7_jekyg")
+lunghezza_buffer = 5000
+correction_delta_amount = 1.696
+overpopulate_buffer = 0.068
+
+[node name="CampionatorePistone4" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("7_jekyg")
+lunghezza_buffer = 5000
+correction_delta_amount = 1.696
+overpopulate_buffer = 0.068
+
+[node name="CampionatorePistone5" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
+script = ExtResource("7_jekyg")
+lunghezza_buffer = 5000
+correction_delta_amount = 1.696
+overpopulate_buffer = 0.068
 
 [node name="PistonDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("14_bns4e")
+script = ExtResource("8_qn6qb")
 previous_component = NodePath("../CampionatorePistone")
-buffer_len = 4000
-feedback = 0.813
-base_delay_cutoff = 0.265
+buffer_len = 2000
+gain = 1.035
+fixed_delay = 118.138
+feedback = 0.859
+base_delay_cutoff = 0.0
 auto_cutoff = true
+delay_length_multiplier = 2.928
+
+[node name="PistonDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../CampionatorePistone2")
+buffer_len = 2000
+gain = 1.035
+fixed_delay = 118.138
+feedback = 0.859
+base_delay_cutoff = 0.0
+auto_cutoff = true
+delay_length_multiplier = 2.928
+
+[node name="PistonDelay3" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../CampionatorePistone3")
+buffer_len = 2000
+gain = 1.035
+fixed_delay = 118.138
+feedback = 0.859
+base_delay_cutoff = 0.0
+auto_cutoff = true
+delay_length_multiplier = 2.928
+
+[node name="PistonDelay4" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../CampionatorePistone4")
+buffer_len = 2000
+gain = 1.035
+fixed_delay = 118.138
+feedback = 0.859
+base_delay_cutoff = 0.0
+auto_cutoff = true
+delay_length_multiplier = 2.928
+the_cycle = true
+
+[node name="PistonDelay5" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../CampionatorePistone5")
+buffer_len = 2000
+gain = 1.035
+fixed_delay = 118.138
+feedback = 0.859
+base_delay_cutoff = 0.0
+auto_cutoff = true
+delay_length_multiplier = 2.928
+the_cycle = true
 
 [node name="HeaderDelay1" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
-script = ExtResource("14_bns4e")
+script = ExtResource("8_qn6qb")
 previous_component = NodePath("../PistonDelay1")
 buffer_len = 1000
-gain = 0.438
-fixed_delay = 126.495
-feedback = 0.312
-invert_feedback = true
-base_delay_cutoff = 0.486
+gain = 0.813
+fixed_delay = 13.5
+force_fixed_delay = true
+feedback = 0.473
+base_delay_cutoff = 0.0
+
+[node name="HeaderDelay2" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../PistonDelay2")
+buffer_len = 1000
+gain = 0.813
+fixed_delay = 6.0
+force_fixed_delay = true
+feedback = 0.473
+base_delay_cutoff = 0.0
+
+[node name="HeaderDelay3" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../PistonDelay3")
+buffer_len = 1000
+gain = 0.813
+fixed_delay = 7.5
+force_fixed_delay = true
+feedback = 0.473
+base_delay_cutoff = 0.0
+
+[node name="HeaderDelay4" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../PistonDelay4")
+buffer_len = 1000
+gain = 0.813
+fixed_delay = 12.0
+force_fixed_delay = true
+feedback = 0.473
+base_delay_cutoff = 0.0
+
+[node name="HeaderDelay5" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../PistonDelay5")
+buffer_len = 1000
+gain = 0.813
+fixed_delay = 15.0
+force_fixed_delay = true
+feedback = 0.473
+base_delay_cutoff = 0.0
+
+[node name="CombinatoreAudioIntermedio" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
+script = ExtResource("9_f35tj")
+componenti_precedenti = [NodePath("../HeaderDelay4"), NodePath("../HeaderDelay5")]
+
+[node name="DelayIntermedio" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../CombinatoreAudioIntermedio")
+buffer_len = 1000
+fixed_delay = 3.0
+force_fixed_delay = true
+feedback = 0.397
+base_delay_cutoff = 0.0
+
+[node name="CombinatoreAudio" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("componenti_precedenti")]
+script = ExtResource("9_f35tj")
+componenti_precedenti = [NodePath("../HeaderDelay1"), NodePath("../HeaderDelay2"), NodePath("../HeaderDelay3"), NodePath("../CombinatoreAudioIntermedio")]
+
+[node name="EndDelay" type="Node" parent="VehicleBody3D/RiproduttoreAudio3D" node_paths=PackedStringArray("previous_component")]
+script = ExtResource("8_qn6qb")
+previous_component = NodePath("../CombinatoreAudio")
+buffer_len = 1000
+gain = 1.055
+fixed_delay = 20.0
+feedback = 0.4
+base_delay_cutoff = 0.0
 
 [node name="Motore" type="Node" parent="VehicleBody3D" node_paths=PackedStringArray("audio", "speedometer")]
-script = ExtResource("3_bufa2")
+script = ExtResource("9_s3x1d")
 coefficiente_attrito_meccanico_totale = 0.05
-albero_motore = SubResource("Resource_mhbtg")
+albero_motore = SubResource("Resource_awpl6")
 volano = SubResource("Resource_nsf5j")
 ecu = SubResource("Resource_ordda")
 velocita_debug_lento_hz = 1200
-audio = [NodePath("../RiproduttoreAudio3D/CampionatorePistone")]
+audio = [NodePath("../RiproduttoreAudio3D/CampionatorePistone"), NodePath("../RiproduttoreAudio3D/CampionatorePistone2"), NodePath("../RiproduttoreAudio3D/CampionatorePistone3"), NodePath("../RiproduttoreAudio3D/CampionatorePistone4"), NodePath("../RiproduttoreAudio3D/CampionatorePistone5")]
 speedometer = NodePath("../../UI/speedometer")
 guidato = true
 
@@ -477,37 +694,37 @@ height = 0.067
 
 [node name="Transmission" type="Node3D" parent="VehicleBody3D" node_paths=PackedStringArray("engine", "gear_audios")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01786e-07, 0.0866086, -1.1643)
-script = ExtResource("2_7bsp6")
+script = ExtResource("16_ueibc")
 base_ratio = 2.525
 engine = NodePath("../Motore")
 gear_audios = [NodePath("a1"), NodePath("a2"), NodePath("a3"), NodePath("a4"), NodePath("a5"), NodePath("a6")]
 disable_audio = true
-gearratios = Array[ExtResource("13_gyaip")]([SubResource("Resource_aid1b"), SubResource("Resource_frc2o"), SubResource("Resource_pmoj6")])
+gearratios = Array[ExtResource("17_b6kmn")]([SubResource("Resource_aid1b"), SubResource("Resource_frc2o"), SubResource("Resource_pmoj6")])
 reverse_gears = Array[Array]([[true, false, false]])
 forward_gears = Array[Array]([[true, false, false], [false, true, false], [true, true, false], [true, false, true], [false, true, true], [true, true, true]])
 
 [node name="a1" type="AudioStreamPlayer3D" parent="VehicleBody3D/Transmission"]
-stream = ExtResource("18_bsjhu")
+stream = ExtResource("18_1k7j8")
 bus = &"trans"
 
 [node name="a2" type="AudioStreamPlayer3D" parent="VehicleBody3D/Transmission"]
-stream = ExtResource("18_bsjhu")
+stream = ExtResource("18_1k7j8")
 bus = &"trans"
 
 [node name="a3" type="AudioStreamPlayer3D" parent="VehicleBody3D/Transmission"]
-stream = ExtResource("18_bsjhu")
+stream = ExtResource("18_1k7j8")
 bus = &"trans"
 
 [node name="a4" type="AudioStreamPlayer3D" parent="VehicleBody3D/Transmission"]
-stream = ExtResource("18_bsjhu")
+stream = ExtResource("18_1k7j8")
 bus = &"trans"
 
 [node name="a5" type="AudioStreamPlayer3D" parent="VehicleBody3D/Transmission"]
-stream = ExtResource("18_bsjhu")
+stream = ExtResource("18_1k7j8")
 bus = &"trans"
 
 [node name="a6" type="AudioStreamPlayer3D" parent="VehicleBody3D/Transmission"]
-stream = ExtResource("18_bsjhu")
+stream = ExtResource("18_1k7j8")
 bus = &"trans"
 
 [node name="Marker3D2" type="Marker3D" parent="VehicleBody3D"]
@@ -540,8 +757,8 @@ offset_left = -128.0
 offset_top = -64.0
 grow_horizontal = 0
 grow_vertical = 0
-texture = ExtResource("16_7ucpb")
-script = ExtResource("17_tup3l")
+texture = ExtResource("19_1jmxi")
+script = ExtResource("20_lxlvs")
 
 [node name="TextureRect2" type="TextureRect" parent="UI/speedometer"]
 custom_minimum_size = Vector2(300, 300)
@@ -558,4 +775,4 @@ offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(200, 200)
-texture = ExtResource("18_o808g")
+texture = ExtResource("21_6u4t1")
